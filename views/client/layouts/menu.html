@@ -1,19 +1,9 @@
-<nav
-  class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark"
-  arial-label="Thanh điều hướng Furni"
->
+<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Thanh điều hướng Furni">
   <div class="container">
     <a class="navbar-brand" href="index.html">Jotun<span>.</span></a>
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarsFurni"
-      aria-controls="navbarsFurni"
-      aria-expanded="false"
-      aria-label="Chuyển đổi điều hướng"
-    >
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
+      aria-controls="navbarsFurni" aria-expanded="false" aria-label="Chuyển đổi điều hướng">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -31,14 +21,20 @@
 
       <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
         <li>
-          <a class="nav-link" href="#"
-            ><img src="../../assets/client/images/user.svg" alt="Tài khoản"
-          /></a>
+          <div class="dropdown mt-2">
+            <a class="dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <img src="../../assets/client/images/user.svg" alt="Tài khoản" />
+            </a>
+            <div class="dropdown-menu" aria-labelledby="triggerId">
+              <a class="dropdown-item" href="register.html">Đăng ký</a>
+              <a class="dropdown-item" href="login.html">Đăng nhập</a>
+            </div>
+          </div>
         </li>
+
         <li>
-          <a class="nav-link" href="cart.html"
-            ><img src="../../assets/client/images/cart.svg" alt="Giỏ hàng"
-          /></a>
+          <a class="nav-link" href="cart.html"><img src="../../assets/client/images/cart.svg" alt="Giỏ hàng" /></a>
         </li>
       </ul>
     </div>

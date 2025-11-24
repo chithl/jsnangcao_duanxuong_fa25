@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="author" content="Untree.co" />
+    <link rel="shortcut icon" href="../../assets/client/tintas-jotun-logo-png_seeklogo-140174.png" />
+
+    <meta name="description"
+        content="Khám phá các sản phẩm sơn và bộ sưu tập màu sắc mới nhất từ Jotun. Chất lượng vượt trội cho ngôi nhà của bạn." />
+    <meta name="keywords" content="sơn jotun, màu sắc, nội thất, thiết kế, bootstrap" />
+
+    <link href="../../assets/client/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link href="../../assets/client/css/tiny-slider.css" rel="stylesheet" />
+    <link href="../../assets/client/css/style.css" rel="stylesheet" />
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <title>Sơn Jotun - Trang chủ</title>
+</head>
+
+<body>
+
+    <!-- Menu -->
+    <div w3-include-html="layouts/menu.html"></div>
+
+
+    <!-- Bắt đầu body -->
+
+    <main class="account-page-wrapper">
+        <div class="container account-page">
+            <h1 class="page-title">Quản Lý Tài Khoản</h1>
+            <div class="account-content">
+                
+                <aside class="account-sidebar">
+                    <div class="user-info">
+                        <div class="avatar-placeholder">TN</div>
+                        <p class="user-name">Chào, **Tên Người Dùng**</p>
+                    </div>
+                    <nav class="account-nav">
+                        <ul>
+                            <li><a href="#" class="active"><span class="icon-placeholder-small"></span> Thông tin cá nhân</a></li>
+                            <li><a href="#"><span class="icon-placeholder-small"></span> Đơn hàng của tôi</a></li>
+                            <li><a href="#"><span class="icon-placeholder-small"></span> Địa chỉ giao hàng</a></li>
+                            <li><a href="#"><span class="icon-placeholder-small"></span> Đổi mật khẩu</a></li>
+                            <li><a href="#" class="logout-link"><span class="icon-placeholder-small"></span> Đăng xuất</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <section class="account-main">
+                    <h2>Thông Tin Cá Nhân</h2>
+                    <form class="profile-form">
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="first_name">Họ</label>
+                                <input type="text" id="first_name" value="Nguyễn" required>
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="last_name">Tên</label>
+                                <input type="text" id="last_name" value="Văn A" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" value="nguyenvana@example.com" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại</label>
+                            <input type="tel" id="phone" value="090 123 4567">
+                        </div>
+                        
+                        <button type="submit" class="btn-primary-accent">Cập nhật thông tin</button>
+                    </form>
+                    
+                    <div class="info-note">
+                        <p>* Để thay đổi email hoặc mật khẩu, vui lòng vào mục tương ứng ở menu bên trái.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Kết thúc body -->
+
+
+    <!-- Footer -->
+    <div w3-include-html="layouts/footer.html"></div>
+
+    <script>
+        w3.includeHTML();
+    </script>
+
+    <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/client/js/tiny-slider.js"></script>
+    <script src="../../assets/client/js/custom.js"></script>
+</body>
+
+</html>

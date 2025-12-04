@@ -1,350 +1,164 @@
-<!-- /*
-* Bootstrap 5
-* Template Name: Furni
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
-<!doctype html>
-<html lang="vi">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Về chúng tôi | Jotun Vietnam</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="author" content="Untree.co">
+    <link rel="apple-touch-icon" href="../assets/client/img/apple-icon.png" />
     <link
       rel="shortcut icon"
-      href="../../assets/client/tintas-jotun-logo-png_seeklogo-140174.png"
+      type="image/x-icon"
+      href="../../assets/client/img/favicon.ico"
     />
 
-	<meta name="description" content="Khám phá các sản phẩm sơn và bộ sưu tập màu sắc mới nhất từ Jotun. Chất lượng vượt trội cho ngôi nhà của bạn." />
-	<meta name="keywords" content="bootstrap, bootstrap4" />
+    <link rel="stylesheet" href="../../assets/client/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/client/css/templatemo.css" />
+    <link rel="stylesheet" href="../../assets/client/css/custom.css" />
 
-	<!-- Bootstrap CSS -->
-	<link href="../../assets/client/css/bootstrap.min.css" rel="stylesheet">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-	<link href="../../assets/client/css/tiny-slider.css" rel="stylesheet">
-	<link href="../../assets/client/css/style.css" rel="stylesheet">
-	<style>
-		/* Team images fixed size */
-		.team-img{
-			width:300px !important;
-			height:400px !important;
-			object-fit:cover;
-			display:block;
-			margin-left:auto;
-			margin-right:auto;
-		}
-	</style>
+    <!-- Load fonts style after rendering the layout styles -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
+    />
+    <link rel="stylesheet" href="../../assets/client/css/fontawesome.min.css" />
     <script src="https://www.w3schools.com/lib/w3.js"></script>
-	<title>Sơn Jotun - Về Chúng Tôi</title>
-</head>
+  </head>
 
-<body>
+  <body>
+    <!-- Start Menu -->
+    <div w3-include-html="layouts/menu.html"></div>
+    <!-- End Menu -->
 
-	<!-- Start Header/Navigation -->
-	<div w3-include-html="layouts/menu.html"></div>
-	<!-- End Header/Navigation -->
+    <!-- Modal -->
+    <div
+      class="modal fade bg-white"
+      id="templatemo_search"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="w-100 pt-1 mb-5 text-right">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Đóng"
+          ></button>
+        </div>
+        <form
+          action=""
+          method="get"
+          class="modal-content modal-body border-0 p-0"
+        >
+          <div class="input-group mb-2">
+            <input
+              type="text"
+              class="form-control"
+              id="inputModalSearch"
+              name="q"
+              placeholder="Tìm kiếm ..."
+            />
+            <button
+              type="submit"
+              class="input-group-text bg-success text-light"
+            >
+              <i class="fa fa-fw fa-search text-white"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
 
-	<!-- Start Hero Section -->
-	<div class="hero">
-		<div class="container">
-			<div class="row justify-content-between">
-				<div class="col-lg-5">
-					<div class="intro-excerpt">
-						<h1>Về Chúng Tôi</h1>
-						<p class="mb-4">Chúng tôi cam kết mang đến sản phẩm chất lượng cao và giải pháp hoàn hảo cho không gian sống của bạn.</p>
-						<p><a href="" class="btn btn-secondary me-2">Mua Ngay</a><a href="#"
-							class="btn btn-white-outline">Khám Phá</a></p>
-					</div>
-				</div>
-				<div class="col-lg-7">
-					<div class="hero-img-wrap">
-						<img src="../../assets/client/images/couch.png" class="img-fluid">
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Hero Section -->
+    <section class="bg-success py-5">
+      <div class="container">
+        <div class="row align-items-center py-5">
+          <div class="col-md-8 text-white">
+            <h1>Về Chúng Tôi</h1>
+            <p>
+              Hơn 100 năm, Jotun tự hào bảo vệ hàng triệu kiệt tác kiến trúc,
+              công trình quan trọng và những ngôi nhà đẹp trên khắp thế giới. Là
+              một trong những nhà sản xuất sơn và chất phủ hàng đầu thế giới,
+              Jotun là sự kết hợp giữa chất lượng vượt trội với tính sáng tạo và
+              sự cải tiến không ngừng.
+            </p>
+          </div>
+          <div class="col-md-4">
+            <img
+              src="../../assets/client/img/about-hero.svg"
+              alt="Ảnh minh họa trang Về Chúng Tôi"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Close Banner -->
 
+    <!-- Start Section -->
+    <section class="container py-5">
+      <div class="row text-center pt-5 pb-3">
+        <div class="col-lg-6 m-auto">
+          <h1 class="h1">Dịch Vụ Của Chúng Tôi</h1>
+          <p>
+            Với sự hiện diện tại hơn 100 quốc gia thuộc tất cả các châu lục, Jotun là một doanh nghiệp toàn cầu.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-3 pb-5">
+          <div class="h-100 py-5 services-icon-wap shadow">
+            <div class="h1 text-success text-center">
+              <i class="fa fa-truck fa-lg"></i>
+            </div>
+            <h2 class="h5 mt-4 text-center">Dịch Vụ Giao Hàng</h2>
+          </div>
+        </div>
 
+        <div class="col-md-6 col-lg-3 pb-5">
+          <div class="h-100 py-5 services-icon-wap shadow">
+            <div class="h1 text-success text-center">
+              <i class="fas fa-exchange-alt"></i>
+            </div>
+            <h2 class="h5 mt-4 text-center">Vận Chuyển & Đổi Trả</h2>
+          </div>
+        </div>
 
-	<!-- Start Why Choose Us Section -->
-	<div class="why-choose-section">
-		<div class="container">
-			<div class="row justify-content-between align-items-center">
-				<div class="col-lg-6">
-					<h2 class="section-title">Tại Sao Chọn Chúng Tôi</h2>
-					<p>Chúng tôi luôn đặt chất lượng và dịch vụ lên hàng đầu để mang đến trải nghiệm tốt nhất cho khách hàng.</p>
+        <div class="col-md-6 col-lg-3 pb-5">
+          <div class="h-100 py-5 services-icon-wap shadow">
+            <div class="h1 text-success text-center">
+              <i class="fa fa-percent"></i>
+            </div>
+            <h2 class="h5 mt-4 text-center">Khuyến Mãi</h2>
+          </div>
+        </div>
 
-					<div class="row my-5">
-						<div class="col-6 col-md-6">
-							<div class="feature">
-								<div class="icon">
-									<img src="../../assets/client/images/truck.svg" alt="Image" class="imf-fluid">
-								</div>
-								<h3>Giao Hàng Nhanh &amp; Miễn Phí</h3>
-								<p>Dịch vụ giao hàng nhanh chóng và miễn phí cho nhiều đơn hàng.</p>
-							</div>
-						</div>
+        <div class="col-md-6 col-lg-3 pb-5">
+          <div class="h-100 py-5 services-icon-wap shadow">
+            <div class="h1 text-success text-center">
+              <i class="fa fa-user"></i>
+            </div>
+            <h2 class="h5 mt-4 text-center">Hỗ Trợ 24 Giờ</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Section -->
 
-						<div class="col-6 col-md-6">
-							<div class="feature">
-								<div class="icon">
-									<img src="../../assets/client/images/bag.svg" alt="Image" class="imf-fluid">
-								</div>
-								<h3>Mua Sắm Dễ Dàng</h3>
-								<p>Giao diện thân thiện giúp bạn tìm kiếm và đặt hàng nhanh chóng.</p>
-							</div>
-						</div>
-
-						<div class="col-6 col-md-6">
-							<div class="feature">
-								<div class="icon">
-									<img src="../../assets/client/images/support.svg" alt="Image" class="imf-fluid">
-								</div>
-								<h3>Hỗ Trợ 24/7</h3>
-								<p>Đội ngũ hỗ trợ luôn sẵn sàng giải đáp thắc mắc của bạn mọi lúc.</p>
-							</div>
-						</div>
-
-						<div class="col-6 col-md-6">
-							<div class="feature">
-								<div class="icon">
-									<img src="../../assets/client/images/return.svg" alt="Image" class="imf-fluid">
-								</div>
-								<h3>Đổi Trả Dễ Dàng</h3>
-								<p>Chính sách đổi trả minh bạch và thuận tiện cho khách hàng.</p>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="col-lg-5">
-					<div class="img-wrap">
-						<img src="../../assets/client/images/why-choose-us-img.jpg" alt="Image" class="img-fluid">
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-	<!-- End Why Choose Us Section -->
-
-	<!-- Start Team Section -->
-	<div class="untree_co-section">
-		<div class="container">
-
-			<div class="row mb-5">
-				<div class="col-lg-5 mx-auto text-center">
-						<h2 class="section-title">Đội Ngũ Của Chúng Tôi</h2>
-				</div>
-			</div>
-
-			<div class="row position-relative">
-				<button id="team-prev" type="button" class="btn btn-outline-secondary" style="position:fixed;left:12px;top:50%;transform:translateY(-50%);z-index:9999;width:44px;height:44px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;background:#000000;">&#8249;</button>
-				<button id="team-next" type="button" class="btn btn-outline-secondary" style="position:fixed;right:12px;top:50%;transform:translateY(-50%);z-index:9999;width:44px;height:44px;padding:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;background:#000000;">&#8250;</button>
-
-				<!-- Start Column 1 -->
-				<div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
-						<img data-team-index="0" src="../../assets/client/images/ben.jpg" class="img-fluid mb-5 team-img">
-						<h3 clas><a href="#"><span class="team-name">Lawson</span> <span class="team-surname">Arnold</span></a></h3>
-						<span class="d-block position mb-4 team-role">CEO, Nhà sáng lập</span>
-						<p class="team-desc">Lawson là chuyên gia trong lĩnh vực phát triển sản phẩm và chiến lược thương hiệu, luôn hướng tới chất lượng.</p>
-						<p class="mb-0"><a href="#" class="more dark">Tìm hiểu thêm <span
-									class="icon-arrow_forward"></span></a></p>
-				</div>
-				<!-- End Column 1 -->
-
-				<!-- Start Column 2 -->
-				<div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
-						<img data-team-index="1" src="../../assets/client/images/bao.jpg" class="img-fluid mb-5 team-img">
-
-						<h3 clas><a href="#"><span class="team-name">Jeremy</span> <span class="team-surname">Walker</span></a></h3>
-						<span class="d-block position mb-4 team-role">Trưởng phòng Sản phẩm</span>
-						<p class="team-desc">Jeremy dẫn dắt nhóm thiết kế và đảm bảo mỗi sản phẩm đều đạt tiêu chuẩn chất lượng cao nhất.</p>
-						<p class="mb-0"><a href="#" class="more dark">Tìm hiểu thêm <span	
-							class="icon-arrow_forward"></span></a></p>
-
-				</div>
-				<!-- End Column 2 -->
-
-				<!-- Start Column 3 -->
-				<div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
-						<img data-team-index="2" src="../../assets/client/images/toan.jpg" class="img-fluid mb-5 team-img">
-						<h3 clas><a href="#"><span class="team-name">Patrik</span> <span class="team-surname">White</span></a></h3>
-						<span class="d-block position mb-4 team-role">Giám đốc Kỹ thuật</span>
-						<p class="team-desc">Patrik đảm bảo quy trình sản xuất và kiểm soát chất lượng luôn đạt chuẩn quốc tế.</p>
-						<p class="mb-0"><a href="#" class="more dark">Tìm hiểu thêm <span
-							class="icon-arrow_forward"></span></a></p>
-				</div>
-				<!-- End Column 3 -->
-
-				<!-- Start Column 4 -->
-				<div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
-						<img data-team-index="3" src="../../assets/client/images/benn.jpg" class="img-fluid mb-5 team-img">
-
-						<h3 clas><a href="#"><span class="team-name">Kathryn</span> <span class="team-surname">Ryan</span></a></h3>
-						<span class="d-block position mb-4 team-role">Trưởng phòng Kinh doanh</span>
-						<p class="team-desc">Kathryn chịu trách nhiệm phát triển thị trường và chăm sóc khách hàng, đảm bảo trải nghiệm tuyệt vời.</p>
-						<p class="mb-0"><a href="#" class="more dark">Tìm hiểu thêm <span
-							class="icon-arrow_forward"></span></a></p>
-				<!-- End Column 4 -->
-
-
-
-			</div>
-		</div>
-	</div>
-	<!-- End Team Section -->
-	<script>
-		(function(){
-			// Team carousel: rotates the list of members shown in the 4 cards
-			const members = [
-				{img: '../../assets/client/images/ben.jpg', name: 'Nguyễn', surname: 'Ben', role: 'CEO, Nhà sáng lập', desc: 'Ben là chuyên gia trong lĩnh vực phát triển sản phẩm và chiến lược thương hiệu, luôn hướng tới chất lượng.'},
-				{img: '../../assets/client/images/bao.jpg', name: 'Nguyễn', surname: 'Bảo', role: 'Trưởng phòng Sản phẩm', desc: 'Bảo dẫn dắt nhóm thiết kế và đảm bảo mỗi sản phẩm đều đạt tiêu chuẩn chất lượng cao nhất.'},
-				{img: '../../assets/client/images/toan.jpg', name: 'Đinh', surname: 'Toàn', role: 'Giám đốc Kỹ thuật', desc: 'Toàn đảm bảo quy trình sản xuất và kiểm soát chất lượng luôn đạt chuẩn quốc tế.'},
-				{img: '../../assets/client/images/benn.jpg', name: 'Phạm', surname: 'Bền', role: 'Giám đốc Phần Mềm', desc: 'Bền đảm bảo quy trình sản xuất và kiểm soát chất lượng luôn đạt chuẩn quốc tế.'},
-				{img: '../../assets/client/images/bac.jpg', name: 'Phạm', surname: 'Bắc', role: 'Trưởng phòng Kinh doanh', desc: 'Bắc chịu trách nhiệm phát triển thị trường và chăm sóc khách hàng, đảm bảo trải nghiệm tuyệt vời.'}
-			];
-			let start = 0;
-			const imgEls = Array.from(document.querySelectorAll('.team-img'));
-			const nameEls = Array.from(document.querySelectorAll('.team-name'));
-			const surnameEls = Array.from(document.querySelectorAll('.team-surname'));
-			const roleEls = Array.from(document.querySelectorAll('.team-role'));
-			const descEls = Array.from(document.querySelectorAll('.team-desc'));
-			function render(){
-				for(let i=0;i<imgEls.length;i++){
-					const m = members[(start + i) % members.length];
-					imgEls[i].src = m.img;
-					nameEls[i].textContent = m.name;
-					surnameEls[i].textContent = m.surname;
-					roleEls[i].textContent = m.role;
-					descEls[i].textContent = m.desc;
-				}
-			}
-			document.getElementById('team-prev').addEventListener('click', function(){ start = (start - 1 + members.length) % members.length; render(); });
-			document.getElementById('team-next').addEventListener('click', function(){ start = (start + 1) % members.length; render(); });
-			// init
-			render();
-		})();
-	</script>
-
-
-
-	<!-- Start Testimonial Slider -->
-	<div class="testimonial-section before-footer-section">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-7 mx-auto text-center">
-						<h2 class="section-title">Phản Hồi Khách Hàng</h2>
-				</div>
-			</div>
-
-			<div class="row justify-content-center">
-				<div class="col-lg-12">
-					<div class="testimonial-slider-wrap text-center">
-
-						<div id="testimonial-nav">
-							<span class="prev" data-controls="prev"><span class="fa fa-chevron-left"></span></span>
-							<span class="next" data-controls="next"><span class="fa fa-chevron-right"></span></span>
-						</div>
-
-						<div class="testimonial-slider">
-
-							<div class="item">
-								<div class="row justify-content-center">
-									<div class="col-lg-8 mx-auto">
-
-										<div class="testimonial-block text-center">
-											<blockquote class="mb-5">
-												<p>&ldquo;Sản phẩm rất chất lượng, dịch vụ chuyên nghiệp và đội ngũ hỗ trợ nhiệt tình. Tôi rất hài lòng với trải nghiệm mua sắm tại đây.&rdquo;</p>
-											</blockquote>
-
-											<div class="author-info">
-												<div class="author-pic">
-													<img src="../../assets/client/images/person-1.png" alt="Maria Jones" class="img-fluid">
-												</div>
-												<h3 class="font-weight-bold">Maria Jones</h3>
-												<span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
-											</div>
-										</div>
-
-									</div>
-								</div>
-							</div>
-							<!-- END item -->
-
-							<div class="item">
-								<div class="row justify-content-center">
-									<div class="col-lg-8 mx-auto">
-
-										<div class="testimonial-block text-center">
-											<blockquote class="mb-5">
-												<p>&ldquo;ản phẩm rất chất lượng, dịch vụ chuyên nghiệp và đội ngũ hỗ trợ nhiệt tình. Tôi rất hài lòng với trải nghiệm mua sắm tại đây.&rdquo;</p>
-											</blockquote>
-
-											<div class="author-info">
-												<div class="author-pic">
-													<img src="../../assets/client/images/person-1.png" alt="Maria Jones" class="img-fluid">
-												</div>
-												<h3 class="font-weight-bold">Maria Jones</h3>
-												<span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
-											</div>
-										</div>
-
-									</div>
-								</div>
-							</div>
-							<!-- END item -->
-
-							<div class="item">
-								<div class="row justify-content-center">
-									<div class="col-lg-8 mx-auto">
-
-										<div class="testimonial-block text-center">
-											<blockquote class="mb-5">
-												<p>&ldquo;ản phẩm rất chất lượng, dịch vụ chuyên nghiệp và đội ngũ hỗ trợ nhiệt tình. Tôi rất hài lòng với trải nghiệm mua sắm tại đây.&rdquo;</p>
-											</blockquote>
-
-											<div class="author-info">
-												<div class="author-pic">
-													<img src="../../assets/client/images/person-1.png" alt="Maria Jones" class="img-fluid">
-												</div>
-												<h3 class="font-weight-bold">Maria Jones</h3>
-												<span class="position d-block mb-3">CEO, Co-Founder, XYZ Inc.</span>
-											</div>
-										</div>
-
-									</div>
-								</div>
-							</div>
-							<!-- END item -->
-
-						</div>
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Testimonial Slider -->
-
-
-
-	<!-- Start Footer Section -->
+    <!-- Start Footer -->
     <div w3-include-html="layouts/footer.html"></div>
-	<!-- End Footer Section -->
-
-
+    <!-- End Footer -->
     <script>
       w3.includeHTML();
     </script>
-    <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
-    <script src="../../assets/client/js/tiny-slider.js"></script>
-    <script src="../../assets/client/js/custom.js"></script>
-</body>
 
+    <!-- Start Script -->
+    <script src="../../assets/client/js/jquery-1.11.0.min.js"></script>
+    <script src="../../assets/client/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/client/js/templatemo.js"></script>
+    <script src="../../assets/client/js/custom.js"></script>
+    <!-- End Script -->
+  </body>
 </html>

@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Chi tiết | Jotun Vietnam</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      rel="apple-touch-icon"
+      href="../../assets/client/img/apple-icon.png"
+    />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="../../assets/client/img/favicon.ico"
+    />
+
+    <link rel="stylesheet" href="../../assets/client/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/client/css/templatemo.css" />
+    <link rel="stylesheet" href="../../assets/client/css/custom.css" />
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
+    />
+    <link rel="stylesheet" href="../../assets/client/css/fontawesome.min.css" />
+
+    <!-- Slick -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../assets/client/css/slick.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../assets/client/css/slick-theme.css"
+    />
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+  </head>
+
+  <body>
+    <!-- Start Menu -->
+    <div w3-include-html="layouts/menu.html"></div>
+    <!-- End Menu -->
+
+    <!-- Modal -->
+    <div
+      class="modal fade bg-white"
+      id="templatemo_search"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="w-100 pt-1 mb-5 text-right">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Đóng"
+          ></button>
+        </div>
+        <form
+          action=""
+          method="get"
+          class="modal-content modal-body border-0 p-0"
+        >
+          <div class="input-group mb-2">
+            <input
+              type="text"
+              class="form-control"
+              id="inputModalSearch"
+              name="q"
+              placeholder="Tìm kiếm ..."
+            />
+            <button
+              type="submit"
+              class="input-group-text bg-success text-light"
+            >
+              <i class="fa fa-fw fa-search text-white"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Open Content -->
+    <section class="bg-light">
+      <div class="container pb-5">
+        <div class="row">
+          <div class="col-lg-5 mt-5">
+            <div class="card mb-3">
+              <img
+                class="card-img img-fluid"
+                src="../../assets/client/img/product_single_10.jpg"
+                alt="Ảnh chính sản phẩm"
+                id="product-detail"
+              />
+            </div>
+            <div class="row">
+              <div class="col-1 align-self-center">
+                <a
+                  href="#multi-item-example"
+                  role="button"
+                  data-bs-slide="prev"
+                >
+                  <i class="text-dark fas fa-chevron-left"></i>
+                  <span class="sr-only">Trước</span>
+                </a>
+              </div>
+              <div
+                id="multi-item-example"
+                class="col-10 carousel slide carousel-multi-item"
+                data-bs-ride="carousel"
+              >
+                <div class="carousel-inner product-links-wap" role="listbox">
+                  <div class="carousel-item active">
+                    <div class="row">
+                      <div class="col-4">
+                        <a href="#">
+                          <img
+                            class="card-img img-fluid"
+                            src="../../assets/client/img/product_single_01.jpg"
+                            alt="Ảnh sản phẩm 1"
+                          />
+                        </a>
+                      </div>
+                      <div class="col-4">
+                        <a href="#">
+                          <img
+                            class="card-img img-fluid"
+                            src="../../assets/client/img/product_single_02.jpg"
+                            alt="Ảnh sản phẩm 2"
+                          />
+                        </a>
+                      </div>
+                      <div class="col-4">
+                        <a href="#">
+                          <img
+                            class="card-img img-fluid"
+                            src="../../assets/client/img/product_single_03.jpg"
+                            alt="Ảnh sản phẩm 3"
+                          />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="row">
+                      <div class="col-4">
+                        <a href="#">
+                          <img
+                            class="card-img img-fluid"
+                            src="../../assets/client/img/product_single_04.jpg"
+                            alt="Ảnh sản phẩm 4"
+                          />
+                        </a>
+                      </div>
+                      <div class="col-4">
+                        <a href="#">
+                          <img
+                            class="card-img img-fluid"
+                            src="../../assets/client/img/product_single_05.jpg"
+                            alt="Ảnh sản phẩm 5"
+                          />
+                        </a>
+                      </div>
+                      <div class="col-4">
+                        <a href="#">
+                          <img
+                            class="card-img img-fluid"
+                            src="../../assets/client/img/product_single_06.jpg"
+                            alt="Ảnh sản phẩm 6"
+                          />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="row">
+                      <div class="col-4">
+                        <a href="#">
+                          <img
+                            class="card-img img-fluid"
+                            src="../../assets/client/img/product_single_07.jpg"
+                            alt="Ảnh sản phẩm 7"
+                          />
+                        </a>
+                      </div>
+                      <div class="col-4">
+                        <a href="#">
+                          <img
+                            class="card-img img-fluid"
+                            src="../../assets/client/img/product_single_08.jpg"
+                            alt="Ảnh sản phẩm 8"
+                          />
+                        </a>
+                      </div>
+                      <div class="col-4">
+                        <a href="#">
+                          <img
+                            class="card-img img-fluid"
+                            src="../../assets/client/img/product_single_09.jpg"
+                            alt="Ảnh sản phẩm 9"
+                          />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-1 align-self-center">
+                <a
+                  href="#multi-item-example"
+                  role="button"
+                  data-bs-slide="next"
+                >
+                  <i class="text-dark fas fa-chevron-right"></i>
+                  <span class="sr-only">Sau</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7 mt-5">
+            <div class="card">
+              <div class="card-body">
+                <h1 class="h2">Đồ Thể Thao Năng Động</h1>
+                <p class="h3 py-2">$25.00</p>
+                <p class="py-2">
+                  <i class="fa fa-star text-warning"></i>
+                  <i class="fa fa-star text-warning"></i>
+                  <i class="fa fa-star text-warning"></i>
+                  <i class="fa fa-star text-warning"></i>
+                  <i class="fa fa-star text-secondary"></i>
+                  <span class="list-inline-item text-dark"
+                    >Đánh giá 4.8 | 36 Bình luận</span
+                  >
+                </p>
+                <ul class="list-inline">
+                  <li class="list-inline-item">
+                    <h6>Thương Hiệu:</h6>
+                  </li>
+                  <li class="list-inline-item">
+                    <p class="text-muted"><strong>Easy Wear</strong></p>
+                  </li>
+                </ul>
+
+                <h6>Mô tả:</h6>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod temp incididunt ut labore et dolore magna aliqua.
+                  Quis ipsum suspendisse. Donec condimentum elementum convallis.
+                  Nunc sed orci a diam ultrices aliquet interdum quis nulla.
+                </p>
+                <ul class="list-inline">
+                  <li class="list-inline-item">
+                    <h6>Màu Sắc Khả Dụng :</h6>
+                  </li>
+                  <li class="list-inline-item">
+                    <p class="text-muted"><strong>Trắng / Đen</strong></p>
+                  </li>
+                </ul>
+
+                <h6>Thông số kỹ thuật:</h6>
+                <ul class="list-unstyled pb-3">
+                  <li>Lorem ipsum dolor sit</li>
+                  <li>Amet, consectetur</li>
+                  <li>Adipiscing elit,set</li>
+                  <li>Duis aute irure</li>
+                  <li>Ut enim ad minim</li>
+                  <li>Dolore magna aliqua</li>
+                  <li>Excepteur sint</li>
+                </ul>
+
+                <form action="" method="GET">
+                  <input
+                    type="hidden"
+                    name="product-title"
+                    value="Activewear"
+                  />
+                  <div class="row">
+                    <div class="col-auto">
+                      <ul class="list-inline pb-3">
+                        <li class="list-inline-item">
+                          Kích Cỡ :
+                          <input
+                            type="hidden"
+                            name="product-size"
+                            id="product-size"
+                            value="S"
+                          />
+                        </li>
+                        <li class="list-inline-item">
+                          <span class="btn btn-success btn-size">S</span>
+                        </li>
+                        <li class="list-inline-item">
+                          <span class="btn btn-success btn-size">M</span>
+                        </li>
+                        <li class="list-inline-item">
+                          <span class="btn btn-success btn-size">L</span>
+                        </li>
+                        <li class="list-inline-item">
+                          <span class="btn btn-success btn-size">XL</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-auto">
+                      <ul class="list-inline pb-3">
+                        <li class="list-inline-item text-right">
+                          Số Lượng
+                          <input
+                            type="hidden"
+                            name="product-quanity"
+                            id="product-quanity"
+                            value="1"
+                          />
+                        </li>
+                        <li class="list-inline-item">
+                          <span class="btn btn-success" id="btn-minus">-</span>
+                        </li>
+                        <li class="list-inline-item">
+                          <span class="badge bg-secondary" id="var-value"
+                            >1</span
+                          >
+                        </li>
+                        <li class="list-inline-item">
+                          <span class="btn btn-success" id="btn-plus">+</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="row pb-3">
+                    <div class="col d-grid">
+                      <button
+                        type="submit"
+                        class="btn btn-success btn-lg"
+                        name="submit"
+                        value="buy"
+                      >
+                        Mua Ngay
+                      </button>
+                    </div>
+                    <div class="col d-grid">
+                      <button
+                        type="submit"
+                        class="btn btn-success btn-lg"
+                        name="submit"
+                        value="addtocard"
+                      >
+                        Thêm Vào Giỏ
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Close Content -->
+
+    <!-- Start Article -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row text-left p-2 pb-3">
+          <h4>Sản Phẩm Liên Quan</h4>
+        </div>
+
+        <div id="carousel-related-product">
+          <div class="p-2 pb-3">
+            <div class="product-wap card rounded-0">
+              <div class="card rounded-0">
+                <img
+                  class="card-img rounded-0 img-fluid"
+                  src="https://www.jotun.com/contentassetsjot03/af443d70809345a59207cf3e54139820/jotun-livingroom-2149-coffee-1303-observe-1974-golden-walnut_1408x1760.jpg?format=webp&width=752&height=940&quality=70"
+                  alt="Hình ảnh sản phẩm liên quan 1"
+                />
+                <div
+                  class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"
+                >
+                  <ul class="list-unstyled">
+                    <li>
+                      <a
+                        class="btn btn-success text-white"
+                        href="shop-single.html"
+                        title="Yêu thích"
+                        ><i class="far fa-heart"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Xem chi tiết"
+                        ><i class="far fa-eye"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Thêm vào giỏ"
+                        ><i class="fas fa-cart-plus"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>1303</p>
+                <a href="shop-single.html" class="h3 fw-bold text-decoration-none name_title"
+                  >Cappuccino</a
+                >
+                <p class="text-center mb-0">300.000đ</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 pb-3">
+            <div class="product-wap card rounded-0">
+              <div class="card rounded-0">
+                <img
+                  class="card-img rounded-0 img-fluid"
+                  src="https://www.jotun.com/contentassetsjot03/3bef5a76d6484b6c841b3486c112bf37/jotun-bathroom-12313-soft-dunes_1408x1760.jpg?format=webp&width=752&height=940&quality=70"
+                  alt="Hình ảnh sản phẩm liên quan 2"
+                />
+                <div
+                  class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"
+                >
+                  <ul class="list-unstyled">
+                    <li>
+                      <a
+                        class="btn btn-success text-white"
+                        href="shop-single.html"
+                        title="Yêu thích"
+                        ><i class="far fa-heart"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Xem chi tiết"
+                        ><i class="far fa-eye"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Thêm vào giỏ"
+                        ><i class="fas fa-cart-plus"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>12313</p>
+                <a href="shop-single.html" class="h3 fw-bold text-decoration-none name_title"
+                  >Soft dunes</a
+                >
+                <p class="text-center mb-0">300.000đ</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 pb-3">
+            <div class="product-wap card rounded-0">
+              <div class="card rounded-0">
+                <img
+                  class="card-img rounded-0 img-fluid"
+                  src="https://www.jotun.com/contentassetsjot03/f20e2d595aec438092b1ab3060dc507c/jotun-bedroom-6378-iconic-04_1408x1760.jpg?format=webp&width=752&height=940&quality=70"
+                  alt="Hình ảnh sản phẩm liên quan 3"
+                />
+                <div
+                  class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"
+                >
+                  <ul class="list-unstyled">
+                    <li>
+                      <a
+                        class="btn btn-success text-white"
+                        href="shop-single.html"
+                        title="Yêu thích"
+                        ><i class="far fa-heart"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Xem chi tiết"
+                        ><i class="far fa-eye"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Thêm vào giỏ"
+                        ><i class="fas fa-cart-plus"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>6378</p>
+                <a href="shop-single.html" class="h3 fw-bold text-decoration-none name_title"
+                  >Iconic</a
+                >
+                <p class="text-center mb-0">300.000đ</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 pb-3">
+            <div class="product-wap card rounded-0">
+              <div class="card rounded-0">
+                <img
+                  class="card-img rounded-0 img-fluid"
+                  src="https://www.jotun.com/contentassetsjot03/72ed42ddbcd14d4ba69cede52de84bd1/jotun-livingroom-6379-cityscape-12308-unbleached_1408x1760.jpg?format=webp&width=752&height=940&quality=70"
+                  alt="Hình ảnh sản phẩm liên quan 4"
+                />
+                <div
+                  class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"
+                >
+                  <ul class="list-unstyled">
+                    <li>
+                      <a
+                        class="btn btn-success text-white"
+                        href="shop-single.html"
+                        title="Yêu thích"
+                        ><i class="far fa-heart"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Xem chi tiết"
+                        ><i class="far fa-eye"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Thêm vào giỏ"
+                        ><i class="fas fa-cart-plus"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>6379</p>
+                <a href="shop-single.html" class="h3 fw-bold text-decoration-none name_title"
+                  >Cityscape</a
+                >
+                <p class="text-center mb-0">300.000đ</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 pb-3">
+            <div class="product-wap card rounded-0">
+              <div class="card rounded-0">
+                <img
+                  class="card-img rounded-0 img-fluid"
+                  src="https://www.jotun.com/contentassetsjot03/918a34a91fa24183ae9430fb4a904ad7/jotun-livingroom-1625-soul-1965-ginger-tea_1408x1760.jpg?format=webp&width=752&height=940&quality=70"
+                  alt="Hình ảnh sản phẩm liên quan 5"
+                />
+                <div
+                  class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"
+                >
+                  <ul class="list-unstyled">
+                    <li>
+                      <a
+                        class="btn btn-success text-white"
+                        href="shop-single.html"
+                        title="Yêu thích"
+                        ><i class="far fa-heart"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Xem chi tiết"
+                        ><i class="far fa-eye"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Thêm vào giỏ"
+                        ><i class="fas fa-cart-plus"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>1965</p>
+                <a href="shop-single.html" class="h3 fw-bold text-decoration-none name_title"
+                  >Ginger tea</a
+                >
+                <p class="text-center mb-0">300.000đ</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 pb-3">
+            <div class="product-wap card rounded-0">
+              <div class="card rounded-0">
+                <img
+                  class="card-img rounded-0 img-fluid"
+                  src="https://www.jotun.com/contentassetsjot03/687d2eece4eb4623a08871d863100728/jotun-kitchen-12308-unbleached_1408x1760.jpg?format=webp&width=752&height=940&quality=70"
+                  alt="Hình ảnh sản phẩm liên quan 6"
+                />
+                <div
+                  class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"
+                >
+                  <ul class="list-unstyled">
+                    <li>
+                      <a
+                        class="btn btn-success text-white"
+                        href="shop-single.html"
+                        title="Yêu thích"
+                        ><i class="far fa-heart"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Xem chi tiết"
+                        ><i class="far fa-eye"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Thêm vào giỏ"
+                        ><i class="fas fa-cart-plus"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>12308</p>
+                <a href="shop-single.html" class="h3 fw-bold text-decoration-none name_title"
+                  >Unbleached</a
+                >
+                <p class="text-center mb-0">300.000đ</p>
+              </div>
+            </div>
+          </div>
+          <div class="p-2 pb-3">
+            <div class="product-wap card rounded-0">
+              <div class="card rounded-0">
+                <img
+                  class="card-img rounded-0 img-fluid"
+                  src="https://www.jotun.com/contentassetsjot03/33f462c23ffe4cd18f5c2be2f3776d66/jotun-bedroom-11220-ochre-clay-03_1408x1760.jpg?format=webp&width=752&height=940&quality=70"
+                  alt="Hình ảnh sản phẩm liên quan 7"
+                />
+                <div
+                  class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"
+                >
+                  <ul class="list-unstyled">
+                    <li>
+                      <a
+                        class="btn btn-success text-white"
+                        href="shop-single.html"
+                        title="Yêu thích"
+                        ><i class="far fa-heart"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Xem chi tiết"
+                        ><i class="far fa-eye"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Thêm vào giỏ"
+                        ><i class="fas fa-cart-plus"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>11220</p>
+                <a href="shop-single.html" class="h3 fw-bold text-decoration-none name_title"
+                  >Ochre clay</a
+                >
+                <p class="text-center mb-0">300.000đ</p>
+              </div>
+            </div>
+          </div>
+          <div class="p-2 pb-3">
+            <div class="product-wap card rounded-0">
+              <div class="card rounded-0">
+                <img
+                  class="card-img rounded-0 img-fluid"
+                  src="https://www.jotun.com/contentassetsjot03/ace225a664ea479590d52b08a9b1321a/jotun-kitchen-11202-mild-ochre-8284-olive-12080-soft-radiance-02_1408x1760.jpg?format=webp&width=752&height=940&quality=70"
+                  alt="Hình ảnh sản phẩm liên quan 8"
+                />
+                <div
+                  class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"
+                >
+                  <ul class="list-unstyled">
+                    <li>
+                      <a
+                        class="btn btn-success text-white"
+                        href="shop-single.html"
+                        title="Yêu thích"
+                        ><i class="far fa-heart"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Xem chi tiết"
+                        ><i class="far fa-eye"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Thêm vào giỏ"
+                        ><i class="fas fa-cart-plus"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>11202</p>
+                <a href="shop-single.html" class="h3 fw-bold text-decoration-none name_title"
+                  >Mild ochre</a
+                >
+                <p class="text-center mb-0">300.000đ</p>
+              </div>
+            </div>
+          </div>
+          <div class="p-2 pb-3">
+            <div class="product-wap card rounded-0">
+              <div class="card rounded-0">
+                <img
+                  class="card-img rounded-0 img-fluid"
+                  src="https://www.jotun.com/contentassetsjot03/c7616e5a8a8d44aaa32bcbabb3a0a365/jotun-bedroom-20054-silky-pink_1408x1760.jpg?format=webp&width=752&height=940&quality=70"
+                  alt="Hình ảnh sản phẩm liên quan 9"
+                />
+                <div
+                  class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"
+                >
+                  <ul class="list-unstyled">
+                    <li>
+                      <a
+                        class="btn btn-success text-white"
+                        href="shop-single.html"
+                        title="Yêu thích"
+                        ><i class="far fa-heart"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Xem chi tiết"
+                        ><i class="far fa-eye"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Thêm vào giỏ"
+                        ><i class="fas fa-cart-plus"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>20054</p>
+                <a href="shop-single.html" class="h3 fw-bold text-decoration-none name_title"
+                  >Silky pink</a
+                >
+                <p class="text-center mb-0">300.000đ</p>
+              </div>
+            </div>
+          </div>
+          <div class="p-2 pb-3">
+            <div class="product-wap card rounded-0">
+              <div class="card rounded-0">
+                <img
+                  class="card-img rounded-0 img-fluid"
+                  src="https://www.jotun.com/contentassetsjot03/5ddb77cd113a4219a47e5a81221f48b4/jotun-kitchen-8597-seaweed-green-12079-gleam-1624-skylight_1408x1760.jpg?format=webp&width=752&height=940&quality=70"
+                  alt="Hình ảnh sản phẩm liên quan 10"
+                />
+                <div
+                  class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"
+                >
+                  <ul class="list-unstyled">
+                    <li>
+                      <a
+                        class="btn btn-success text-white"
+                        href="shop-single.html"
+                        title="Yêu thích"
+                        ><i class="far fa-heart"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Xem chi tiết"
+                        ><i class="far fa-eye"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <a
+                        class="btn btn-success text-white mt-2"
+                        href="shop-single.html"
+                        title="Thêm vào giỏ"
+                        ><i class="fas fa-cart-plus"></i
+                      ></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>8597</p>
+                <a href="shop-single.html" class="h3 fw-bold text-decoration-none name_title"
+                  >Seaweed green</a
+                >
+                <p class="text-center mb-0">300.000đ</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Article -->
+
+    <!-- Start Footer -->
+    <div w3-include-html="layouts/footer.html"></div>
+    <!-- End Footer -->
+    <script>
+      w3.includeHTML();
+    </script>
+
+    <!-- Start Script -->
+    <script src="../../assets/client/js/jquery-1.11.0.min.js"></script>
+    <script src="../../assets/client/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/client/js/templatemo.js"></script>
+    <script src="../../assets/client/js/custom.js"></script>
+    <!-- End Script -->
+
+    <!-- Start Slider Script -->
+    <script src="../../assets/client/js/slick.min.js"></script>
+    <script>
+      $("#carousel-related-product").slick({
+        infinite: true,
+        arrows: false,
+        slidesToShow: 4,
+        slidesToScroll: 3,
+        dots: true,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3,
+            },
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 3,
+            },
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 3,
+            },
+          },
+        ],
+      });
+    </script>
+    <!-- End Slider Script -->
+  </body>
+</html>

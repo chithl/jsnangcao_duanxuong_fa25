@@ -1,4 +1,4 @@
-const BASE_URL = 'CHEN_LINK_API';
+const BASE_URL = 'https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/';
 
 /**
  * BaseAPI - Lớp cơ sở để gọi API RESTful.
@@ -13,9 +13,10 @@ const BASE_URL = 'CHEN_LINK_API';
  */
 export class BaseAPI {
     constructor(endpoint, params, data) {
-        this.endpoint = endpoint + '.json';
+        this.endpoint = endpoint;
         this.params = params;
         this.data = data;
+        this.baseUrl = BASE_URL; // cho phép override khi cần (ví dụ Firebase khác host)
     }
 
     /**
@@ -24,7 +25,7 @@ export class BaseAPI {
      */
     async getAll() {
         try {
-            var response = await axios.get(BASE_URL + this.endpoint)
+            var response = await axios.get(this.baseUrl + this.endpoint + '.json')
             return response;
         } catch (error) {
             return error.response || error;
@@ -37,7 +38,7 @@ export class BaseAPI {
      */
     async getOne(id) {
         try {
-            var response = await axios.get(BASE_URL + this.endpoint + '/' + id)
+            var response = await axios.get(this.baseUrl + this.endpoint + '/' + id + '.json')
             return response;
         } catch (error) {
             return error.response || error;
@@ -50,7 +51,7 @@ export class BaseAPI {
      */
     async store(data) {
         try {
-            var response = await axios.post(BASE_URL + this.endpoint, data)
+            var response = await axios.post(this.baseUrl + this.endpoint + '.json', data)
             return response;
         } catch (error) {
             return error.response || error;
@@ -64,7 +65,7 @@ export class BaseAPI {
      */
     async update(id, data) {
         try {
-            var response = await axios.put(BASE_URL + this.endpoint + '/' + id, data)
+            var response = await axios.put(this.baseUrl + this.endpoint + '/' + id + '.json', data)
             return response;
         } catch (error) {
             return error.response || error;
@@ -77,7 +78,7 @@ export class BaseAPI {
      */
     async delete(id) {
         try {
-            var response = await axios.delete(BASE_URL + this.endpoint + '/' + id)
+            var response = await axios.delete(this.baseUrl + this.endpoint + '/' + id + '.json')
             return response;
         } catch (error) {
             return error.response || error;

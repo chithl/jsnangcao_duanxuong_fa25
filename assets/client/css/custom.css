@@ -1,3 +1,35 @@
 /*
 Custom Css
 */
+      /* Kiểu cơ bản cho Rating */
+      .star-rating {
+        font-size: 1.5rem;
+      }
+      .star-rating .fa-star {
+        color: #ffc107; /* Màu vàng của sao */
+        cursor: pointer;
+      }
+      .star-rating .fa-star.active {
+        color: #ffc107;
+      }
+      .star-rating .fa-star.inactive {
+        color: #ccc;
+      }
+      .review-summary {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #198754; /* Màu xanh lá của success */
+      }
+      .review-bar {
+        height: 10px;
+        background-color: #e9ecef;
+      }
+      .comment-box {
+        border-left: 3px solid #198754;
+        padding-left: 15px;
+        margin-bottom: 15px;
+      }
+      .comment-header {
+        font-weight: bold;
+        color: #333;
+      }

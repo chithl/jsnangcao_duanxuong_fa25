@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>
+        Thêm Quy tắc định mức | Sơn Jotun
+    </title>
+    <link rel="icon" href="favicon.ico">
+    <link href="../../assets/admin/styles/style.css" rel="stylesheet">
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+</head>
+
+<body
+    x-data="{ page: 'addCoverageRules', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+    x-init="
+         darkMode = JSON.parse(localStorage.getItem('darkMode'));
+         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+    :class="{'dark bg-gray-900': darkMode === true}">
+    <div x-show="loaded"
+        x-init="window.addEventListener('DOMContentLoaded', () => {setTimeout(() => loaded = false, 500)})"
+        class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
+        <div class="h-16 w-16 animate-spin rounded-full border-4 border-solid border-brand-500 border-t-transparent">
+        </div>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        <div w3-include-html="layouts/sidebar.html"></div>
+
+        <div class="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+            <div @click="sidebarToggle = false" :class="sidebarToggle ? 'block lg:hidden' : 'hidden'"
+                class="fixed w-full h-screen z-9 bg-gray-900/50"></div>
+            <div w3-include-html="layouts/header.html"></div>
+            <main>
+                <div class="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
+                    <div x-data="{ pageName: `Thêm Quy tắc định mức`}">
+                        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+                            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName"></h2>
+
+                            <nav>
+                                <ol class="flex items-center gap-1.5">
+                                    <li>
+                                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
+                                            href="index.html">
+                                            Trang chủ
+                                            <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16"
+                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke=""
+                                                    stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName"></li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="space-y-6">
+                            <form id="edit-coverage-rule">
+                                <div
+                                    class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                                    <div class="px-5 py-4 sm:px-6 sm:py-5">
+                                        <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
+                                            Thông tin
+                                        </h3>
+                                    </div>
+                                    <div class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
+                                        <div>
+                                            <label
+                                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Mã Định Danh
+                                            </label>
+                                            <input type="text" placeholder="Mã Định Danh" name="id" id="id"
+                                                value="" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" readonly/>
+                                        </div>
+                                        <div>
+                                            <label
+                                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Phân khúc
+                                            </label>
+                                            <input type="text" placeholder="Nhập phân khúc" name="segment" id="segment"
+                                                value="" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" required/>
+                                        </div>
+                                        <div>
+                                            <label
+                                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Loại bề mặt
+                                            </label>
+                                            <input type="text" placeholder="Nhập loại bề mặt" name="surface_type" id="surface_type"
+                                                value="" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" required/>
+                                        </div>
+                                        <div>
+                                            <label
+                                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Số lớp đề xuất
+                                            </label>
+                                            <input type="text" placeholder="Nhập số lớp đề xuất" name="recommended_coats" id="recommended_coats"
+                                                value="" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" required/>
+                                        </div>
+                                        <div>
+                                            <label
+                                                class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Hệ số hao hụt (%)
+                                            </label>
+                                            <input type="text" placeholder="Nhập hệ số hao hụt (%) | ví dụ: 10" name="wastage_pct" id="wastage_pct"
+                                                value="" class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" required/>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-end border-t border-gray-100 px-5 py-4 sm:px-6 sm:py-5 dark:border-gray-800">
+                                        <button type="submit"
+                                            class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 flex h-11 items-center justify-center rounded-lg border border-transparent bg-brand-500 px-4 py-2.5 text-sm font-medium text-white transition duration-300 ease-out hover:bg-brand-600 focus:ring-3 focus:outline-hidden dark:bg-brand-600 dark:hover:bg-brand-700 dark:focus:border-brand-800">
+                                            Xác nhận
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        function dropdown() {
+            return {
+                options: [],
+                selected: [],
+                show: false,
+                open() {
+                    this.show = true;
+                },
+                close() {
+                    this.show = false;
+                },
+                isOpen() {
+                    return this.show === true;
+                },
+                select(index, event) {
+                    if (!this.options[index].selected) {
+                        this.options[index].selected = true;
+                        this.options[index].element = event.target;
+                        this.selected.push(index);
+                    } else {
+                        this.selected.splice(this.selected.lastIndexOf(index), 1);
+                        this.options[index].selected = false;
+                    }
+                },
+                remove(index, option) {
+                    this.options[option].selected = false;
+                    this.selected.splice(index, 1);
+                },
+                loadOptions() {
+                    const options = document.getElementById("select").options;
+                    for (let i = 0; i < options.length; i++) {
+                        this.options.push({
+                            value: options[i].value,
+                            text: options[i].innerText,
+                            selected:
+                                options[i].getAttribute("selected") != null
+                                    ? options[i].getAttribute("selected")
+                                    : false,
+                        });
+                    }
+                },
+                selectedValues() {
+                    return this.selected.map((option) => {
+                        return this.options[option].value;
+                    });
+                },
+            };
+        }
+    </script>
+    <script>
+        w3.includeHTML();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script type="module" src="../../../controllers/ui/admin/coverage-rule/edit.js"></script>
+    <script defer src="../../assets/admin/scripts/bundle.js"></script>
+</body>
+
+</html>

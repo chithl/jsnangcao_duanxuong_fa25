@@ -33,7 +33,7 @@ form.addEventListener("submit", async (e) => {
         var response = await coverageRuleModule.updateCoverageRule(id, data); 
         if (response && response.status === 200) {
             alert("Chỉnh sửa quy tắc định mức thành công!");
-            window.location.href = "list.html"; 
+            window.location.href = "coverage-rules.html"; 
         }
     } catch (error) {
         console.error(error);

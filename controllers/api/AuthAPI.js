@@ -1,13 +1,14 @@
 import { BaseAPI } from "./BaseAPI.js";
+import { RegisterValidate } from "./validate/RegisterValidate.js";
 
 export class AuthAPI extends BaseAPI {
     constructor() {
-        super("users"); // tương ứng users.json
+        super("users"); // users.json
     }
 
     /**
      * Kiểm tra email tồn tại
-     * /auth/check-email-exists
+     * GET /auth/check-email-exists
      */
     async checkEmailExists(email) {
         try {
@@ -36,41 +37,76 @@ export class AuthAPI extends BaseAPI {
      */
     async register(data) {
         try {
-            // 1. Kiểm tra email tồn tại
-            const emailCheck = await this.checkEmailExists(data.email);
-            if (emailCheck.data.exists) {
+            // 0. Validate dữ liệu
+            const validator = new RegisterValidate();
+            const validateResult = validator.checkValidate(data);
+
+            if (!validateResult.isValid) {
                 return {
                     success: false,
-                    errors: [{ field: "email", message: "Email đã tồn tại" }]
+                    errors: validateResult.errors
                 };
             }
 
-            // 2. Hash password (phía client / không an toàn nhưng mô phỏng API)
-            const hashedPassword = btoa(data.password);
+            // 1. Check email tồn tại
+            const emailCheck = await this.checkEmailExists(data.email);
 
-            // 3. Lưu user vào Firebase
+            if (!emailCheck.success) {
+                return emailCheck;
+            }
+
+            if (emailCheck.data.exists) {
+                return {
+                    success: false,
+                    errors: [
+                        { field: "email", message: "Email đã tồn tại" }
+                    ]
+                };
+            }
+
+
+            // 3. Lưu user
             const response = await this.store({
                 name: data.name,
                 email: data.email,
-                password: hashedPassword,
                 phone: data.phone || "",
+                password: data.password,
                 role: "user",
                 createdAt: new Date().toLocaleString("vi-VN")
             });
 
+            // Firebase returns { name: "-Nx..." } when success
+            if (response?.data?.error) {
+                return {
+                    success: false,
+                    errors: [{ message: response.data.error.message || "Firebase error" }]
+                };
+            }
+
+            const newId = response?.data?.name;
+            if (!newId) {
+                console.error("REGISTER STORE RESPONSE", response);
+                return {
+                    success: false,
+                    errors: [{ message: "Không tạo được user (response rỗng)" }]
+                };
+            }
+
             return {
                 success: true,
                 data: {
-                    id: response.data.name,
+                    id: newId,
                     message: "Đăng ký thành công"
                 }
             };
 
         } catch (error) {
-            return {
-                success: false,
-                errors: [{ message: "Server error" }]
-            };
+    console.error("REGISTER ERROR:", error);
+
+    return {
+        success: false,
+        errors: [{ message: error.message || "Server error" }]
+    };
         }
     }
 
@@ -81,35 +117,36 @@ export class AuthAPI extends BaseAPI {
     async login(data) {
         try {
             const res = await this.getAll();
-            const allUsers = res.data || {};
+            const users = res.data || {};
 
-            const userList = Object.keys(allUsers).map(id => ({
+            const userList = Object.keys(users).map(id => ({
                 id,
-                ...allUsers[id]
+                ...users[id]
             }));
-
-            // Hash lại mật khẩu người dùng nhập để so sánh
-            const hashedInputPassword = btoa(data.password);
 
             const user = userList.find(
                 u =>
                     (u.email === data.email || u.phone === data.email) &&
-                    u.password === hashedInputPassword
+                    u.password === data.password
             );
 
             if (!user) {
                 return {
                     success: false,
-                    errors: [{ message: "Sai email hoặc mật khẩu" }]
+                    errors: [
+                        { message: "Sai email hoặc mật khẩu" }
+                    ]
                 };
             }
 
-            // Tạo token fake (Firebase không có)
-            const token = btoa(JSON.stringify({
-                uid: user.id,
-                email: user.email,
-                time: Date.now()
-            }));
+            // Fake token (demo)
+            const token = btoa(
+                JSON.stringify({
+                    uid: user.id,
+                    email: user.email,
+                    time: Date.now()
+                })
+            );
 
             return {
                 success: true,
@@ -119,7 +156,8 @@ export class AuthAPI extends BaseAPI {
                         id: user.id,
                         name: user.name,
                         email: user.email,
-                        phone: user.phone
+                        phone: user.phone,
+                        role: user.role
                     }
                 }
             };
@@ -133,20 +171,36 @@ export class AuthAPI extends BaseAPI {
     }
 
     /**
-     * Lấy thông tin user /auth/me
+     * Lấy thông tin user hiện tại
+     * GET /auth/me
      */
     async me(token) {
         try {
             if (!token) {
-                return { success: false, errors: [{ message: "Unauthorized" }] };
+                return {
+                    success: false,
+                    errors: [{ message: "Unauthorized" }]
+                };
             }
 
             const decoded = JSON.parse(atob(token));
 
-            const user = await this.getOne(decoded.uid);
+            const res = await this.getOne(decoded.uid);
+            const user = res.data;
+
+            if (!user) {
+                return {
+                    success: false,
+                    errors: [{ message: "User không tồn tại" }]
+                };
+            }
+
+            // Ẩn password
+            const { password, ...safeUser } = user;
+
             return {
                 success: true,
-                data: user.data
+                data: safeUser
             };
 
         } catch (error) {
@@ -158,12 +212,14 @@ export class AuthAPI extends BaseAPI {
     }
 
     /**
-     * Đăng xuất – xóa token phía client
+     * Đăng xuất
      */
     async logout() {
         return {
             success: true,
-            data: { message: "Đã đăng xuất" }
+            data: {
+                message: "Đã đăng xuất"
+            }
         };
     }
 }

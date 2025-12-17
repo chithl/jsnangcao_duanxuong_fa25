@@ -8,7 +8,7 @@ import { BaseAPI } from "./BaseAPI.js";
  */
 export class VariantAPI extends BaseAPI {
   constructor(params, data) {
-    super("variants", params, data);
+    super("product_variants", params, data);
   }
 
   /**

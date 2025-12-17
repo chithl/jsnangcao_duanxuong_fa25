@@ -1,248 +1,174 @@
-/*
-Custom Css
-*/
-      /* Kiểu cơ bản cho Rating */
-      .star-rating {
-        font-size: 1.5rem;
-      }
-      .star-rating .fa-star {
-        color: #ffc107; /* Màu vàng của sao */
-        cursor: pointer;
-      }
-      .star-rating .fa-star.active {
-        color: #ffc107;
-      }
-      .star-rating .fa-star.inactive {
-        color: #ccc;
-      }
-      .review-summary {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #198754; /* Màu xanh lá của success */
-      }
-      .review-bar {
-        height: 10px;
-        background-color: #e9ecef;
-      }
-      .comment-box {
-        border-left: 3px solid #198754;
-        padding-left: 15px;
-        margin-bottom: 15px;
-      }
-      .comment-header {
-        font-weight: bold;
-        color: #333;
-      }
-      /* ===== REGISTER PAGE ===== */
-.register-page {
-    background: #f4f4f4;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 80px 15px;
+/* Tùy chỉnh phong cách hiện đại */
+:root {
+    --jotun-blue: #004a99;
+    --luxury-gold: #c5a059;
+}
+
+body {
+    background-color: #f8f9fa;
     font-family: 'Roboto', sans-serif;
 }
 
-/* Box đăng ký */
-.register-container {
-    background: #ffffff;
-    width: 100%;
-    max-width: 420px;
-    padding: 40px 35px;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-/* Tiêu đề */
-.register-container h2 {
-    text-align: center;
-    font-size: 26px;
-    font-weight: 500;
-    color: #222;
-    margin-bottom: 30px;
-}
-
-/* Form */
-.register-form .form-group {
-    margin-bottom: 18px;
-}
-
-.register-form label {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 6px;
-}
-
-/* Input */
-.register-form input {
-    width: 100%;
-    height: 44px;
-    padding: 0 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: all 0.2s ease;
-}
-
-.register-form input:focus {
-    border-color: #2f8f46; /* xanh Jotun */
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(47, 143, 70, 0.15);
-}
-
-/* Button */
-.btn-register {
-    width: 100%;
-    height: 46px;
-    background: #2f8f46;
+.product-card-luxury {
     border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    background: #fff;
+    overflow: hidden;
+}
+
+.variant-btn {
+    border: 2px solid #eee;
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+}
+
+.variant-btn:hover {
+    border-color: var(--jotun-blue);
+    color: var(--jotun-blue);
+}
+
+.variant-btn.active {
+    background: var(--jotun-blue);
+    border-color: var(--jotun-blue);
     color: #fff;
-    font-size: 15px;
-    font-weight: 500;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,74,153,0.3);
 }
 
-.btn-register:hover {
-    background: #267a3b;
+.price-tag {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #004a99, #007bff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* Footer */
-.form-footer {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #555;
+.btn-luxury-buy {
+    background: var(--jotun-blue);
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.3s;
 }
 
-.form-footer a {
-    color: #2f8f46;
-    text-decoration: none;
-    font-weight: 500;
-    margin-left: 4px;
+.btn-luxury-buy:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,74,153,0.3);
 }
 
-.form-footer a:hover {
-    text-decoration: underline;
+.info-label {
+    color: #888;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+/* Tùy chỉnh đánh giá hiện đại */
+.review-stats-card {
+    border: none;
+    border-radius: 15px;
+    background: #ffffff;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-    .register-container {
-        padding: 30px 20px;
-    }
+.progress {
+    height: 8px;
+    border-radius: 10px;
+    background-color: #f0f0f0;
 }
-         /* ===== LOGIN PAGE ===== */
-.login-page {
-    background: #f4f4f4;
-    min-height: 100vh;
+
+.progress-bar {
+    border-radius: 10px;
+}
+
+.comment-item {
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 25px 0;
+    transition: all 0.3s;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.avatar-circle {
+    width: 45px;
+    height: 45px;
+    background: #e9ecef;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 80px 15px;
-    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color: #004a99;
 }
 
-/* Box login */
-.login-container {
-    background: #ffffff;
-    width: 100%;
-    max-width: 400px;
-    padding: 40px 35px;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-/* Title */
-.login-container h2 {
-    text-align: center;
-    font-size: 26px;
-    font-weight: 500;
-    color: #222;
-    margin-bottom: 30px;
-}
-
-/* Form */
-.login-form .form-group {
-    margin-bottom: 18px;
-}
-
-.login-form label {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 6px;
-}
-
-/* Input */
-.login-form input {
-    width: 100%;
-    height: 44px;
-    padding: 0 12px;
-    border: 1px solid #ddd;
+.verified-badge {
+    font-size: 0.75rem;
+    color: #27ae60;
+    background: #eafaf1;
+    padding: 2px 8px;
     border-radius: 4px;
-    font-size: 14px;
-    transition: all 0.2s ease;
+    font-weight: 600;
 }
 
-.login-form input:focus {
-    border-color: #2f8f46;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(47, 143, 70, 0.15);
+.star-rating i {
+    font-size: 0.9rem;
+    margin-right: 2px;
 }
 
-/* Button */
-.btn-login {
-    width: 100%;
-    height: 46px;
-    background: #2f8f46;
-    border: none;
+.btn-show-more {
+    border-radius: 30px;
+    padding: 10px 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid #004a99;
+    color: #004a99;
+}
+
+.btn-show-more:hover {
+    background: #004a99;
     color: #fff;
-    font-size: 15px;
-    font-weight: 500;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s ease;
+}
+.rounded-20 { border-radius: 20px !important; }
+
+.avatar-luxury {
+    width: 48px;
+    height: 48px;
+    background: #004a99;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 10px rgba(0,74,153,0.15);
 }
 
-.btn-login:hover {
-    background: #267a3b;
+.comment-item-luxury {
+    border-radius: 15px;
+    transition: all 0.3s ease;
 }
 
-/* Footer */
-.form-footer {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #555;
+.comment-item-luxury:hover {
+    background: #fdfdfd;
+    transform: translateX(5px);
 }
 
-.form-footer a {
-    color: #2f8f46;
-    text-decoration: none;
-    font-weight: 500;
+.bg-soft-success {
+    background-color: #e3fcef;
+    letter-spacing: 0.5px;
+    font-weight: 700;
 }
 
-.form-footer span {
-    margin: 0 6px;
-    color: #aaa;
+#comment-form .form-control:focus {
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
-
-.form-footer a:hover {
-    text-decoration: underline;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-    .login-container {
-        padding: 30px 20px;
-    }
-}
-  

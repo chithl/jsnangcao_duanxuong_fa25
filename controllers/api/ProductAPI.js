@@ -45,6 +45,8 @@ export class ProductAPI extends BaseAPI {
    */
   async getOneProduct(id) {
     let resp = await this.getOne(id);
+    console.log(resp.data);
+    
     return resp.data;
   }
 

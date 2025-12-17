@@ -16,7 +16,7 @@ export class AuthAPI extends BaseAPI {
             const users = res.data || {};
 
             const exists = Object.values(users).some(
-                user => user.email === email
+                user => user.email == email
             );
 
             return {
@@ -71,8 +71,9 @@ export class AuthAPI extends BaseAPI {
                 email: data.email,
                 phone: data.phone || "",
                 password: data.password,
-                role: "user",
-                createdAt: new Date().toLocaleString("vi-VN")
+                role: "customer",
+                createdAt: new Date().toLocaleString("vi-VN"),
+                updatedAt: ""
             });
 
             // Firebase returns { name: "-Nx..." } when success

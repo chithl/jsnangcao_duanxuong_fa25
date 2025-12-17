@@ -1,43 +1,35 @@
 import { ValidateAPI } from "./validate.js";
 
 export class CartValidate extends ValidateAPI {
-    /**
-     * Kiểm tra dữ liệu giỏ hàng
-     * @param {object} data
-     * @param {boolean} isNew - true nếu tạo mới, false nếu update
-     * @returns {{isError: boolean, errors: object}}
-     */
-    checkValidate(data, isNew = true) {
+    checkValidate(data) {
         const errors = {};
 
-        // user_id bắt buộc
-        if (!data.user_id || data.user_id === '') {
-            errors.user_id = "User ID là bắt buộc.";
+        // user_id
+        if (!data.user_id || typeof data.user_id !== "string") {
+            errors.user_id = "user_id là bắt buộc và phải là chuỗi.";
         }
 
-        // cart_details phải là mảng
-        if (!Array.isArray(data.cart_details) || data.cart_details.length === 0) {
-            errors.cart_details = "Giỏ hàng phải có ít nhất 1 sản phẩm.";
+        // cart_details
+        if (!data.cart_details || typeof data.cart_details !== "object") {
+            errors.cart_details = "cart_details phải là object.";
         } else {
-            data.cart_details.forEach((item, index) => {
-                if (!item.product_id || item.product_id === '') {
-                    errors[`cart_details[${index}].product_id`] = "Product ID là bắt buộc.";
+            for (const [key, item] of Object.entries(data.cart_details)) {
+                if (!item.product_id || typeof item.product_id !== "string") {
+                    errors[`cart_details.${key}.product_id`] = "product_id là bắt buộc.";
                 }
-                if (!item.variant_id || item.variant_id === '') {
-                    errors[`cart_details[${index}].variant_id`] = "Variant ID là bắt buộc.";
-                }
-                if (item.unit_price === undefined || item.unit_price === null || isNaN(item.unit_price) || item.unit_price < 0) {
-                    errors[`cart_details[${index}].unit_price`] = "Unit price phải là số >= 0.";
-                }
-                if (item.quantity === undefined || item.quantity === null || isNaN(item.quantity) || item.quantity < 1) {
-                    errors[`cart_details[${index}].quantity`] = "Quantity phải là số >= 1.";
-                }
-            });
-        }
 
-        // id bắt buộc nếu update/delete
-        if (!isNew && (!data.id || data.id === '')) {
-            errors.id = "ID giỏ hàng là bắt buộc khi cập nhật hoặc xóa.";
+                if (!item.variant_id || typeof item.variant_id !== "string") {
+                    errors[`cart_details.${key}.variant_id`] = "variant_id là bắt buộc.";
+                }
+
+                if (isNaN(item.unit_price) || Number(item.unit_price) < 0) {
+                    errors[`cart_details.${key}.unit_price`] = "unit_price phải >= 0.";
+                }
+
+                if (!Number.isInteger(item.quantity) || item.quantity < 1) {
+                    errors[`cart_details.${key}.quantity`] = "quantity phải >= 1.";
+                }
+            }
         }
 
         return {

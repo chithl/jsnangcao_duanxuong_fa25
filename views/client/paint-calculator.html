@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <title>Tính sơn | Jotun Vietnam</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="apple-touch-icon" href="../assets/client/img/apple-icon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/client/img/favicon.ico" />
+
+    <link rel="stylesheet" href="../../assets/client/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/client/css/templatemo.css" />
+    <link rel="stylesheet" href="../../assets/client/css/custom.css" />
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
+    <link rel="stylesheet" href="../../assets/client/css/fontawesome.min.css" />
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+</head>
+
+<body>
+    <!-- Start Menu -->
+    <div w3-include-html="layouts/menu.html"></div>
+    <!-- End Menu -->
+
+    <!-- CONTENT -->
+    <section class="container py-5">
+        <h2 class="fw-bold mb-4">Công cụ tính sơn</h2>
+
+        <div class="row g-4">
+
+            <!-- FORM -->
+            <div class="col-lg-7">
+                <div class="bg-white shadow-sm rounded p-4">
+
+                    <h5 class="fw-bold mb-3">Thông tin thi công</h5>
+
+                    <!-- DIỆN TÍCH -->
+                    <div class="mb-3">
+                        <label class="form-label">Diện tích cần sơn (m²)</label>
+                        <input type="number" id="area" class="form-control" placeholder="Ví dụ: 50">
+                    </div>
+
+                    <!-- SỐ LỚP -->
+                    <div class="mb-3">
+                        <label class="form-label">Số lớp sơn</label>
+                        <select id="layers" class="form-select">
+                            <option value="1">1 lớp</option>
+                            <option value="2" selected>2 lớp</option>
+                            <option value="3">3 lớp</option>
+                        </select>
+                    </div>
+
+                    <!-- DÒNG SƠN -->
+                    <div class="mb-3">
+                        <label class="form-label">Dòng sơn</label>
+                        <select id="paintType" class="form-select">
+                            <option value="economy">Jotun Essence (Kinh tế)</option>
+                            <option value="standard" selected>Jotun Majestic (Tiêu chuẩn)</option>
+                            <option value="premium">Jotun Majestic Supreme (Cao cấp)</option>
+                        </select>
+                    </div>
+
+                    <!-- DUNG TÍCH -->
+                    <div class="mb-3">
+                        <label class="form-label">Dung tích thùng</label>
+                        <select id="canSize" class="form-select">
+                            <option value="1">1 Lít</option>
+                            <option value="5" selected>5 Lít</option>
+                            <option value="18">18 Lít</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-danger w-100 py-2">
+                        Tính toán
+                    </button>
+                </div>
+            </div>
+
+            <!-- RESULT -->
+            <div class="col-lg-5">
+                <div class="result-box rounded p-4 shadow-sm">
+
+                    <h5 class="fw-bold mb-3">Kết quả ước tính</h5>
+
+                    <p>Lượng sơn cần dùng:</p>
+                    <h4 id="paintLiters">0 L</h4>
+
+                    <hr>
+
+                    <p>Số thùng cần mua:</p>
+                    <h4 id="paintCans">0 thùng</h4>
+
+                    <hr>
+
+                    <p>Tạm tính chi phí:</p>
+                    <h3 class="text-danger fw-bold" id="totalPrice">0đ</h3>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- END CONTENT -->
+
+    <!-- Start Footer -->
+    <div w3-include-html="layouts/footer.html"></div>
+    <!-- End Footer -->
+    <script>
+        w3.includeHTML();
+    </script>
+    <!-- Start Script -->
+    <script src="../../assets/client/js/jquery-1.11.0.min.js"></script>
+    <script src="../../assets/client/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/client/js/templatemo.js"></script>
+    <script src="../../assets/client/js/custom.js"></script>
+
+    <!-- End Script -->
+</body>
+
+</html>

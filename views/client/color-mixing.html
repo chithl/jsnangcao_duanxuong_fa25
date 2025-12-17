@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <title>Trang chủ | Jotun Vietnam</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="apple-touch-icon" href="../assets/client/img/apple-icon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/client/img/favicon.ico" />
+
+    <link rel="stylesheet" href="../../assets/client/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/client/css/templatemo.css" />
+    <link rel="stylesheet" href="../../assets/client/css/custom.css" />
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
+    <link rel="stylesheet" href="../../assets/client/css/fontawesome.min.css" />
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+</head>
+
+<body>
+    <!-- Start Menu -->
+    <div w3-include-html="layouts/menu.html"></div>
+    <!-- End Menu -->
+
+    <!-- Content -->
+    <section class="container py-5">
+        <h2 class="fw-bold mb-4">Công cụ pha màu sơn</h2>
+
+        <div class="row g-4">
+
+            <!-- LEFT -->
+            <div class="col-lg-6">
+                <div class="bg-white p-4 rounded shadow-sm">
+
+                    <h5 class="fw-bold mb-3">Cách chọn màu</h5>
+
+                    <!-- METHOD -->
+                    <div class="row text-center mb-4">
+                        <div class="col-4">
+                            <a href="javascript:void(0)"
+                                class="d-block border rounded py-3 fw-bold text-decoration-none text-dark bg-light"
+                                id="btn-palette" onclick="selectMethod('palette')">
+                                🎨<br>Bảng màu
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="javascript:void(0)"
+                                class="d-block border rounded py-3 fw-bold text-decoration-none text-dark" id="btn-code"
+                                onclick="selectMethod('code')">
+                                🔢<br>Mã màu
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="javascript:void(0)"
+                                class="d-block border rounded py-3 fw-bold text-decoration-none text-dark"
+                                id="btn-picker" onclick="selectMethod('picker')">
+                                🖱<br>Chọn màu
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- PALETTE -->
+                    <div id="method-palette">
+                        <div class="mb-3">
+                            <label class="form-label">Bảng màu</label>
+                            <select class="form-select">
+                                <option>Basic Neutrals</option>
+                                <option>Warm Colors</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Màu sơn</label>
+                            <select class="form-select">
+                                <option>B003 - Soft Beige</option>
+                                <option>B005 - Warm Sand</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- CODE -->
+                    <div id="method-code" class="d-none">
+                        <div class="mb-3">
+                            <label class="form-label">Nhập mã màu</label>
+                            <input type="text" class="form-control" placeholder="VD: B003">
+                        </div>
+                    </div>
+
+                    <!-- PICKER -->
+                    <div id="method-picker" class="d-none">
+                        <div class="mb-3">
+                            <label class="form-label">Chọn màu trực quan</label>
+                            <input type="color" class="form-control form-control-color">
+                        </div>
+                    </div>
+
+                    <!-- VOLUME -->
+                    <div class="mb-3">
+                        <label class="form-label">Dung tích pha (L)</label>
+                        <input type="number" class="form-control" placeholder="VD: 5">
+                    </div>
+
+                    <button class="btn btn-danger w-100">
+                        Tính pha màu
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="col-lg-6">
+                <div class="bg-white p-4 rounded shadow-sm">
+
+                    <h5 class="fw-bold mb-3">Kết quả mô phỏng</h5>
+
+                    <div class="border rounded mb-3" style="height:120px;background:#E8DBC7"></div>
+
+                    <p class="mb-1"><strong>Mã màu:</strong> B003</p>
+                    <p class="mb-1"><strong>Tên màu:</strong> Soft Beige</p>
+                    <p><strong>Sơn gốc:</strong> Base A</p>
+
+                    <hr>
+
+                    <h6 class="fw-bold">Tỉ lệ pha</h6>
+                    <table class="table table-sm">
+                        <tr>
+                            <td>Yellow Oxide</td>
+                            <td class="text-end">6 ml</td>
+                        </tr>
+                        <tr>
+                            <td>Black</td>
+                            <td class="text-end">2 ml</td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- End Content -->
+
+    <!-- Start Footer -->
+    <div w3-include-html="layouts/footer.html"></div>
+    <!-- End Footer -->
+    <script>
+        w3.includeHTML();
+    </script>
+    <!-- Start Script -->
+    <script src="../../assets/client/js/jquery-1.11.0.min.js"></script>
+    <script src="../../assets/client/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/client/js/templatemo.js"></script>
+    <script src="../../assets/client/js/custom.js"></script>
+    <script src="../../assets/client/js/color-mix.js"></script>
+    <!-- End Script -->
+</body>
+
+</html>

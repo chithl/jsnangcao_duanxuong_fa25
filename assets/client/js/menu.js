@@ -6,7 +6,8 @@
 
     if (!token || !user) {
       menu.innerHTML = `
-                    
+                                <li><a href="register.html" class="dropdown-item">Đăng ký</a></li>
+            <li><a href="login.html" class="dropdown-item">Đăng nhập</a></li>
                 `;
       return;
     }

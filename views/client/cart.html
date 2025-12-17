@@ -23,7 +23,7 @@
     <!-- Start Menu -->
     <div w3-include-html="layouts/menu.html"></div>
     <!-- End Menu -->
-
+    <div id="alertBox"></div>
     <!-- Start Cart -->
     <section class="container py-5">
         <h2 class="mb-4 fw-bold">Giỏ hàng của bạn</h2>
@@ -32,7 +32,7 @@
             <!-- LIST PRODUCT -->
             <div class="col-lg-8">
                 <div class="cart-items">
-                    <div class="cart-items">
+                    <div class="cart-items" id="cart-items">
 
                         <!-- PRODUCT 1 -->
                         <div class="d-flex p-3 mb-3 shadow-sm rounded bg-white align-items-center">
@@ -111,7 +111,7 @@
                         <span class="fw-bold fs-5" id="total">900.000đ</span>
                     </div>
 
-                    <button class="btn btn-danger w-100 py-2">
+                    <button id="btn-checkout" class="btn btn-danger w-100 py-2">
                         Tiến hành thanh toán
                     </button>
 
@@ -135,7 +135,9 @@
     <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
     <script src="../../assets/client/js/templatemo.js"></script>
     <script src="../../assets/client/js/custom.js"></script>
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="../../controllers/ui/client/cart.js"></script>
     <!-- End Script -->
 </body>
 

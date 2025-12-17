@@ -27,15 +27,15 @@
   </div>
 
   <div class="flex h-screen overflow-hidden">
-    <div w3-include-html="../layouts/sidebar.html"></div>
+    <div w3-include-html="layouts/sidebar.html"></div>
 
     <div class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
       <div @click="sidebarToggle = false" :class="sidebarToggle ? 'block lg:hidden' : 'hidden'"
         class="fixed w-full h-screen z-9 bg-gray-900/50"></div>
-      <div w3-include-html="../layouts/header.html"></div>
+      <div w3-include-html="layouts/header.html"></div>
       <main>
         <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-          <div x-data="{ pageName: `Bảng Cơ bản`}">
+          <div x-data="{ pageName: `Quản lí đánh giá`}">
             <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
               <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName"></h2>
 
@@ -61,7 +61,7 @@
             <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
               <div class="px-5 py-4 sm:px-6 sm:py-5">
                 <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
-                  Bảng Cơ bản 1
+                  Danh sách 
                 </h3>
               </div>
               <div class="p-5 border-t border-gray-100 dark:border-gray-800 sm:p-6">
@@ -172,7 +172,7 @@
                           </td>
                           <td class="px-5 py-4 sm:px-6">
                             <div class="flex items-center space-x-2">
-                              <a href="edit.html"
+                              <a href="edit-review.html"
                                 class="inline-flex items-center justify-center gap-1.5 px-2 py-2 text-sm font-medium text-success-500 rounded-lg bg-success-50 mr-1">
                                 Sửa <i class="bi bi-pencil-square"></i>
                               </a>

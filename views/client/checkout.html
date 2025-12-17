@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <title>Thanh toán | Jotun Vietnam</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="apple-touch-icon" href="../assets/client/img/apple-icon.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/client/img/favicon.ico" />
+
+    <link rel="stylesheet" href="../../assets/client/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../assets/client/css/templatemo.css" />
+    <link rel="stylesheet" href="../../assets/client/css/custom.css" />
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
+    <link rel="stylesheet" href="../../assets/client/css/fontawesome.min.css" />
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+</head>
+
+<body>
+    <!-- Start Menu -->
+    <div w3-include-html="layouts/menu.html"></div>
+    <!-- End Menu -->
+
+    <!-- CHECKOUT -->
+    <section class="container py-5">
+        <h2 class="fw-bold mb-4">Thanh toán</h2>
+
+        <div class="row g-4">
+
+            <!-- LEFT -->
+            <div class="col-lg-7">
+
+                <!-- THÔNG TIN GIAO NHẬN -->
+                <div class="bg-white rounded shadow-sm p-4 mb-4">
+                    <h5 class="fw-bold mb-3">Thông tin giao nhận</h5>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Họ và tên</label>
+                            <input type="text" id="name" class="form-control" placeholder="Nguyễn Văn A">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Số điện thoại</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="0xxx xxx xxx">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="email@example.com">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Địa chỉ giao hàng</label>
+                        <textarea id="address" class="form-control" rows="3"
+                            placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành"></textarea>
+                    </div>
+                </div>
+
+                <!-- PHƯƠNG THỨC THANH TOÁN -->
+                <div class="bg-white rounded shadow-sm p-4">
+                    <h5 class="fw-bold mb-3">Phương thức thanh toán</h5>
+
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="payment" id="cod" checked>
+                        <label class="form-check-label" for="cod">
+                            💵 Thanh toán khi nhận hàng (COD)
+                        </label>
+                    </div>
+
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="payment" id="bank">
+                        <label class="form-check-label" for="bank">
+                            🏦 Chuyển khoản ngân hàng
+                        </label>
+                    </div>
+
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="radio" name="payment" id="momo">
+                        <label class="form-check-label" for="momo">
+                            📱 Ví MoMo
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="col-lg-5">
+                <div class="bg-white rounded shadow-sm p-4">
+                    <h5 class="fw-bold mb-3">Đơn hàng của bạn</h5>
+
+                    <div id="checkout-items"></div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Tạm tính</span>
+                        <strong id="subtotal">0đ</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Phí vận chuyển</span>
+                        <strong>Miễn phí</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-between fw-bold fs-5 mb-3">
+                        <span>Tổng cộng</span>
+                        <span id="total">0đ</span>
+                    </div>
+
+                    <button class="btn btn-danger w-100 py-3">
+                        Xác nhận đặt hàng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Start Footer -->
+    <div w3-include-html="layouts/footer.html"></div>
+    <!-- End Footer -->
+    <script>
+        w3.includeHTML();
+    </script>
+    <!-- Start Script -->
+    <script src="../../assets/client/js/jquery-1.11.0.min.js"></script>
+    <script src="../../assets/client/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/client/js/templatemo.js"></script>
+    <script src="../../assets/client/js/custom.js"></script>
+
+    <!-- End Script -->
+</body>
+
+</html>

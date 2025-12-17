@@ -56,6 +56,7 @@ export class AuthAPI extends BaseAPI {
             }
 
             if (emailCheck.data.exists) {
+
                 return {
                     success: false,
                     errors: [
@@ -78,6 +79,8 @@ export class AuthAPI extends BaseAPI {
 
             // Firebase returns { name: "-Nx..." } when success
             if (response?.data?.error) {
+            console.log("O day sai API");
+
                 return {
                     success: false,
                     errors: [{ message: response.data.error.message || "Firebase error" }]
@@ -87,11 +90,14 @@ export class AuthAPI extends BaseAPI {
             const newId = response?.data?.name;
             if (!newId) {
                 console.error("REGISTER STORE RESPONSE", response);
+                
                 return {
                     success: false,
                     errors: [{ message: "Không tạo được user (response rỗng)" }]
                 };
             }
+
+            console.log("Thanh cong API");
 
             return {
                 success: true,

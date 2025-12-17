@@ -12,10 +12,6 @@ export class RegisterValidate extends ValidateAPI {
             errors.push({ field: "email", message: "Email không hợp lệ" });
         }
 
-        if (!data.phone || data.phone.trim() === "") {
-            errors.push({ field: "phone", message: "Số điện thoại không được để trống" });
-        }
-
         if (!data.password || data.password.length < 6) {
             errors.push({
                 field: "password",

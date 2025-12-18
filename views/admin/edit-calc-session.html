@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chỉnh sửa Phiên tính toán | Sơn Jotun</title>
+    <link rel="icon" href="favicon.ico">
+    <link href="../../assets/admin/styles/style.css" rel="stylesheet">
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+</head>
+
+<body
+    x-data="{ page: 'editCalcSession', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+    x-init="darkMode = JSON.parse(localStorage.getItem('darkMode')); $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+    :class="{'dark bg-gray-900': darkMode === true}">
+    
+    <div x-show="loaded" x-init="window.addEventListener('DOMContentLoaded', () => {setTimeout(() => loaded = false, 500)})" class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
+        <div class="h-16 w-16 animate-spin rounded-full border-4 border-solid border-brand-500 border-t-transparent"></div>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        <div w3-include-html="layouts/sidebar.html"></div>
+        <div class="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+            <div w3-include-html="layouts/header.html"></div>
+            <main>
+                <div class="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
+                    <div x-data="{ pageName: `Chỉnh sửa Phiên tính toán`}">
+                        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+                            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName"></h2>
+                        </div>
+                    </div>
+                    <form id="edit-calc-session-form">
+                        <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                            <div class="px-5 py-4 border-b border-gray-100 dark:border-gray-800">
+                                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">Thông tin tính toán</h3>
+                            </div>
+                            <div class="space-y-6 p-5 sm:p-6">
+                                <div>
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Mã Phiên (ID)</label>
+                                    <input type="text" id="id" class="h-11 w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2.5 text-sm text-gray-500 dark:bg-gray-800 dark:border-gray-700" readonly />
+                                </div>
+                                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                    <div>
+                                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Bề mặt</label>
+                                        <select id="surface_id" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90" required></select>
+                                    </div>
+                                    <div>
+                                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Quy tắc phủ</label>
+                                        <select id="coverage_rule_id" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90" required></select>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                                    <div>
+                                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Số lớp (Coats)</label>
+                                        <input type="number" id="coats" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90" required />
+                                    </div>
+                                    <div>
+                                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Định mức (m2/L)</label>
+                                        <input type="number" step="0.1" id="cover_m2_per_L" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90" required />
+                                    </div>
+                                    <div>
+                                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Hao hụt (%)</label>
+                                        <input type="number" step="0.01" id="wastage_pct" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90" required />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Số lít cần thiết</label>
+                                    <input type="number" step="0.01" id="litres_needed" class="h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90" required />
+                                </div>
+                                <div>
+                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Gợi ý</label>
+                                    <textarea id="suggestion" rows="3" class="w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 focus:border-brand-300 focus:ring-brand-500/10 dark:border-gray-700 dark:text-white/90"></textarea>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-end border-t border-gray-100 px-5 py-4 dark:border-gray-800">
+                                <button type="submit" class="h-11 rounded-lg bg-brand-500 px-6 font-medium text-white hover:bg-brand-600">Xác nhận</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>w3.includeHTML();</script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script type="module" src="../../controllers/ui/admin/calc-session/edit.js"></script>
+    <script defer src="../../assets/admin/scripts/bundle.js"></script>
+</body>
+
+</html>

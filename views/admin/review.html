@@ -61,7 +61,7 @@
             <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
               <div class="px-5 py-4 sm:px-6 sm:py-5">
                 <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
-                  Danh sách 
+                  Danh sách
                 </h3>
               </div>
               <div class="p-5 border-t border-gray-100 dark:border-gray-800 sm:p-6">
@@ -71,20 +71,6 @@
                     <table class="min-w-full">
                       <thead>
                         <tr class="border-b border-gray-100 dark:border-gray-800">
-                          <th class="px-5 py-3 sm:px-6">
-                            <div class="flex items-center">
-                              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                Mã đánh giá
-                              </p>
-                            </div>
-                          </th>
-                          <th class="px-5 py-3 sm:px-6">
-                            <div class="flex items-center">
-                              <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
-                                Sản phẩm
-                              </p>
-                            </div>
-                          </th>
                           <th class="px-5 py-3 sm:px-6">
                             <div class="flex items-center">
                               <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
@@ -122,66 +108,8 @@
                           </th>
                         </tr>
                       </thead>
-                      <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-                        <tr>
-                          <td class="px-5 py-4 sm:px-6">
-                            <div class="flex items-center">
-                              <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                1
-                              </p>
-                            </div>
-                          </td>
-                          <td class="px-5 py-4 sm:px-6">
-                            <div class="flex items-center">
-                              <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                Sơn jotun
-                              </p>
-                            </div>
-                          </td>
-                          <td class="px-5 py-4 sm:px-6">
-                            <div class="flex items-center">
-                              <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                Như Ngọc
-                              </p>
-                            </div>
-                          </td>
-                          <td class="px-5 py-4 sm:px-6">
-                            <div class="flex items-center">
-                              <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                5 sao
-                              </p>
-                            </div>
-                          </td>
-                          <td class="px-5 py-4 sm:px-6">
-                            <div class="flex items-center">
-                              <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                                Sơn lên màu rất đẹp
-                              </p>
-                            </div>
-                          </td>
-                          <td class="px-5 py-4 sm:px-6">
-                            <div class="flex items-center">
-                              <p class="rounded-full bg-success-50 px-2 py-0.5 text-theme-xs font-medium text-success-700 dark:bg-success-500/15 dark:text-success-500">
-                                Hiện
-                                <!-- ${item.featured == "default"
-                                ? '<span class="badge bg-danger">Mặc định</span>'
-                                : '<span class="badge bg-success">Nổi bật</span>'
-                                } -->
-                              </p>
-                            </div>
-                          </td>
-                          <td class="px-5 py-4 sm:px-6">
-                            <div class="flex items-center space-x-2">
-                              <a href="edit-review.html"
-                                class="inline-flex items-center justify-center gap-1.5 px-2 py-2 text-sm font-medium text-success-500 rounded-lg bg-success-50 mr-1">
-                                Sửa <i class="bi bi-pencil-square"></i>
-                              </a>
-                              <button
-                                class="inline-flex items-center justify-center gap-1.5 px-2 py-2 text-sm font-medium text-error-500 rounded-lg bg-error-50"
-                                data-id="${cat.firebaseID}">Xóa <i class="bi bi-trash"></i></button>
-                            </div>
-                          </td>
-                        </tr>
+                      <tbody class="divide-y divide-gray-100 dark:divide-gray-800" id="list">
+
                       </tbody>
                     </table>
                   </div>
@@ -196,7 +124,11 @@
   <script>
     w3.includeHTML();
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="../../controllers/ui/admin/review/list.js"></script>
+
   <script defer src="../../../assets/admin/scripts/bundle.js"></script>
+
 </body>
 
 </html>

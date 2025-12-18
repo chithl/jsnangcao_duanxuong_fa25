@@ -93,11 +93,12 @@
                         </div>
                     </li>
 
+
                     <li>
                         <a href="#" @click.prevent="selected = (selected === 'Projects' ? '':'Projects')"
                             class="menu-item group"
                             :class=" (selected === 'Projects') ? 'menu-item-active' : 'menu-item-inactive'">
-                            
+
                             <svg :class="(selected === 'Projects') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
                                 width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -133,6 +134,52 @@
                                     <a href="add-project.html" class="menu-dropdown-item group"
                                         :class="page === 'addProject' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
                                         Thêm dự án
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a href="#" @click.prevent="selected = (selected === 'Surfaces' ? '':'Surfaces')"
+                            class="menu-item group"
+                            :class=" (selected === 'Surfaces') ? 'menu-item-active' : 'menu-item-inactive'">
+
+                            <svg :class="(selected === 'Surfaces') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M12.0001 2.58579L20.4143 11L12.0001 19.4142L3.58589 11L12.0001 2.58579ZM12.0001 4.41421L5.41431 11L12.0001 17.5858L18.5859 11L12.0001 4.41421ZM3.58589 13.5858L12.0001 22L20.4143 13.5858L19.0001 12.1716L12.0001 19.1716L5.0001 12.1716L3.58589 13.5858Z"
+                                    fill="currentColor" />
+                            </svg>
+
+                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                Quản lý Bề mặt
+                            </span>
+
+                            <svg class="menu-item-arrow absolute right-2.5 top-1/2 -translate-y-1/2 stroke-current"
+                                :class="[(selected === 'Surfaces') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive', sidebarToggle ? 'lg:hidden' : '' ]"
+                                width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+
+                        <div class="overflow-hidden transform translate"
+                            :class="(selected === 'Surfaces') ? 'block' :'hidden'">
+                            <ul :class="sidebarToggle ? 'lg:hidden' : 'flex'"
+                                class="flex flex-col gap-1 mt-2 menu-dropdown pl-9">
+                                <li>
+                                    <a href="surfaces.html" class="menu-dropdown-item group"
+                                        :class="page === 'surfaces' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Danh sách bề mặt
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="add-surface.html" class="menu-dropdown-item group"
+                                        :class="page === 'addSurface' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Thêm bề mặt
                                     </a>
                                 </li>
                             </ul>
@@ -181,7 +228,7 @@
                         <a href="#" @click.prevent="selected = (selected === 'Rooms' ? '':'Rooms')"
                             class="menu-item group"
                             :class=" (selected === 'Rooms') ? 'menu-item-active' : 'menu-item-inactive'">
-                            
+
                             <svg :class="(selected === 'Rooms') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
                                 width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">

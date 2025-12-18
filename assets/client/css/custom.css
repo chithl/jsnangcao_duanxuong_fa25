@@ -383,3 +383,47 @@ body {
         padding: 30px 20px;
     }
 }
+
+.review-luxury-container {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.03);
+}
+
+.rating-summary-box {
+    background: linear-gradient(145deg, #f8f9fa, #ffffff);
+    border-radius: 20px;
+    border: 1px solid #eee;
+}
+
+.star-active { color: #ffc107; }
+.star-inactive { color: #e9ecef; }
+
+.progress-luxury {
+    height: 6px;
+    border-radius: 10px;
+    background: #f1f2f6;
+}
+
+.comment-card {
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.comment-card:hover {
+    border-left-color: #004a99;
+    background: #fcfcfc;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background: #004a99;
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}

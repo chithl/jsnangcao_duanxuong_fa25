@@ -15,10 +15,41 @@ export class VariantAPI extends BaseAPI {
    * Lấy danh sách biến thể của 1 sản phẩm
    * GET /api/products/:productId/variants
    */
-  async getVariantsByProduct(productId) {
-    let resp = await this.getAll(productId);
-    return resp.data;
-  }
+// File: VariantAPI.js
+async getVariantsByProduct(productId) {
+    let resp = await this.getAll();
+    const payload = resp.data;
+    if (!payload) return [];
+
+    let normalized = [];
+    
+    // Kiểm tra nếu payload là một Object (Firebase thường trả về Object với ID là Key)
+    if (typeof payload === 'object' && !Array.isArray(payload)) {
+        // Kiểm tra xem đây là một danh sách các biến thể hay chỉ là MỘT biến thể duy nhất
+        const keys = Object.keys(payload);
+        const isMultiple = keys.length > 0 && typeof payload[keys[0]] === 'object';
+
+        if (isMultiple) {
+            // Trường hợp nhiều biến thể: { id1: {data}, id2: {data} }
+            normalized = Object.entries(payload).map(([key, value]) => ({
+                id: key,
+                ...value
+            }));
+        } else {
+            // Trường hợp chỉ có 1 biến thể duy nhất: { price: ..., sku: ... }
+            normalized = [{ id: "single", ...payload }];
+        }
+    } else if (Array.isArray(payload)) {
+        normalized = payload.filter(Boolean);
+    }
+
+    console.log("Dữ liệu đã chuẩn hóa:", normalized);
+
+    // Lọc theo product_id
+    return normalized.filter(item => 
+        String(item.product_id || item.productId || "") === String(productId)
+    );
+}
 
   /**
    * Lấy chi tiết 1 biến thể

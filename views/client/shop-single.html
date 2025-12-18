@@ -40,13 +40,7 @@
 
         <div class="col-lg-6">
           <div class="ps-lg-4">
-            <nav aria-label="breadcrumb" class="mb-3">
-              <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Trang chủ</a></li>
-                <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Sơn nội thất</a></li>
-                <li class="breadcrumb-item active" id="breadcrumb-name">Chi tiết</li>
-              </ol>
-            </nav>
+  
 
             <h1 class="display-5 fw-bold mb-3" id="product-name" style="color: #2d3436;">Đang tải...</h1>
 
@@ -91,18 +85,13 @@
             <form id="cart-form">
               <input type="hidden" id="selected-variant-id" value="" />
               <div class="row g-3">
-                <div class="col-md-8">
+                <div class="col-md-12">
                   <button type="submit" id="btn-add-to-cart"
                     class="btn btn-luxury-buy btn-primary w-100 btn-lg shadow-sm" disabled>
                     <i class="fas fa-cart-plus me-2"></i> THÊM VÀO GIỎ HÀNG
                   </button>
                 </div>
-                <div class="col-md-4">
-                  <button type="button" class="btn btn-outline-secondary btn-lg w-100"
-                    style="border-radius: 12px; padding: 15px;">
-                    <i class="far fa-heart"></i>
-                  </button>
-                </div>
+      
               </div>
             </form>
           </div>
@@ -110,97 +99,117 @@
       </div>
     </div>
   </section>
-  <section class="bg-white py-5 shadow-sm">
+  <section class="py-5 bg-light">
     <div class="container">
-      <div class="row mb-5">
-        <div class="col-md-12 border-bottom pb-3">
-          <h2 class="fw-bold mb-0" style="color: #2d3436;">
-            </i> Bình luận
-          </h2>
-          <p class="text-muted mt-2">Chia sẻ cảm nghĩ hoặc đặt câu hỏi về sản phẩm này</p>
-        </div>
-      </div>
-
-      <div class="row g-5">
-        <div class="col-lg-5">
-          <div class="p-4 border-0 rounded-20 bg-light shadow-sm">
-            <h5 class="fw-bold mb-4">Viết bình luận của bạn</h5>
-            <form id="comment-form">
-              <div class="mb-3">
-                <textarea class="form-control border-0 p-3 shadow-none" rows="4" placeholder="Nội dung bình luận... *"
-                  required style="border-radius: 12px;"></textarea>
-              </div>
-              <div class="mb-3">
-                <input type="text" class="form-control border-0 p-3 shadow-none" placeholder="Họ và tên *" required
-                  style="border-radius: 10px;">
-              </div>
-              <div class="mb-4">
-                <input type="email" class="form-control border-0 p-3 shadow-none"
-                  placeholder="Email liên hệ (không công khai) *" required style="border-radius: 10px;">
-              </div>
-              <button type="submit" class="btn btn-primary w-100 py-3 fw-bold"
-                style="border-radius: 12px; background: #004a99;">
-                GỬI BÌNH LUẬN
-              </button>
-            </form>
-          </div>
-        </div>
-
-        <div class="col-lg-7">
-          <div id="comment-list">
-            <div class="comment-item-luxury mb-4 p-3">
-              <div class="d-flex align-items-center mb-3">
-                <div class="avatar-luxury me-3">NA</div>
-                <div>
-                  <h6 class="fw-bold mb-0">Nguyễn Văn A</h6>
-
+        <div class="review-luxury-container">
+            <h2 class="fw-bold mb-5 text-center">Đánh Giá Từ Khách Hàng</h2>
+            
+            <div class="row g-5 mb-5">
+                <div class="col-lg-4">
+                  <div class="rating-summary-box p-4 text-center h-100 d-flex flex-column justify-content-center">
+                    <h3 class="display-3 fw-bold mb-0" id="rating-average-value">0.0</h3>
+                    <div class="fs-4 mb-2" id="rating-stars">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-muted small" id="rating-average-note">Chưa có đánh giá</p>
+                        
+                    <div class="mt-4 text-start rating-breakdown">
+                      <div class="d-flex align-items-center mb-2">
+                        <small class="me-2" style="width: 40px;">5 <i class="fas fa-star small"></i></small>
+                        <div class="progress progress-luxury flex-grow-1">
+                          <div class="progress-bar bg-success" data-rating-bar="5" style="width: 0%"></div>
+                        </div>
+                        <span class="ms-2 text-muted" data-rating-count="5">0</span>
+                      </div>
+                      <div class="d-flex align-items-center mb-2">
+                        <small class="me-2" style="width: 40px;">4 <i class="fas fa-star small"></i></small>
+                        <div class="progress progress-luxury flex-grow-1">
+                          <div class="progress-bar bg-primary" data-rating-bar="4" style="width: 0%"></div>
+                        </div>
+                        <span class="ms-2 text-muted" data-rating-count="4">0</span>
+                      </div>
+                      <div class="d-flex align-items-center mb-2">
+                        <small class="me-2" style="width: 40px;">3 <i class="fas fa-star small"></i></small>
+                        <div class="progress progress-luxury flex-grow-1">
+                          <div class="progress-bar bg-warning" data-rating-bar="3" style="width: 0%"></div>
+                        </div>
+                        <span class="ms-2 text-muted" data-rating-count="3">0</span>
+                      </div>
+                      <div class="d-flex align-items-center mb-2">
+                        <small class="me-2" style="width: 40px;">2 <i class="fas fa-star small"></i></small>
+                        <div class="progress progress-luxury flex-grow-1">
+                          <div class="progress-bar bg-info" data-rating-bar="2" style="width: 0%"></div>
+                        </div>
+                        <span class="ms-2 text-muted" data-rating-count="2">0</span>
+                      </div>
+                      <div class="d-flex align-items-center mb-2">
+                        <small class="me-2" style="width: 40px;">1 <i class="fas fa-star small"></i></small>
+                        <div class="progress progress-luxury flex-grow-1">
+                          <div class="progress-bar bg-danger" data-rating-bar="1" style="width: 0%"></div>
+                        </div>
+                        <span class="ms-2 text-muted" data-rating-count="1">0</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-              </div>
-              <p class="text-secondary lh-lg mb-0 ps-5">
-                Sơn Jotun đúng là danh bất hư truyền. Màu sơn nội thất lên rất mịn và đều, không bị mùi khó chịu khi mới
-                sơn xong. Rất hài lòng!
-              </p>
-            </div>
-
-            <div class="comment-item-luxury mb-4 p-3">
-              <div class="d-flex align-items-center mb-3">
-                <div class="avatar-luxury me-3" style="background: #f1f2f6; color: #636e72;">TB</div>
-                <div>
-                  <h6 class="fw-bold mb-0">Trần Thị B</h6>
-
+                <div class="col-lg-8">
+                    <div class="ps-lg-4">
+                        <h4 class="fw-bold mb-4">Gửi đánh giá của bạn</h4>
+                        <form id="luxury-review-form">
+                            <div class="mb-4">
+                                <label class="small fw-bold text-muted mb-2 d-block">MỨC ĐỘ HÀI LÒNG</label>
+                                <div class="star-rating-input fs-3 text-muted">
+                                    <i class="far fa-star cursor-pointer" data-rating="1"></i>
+                                    <i class="far fa-star cursor-pointer" data-rating="2"></i>
+                                    <i class="far fa-star cursor-pointer" data-rating="3"></i>
+                                    <i class="far fa-star cursor-pointer" data-rating="4"></i>
+                                    <i class="far fa-star cursor-pointer" data-rating="5"></i>
+                                    <input type="hidden" id="selected-rating" value="0">
+                                </div>
+                            </div>
+                            <div id="review-auth-hint" class="text-danger small mb-3 d-none" role="alert"></div>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                <textarea id="review-comment" class="form-control border-0 bg-light p-3" rows="4" placeholder="Cảm nhận của bạn về sản phẩm... *" required style="border-radius: 15px;"></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                <input id="review-name" type="text" class="form-control border-0 bg-light p-3" placeholder="Họ và tên *" required style="border-radius: 12px;" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                <button id="review-submit-btn" type="submit" class="btn btn-dark w-100 h-100 fw-bold" style="border-radius: 12px; letter-spacing: 1px;" disabled>GỬI ĐÁNH GIÁ</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-              </div>
-              <p class="text-secondary lh-lg mb-0 ps-5">
-                Cho mình hỏi sơn này có hỗ trợ pha màu theo yêu cầu tại cửa hàng không ạ?
-              </p>
             </div>
-          </div>
 
-          <div class="text-center mt-5">
-            <button class="btn btn-outline-secondary px-5 py-2 rounded-pill fw-bold">
-              TẢI THÊM BÌNH LUẬN
-            </button>
-          </div>
+            <div id="comment-list-luxury" class="mt-5 pt-5 border-top">
+              <p class="text-muted text-center mb-0 py-5">Đang tải bình luận...</p>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
+
 
   <div w3-include-html="layouts/footer.html"></div>
   <script>
     w3.includeHTML();
   </script>
 
-  <script src="../../assets/client/js/jquery-1.11.0.min.js"></script>
-  <script src="../../assets/client/js/jquery-migrate-1.2.1.min.js"></script>
-  <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
-  <script src="../../assets/client/js/templatemo.js"></script>
-  <script src="../../assets/client/js/custom.js"></script>
-  <script src="../../assets/client/js/slick.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+<script src="../../assets/client/js/jquery-1.11.0.min.js"></script>
+<script src="../../assets/client/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
+<script src="../../assets/client/js/slick.min.js"></script> <script src="../../assets/client/js/templatemo.js"></script>
+<script src="../../assets/client/js/custom.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 
-  <script type="module" src="../../controllers/ui/client/product/detail.js"></script>
+<script type="module" src="../../controllers/ui/client/product/detail.js"></script>
 
 </body>
 

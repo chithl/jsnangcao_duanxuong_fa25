@@ -29,63 +29,69 @@
         <h2 class="fw-bold mb-4">Thanh toán</h2>
 
         <div class="row g-4">
-
             <!-- LEFT -->
             <div class="col-lg-7">
-
                 <!-- THÔNG TIN GIAO NHẬN -->
                 <div class="bg-white rounded shadow-sm p-4 mb-4">
                     <h5 class="fw-bold mb-3">Thông tin giao nhận</h5>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Họ và tên</label>
-                            <input type="text" id="name" class="form-control" placeholder="Nguyễn Văn A">
+                    <form action="http://localhost:8888/create_payment" method="post" id="checkout-form">
+                        <input id="amount" type="hidden" name="amount" class="form-control" value="">
+                        <input type="hidden" id="user_id" name="user_id" class="form-control" value="">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Họ và tên</label>
+                                <div class="input-group">
+                                    <input required id="fullname" name="receiver_name" type="text" class="form-control"
+                                        placeholder="Nhập họ và tên">
+                                </div>
+                                <small id="fullname_error" class="text-danger"></small>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Số điện thoại</label>
+                                <div class="input-group">
+                                    <input required id="phone" name="receiver_phone" type="text" class="form-control"
+                                        placeholder="Nhập số điện thoại">
+                                </div>
+                                <small id="phone_error" class="text-danger"></small>
+                            </div>
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Số điện thoại</label>
-                            <input type="tel" id="phone" class="form-control" placeholder="0xxx xxx xxx">
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" id="email" name="receiver_email" class="form-control"
+                                placeholder="email@example.com">
                         </div>
-                    </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" id="email" class="form-control" placeholder="email@example.com">
-                    </div>
+                        <div class="mb-3">
+                            <label class="form-label">Địa chỉ giao hàng</label>
+                            <div class="input-group">
+                                <input required name="receiver_address" id="address" type="text" class="form-control"
+                                    placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành">
+                            </div>
+                            <small id="address_error" class="text-danger"></small>
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Địa chỉ giao hàng</label>
-                        <textarea id="address" class="form-control" rows="3"
-                            placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành"></textarea>
-                    </div>
-                </div>
+                        <!-- PHƯƠNG THỨC THANH TOÁN -->
+                        <div class="bg-white rounded shadow-sm p-4 mb-4">
+                            <h5 class="fw-bold mb-3">Phương thức thanh toán</h5>
 
-                <!-- PHƯƠNG THỨC THANH TOÁN -->
-                <div class="bg-white rounded shadow-sm p-4">
-                    <h5 class="fw-bold mb-3">Phương thức thanh toán</h5>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="payment" id="bank" value="bank" checked>
+                                <label class="form-check-label" for="bank">
+                                    🏦 Chuyển khoản ngân hàng (VNPay)
+                                </label>
+                            </div>
 
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="payment" id="cod" checked>
-                        <label class="form-check-label" for="cod">
-                            💵 Thanh toán khi nhận hàng (COD)
-                        </label>
-                    </div>
+                            <small id="payments_error" class="text-danger"></small>
+                        </div>
 
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="payment" id="bank">
-                        <label class="form-check-label" for="bank">
-                            🏦 Chuyển khoản ngân hàng
-                        </label>
-                    </div>
-
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="radio" name="payment" id="momo">
-                        <label class="form-check-label" for="momo">
-                            📱 Ví MoMo
-                        </label>
-                    </div>
-
+                        <button type="submit" class="btn btn-danger w-100 py-3 place-order-btn border-0">
+                            Xác nhận đặt hàng
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -112,14 +118,11 @@
                         <span>Tổng cộng</span>
                         <span id="total">0đ</span>
                     </div>
-
-                    <button class="btn btn-danger w-100 py-3">
-                        Xác nhận đặt hàng
-                    </button>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- Start Footer -->
     <div w3-include-html="layouts/footer.html"></div>
@@ -134,6 +137,8 @@
     <script src="../../assets/client/js/templatemo.js"></script>
     <script src="../../assets/client/js/custom.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="../../controllers/ui/client/checkout.js"></script>
     <!-- End Script -->
 </body>
 

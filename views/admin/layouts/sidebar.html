@@ -94,6 +94,52 @@
                     </li>
 
                     <li>
+                        <a href="#" @click.prevent="selected = (selected === 'Promotions' ? '':'Promotions')"
+                            class="menu-item group"
+                            :class=" (selected === 'Promotions') ? 'menu-item-active' : 'menu-item-inactive'">
+                            
+                            <svg :class="(selected === 'Promotions') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M4.15178 4.15178C3 5.30355 3 7.15128 3 10.8467V13.1533C3 16.8487 3 18.6965 4.15178 19.8482C5.30355 21 7.15128 21 10.8467 21H13.1533C16.8487 21 18.6965 21 19.8482 19.8482C21 18.6965 21 16.8487 21 13.1533V10.8467C21 7.15128 21 5.30355 19.8482 4.15178C18.6965 3 16.8487 3 13.1533 3H10.8467C7.15128 3 5.30355 3 4.15178 4.15178ZM12 7.25C12.4142 7.25 12.75 7.58579 12.75 8V10.25H15C15.4142 10.25 15.75 10.5858 15.75 11C15.75 11.4142 15.4142 11.75 15C11.75 11.75H12.75V14C12.75 14.4142 12.4142 14.75 12 14.75C11.5858 14.75 11.25 14.4142 11.25 14V11.75H9C8.58579 11.75 8.25 11.4142 8.25 11C8.25 10.5858 8.58579 10.25 9 10.25H11.25V8C11.25 7.58579 11.5858 7.25 12 7.25Z"
+                                    fill="currentColor" />
+                            </svg>
+
+                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                Quản lý Khuyến mãi
+                            </span>
+
+                            <svg class="menu-item-arrow absolute right-2.5 top-1/2 -translate-y-1/2 stroke-current"
+                                :class="[(selected === 'Promotions') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive', sidebarToggle ? 'lg:hidden' : '' ]"
+                                width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+
+                        <div class="overflow-hidden transform translate"
+                            :class="(selected === 'Promotions') ? 'block' :'hidden'">
+                            <ul :class="sidebarToggle ? 'lg:hidden' : 'flex'"
+                                class="flex flex-col gap-1 mt-2 menu-dropdown pl-9">
+                                <li>
+                                    <a href="promotions.html" class="menu-dropdown-item group"
+                                        :class="page === 'promotions' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Danh sách khuyến mãi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="add-promotion.html" class="menu-dropdown-item group"
+                                        :class="page === 'addPromotion' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Thêm khuyến mãi
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
                         <a href="#" @click.prevent="selected = (selected === 'Review' ? '':'Review')"
                             class="menu-item group"
                             :class=" (selected === 'Review') ? 'menu-item-active' : 'menu-item-inactive'">

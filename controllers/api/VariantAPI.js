@@ -16,7 +16,7 @@ export class VariantAPI extends BaseAPI {
    * GET /api/products/:productId/variants
    */
   async getVariantsByProduct(productId) {
-    let resp = await this.getAll({ product_id: productId });
+    let resp = await this.getAll(productId);
     return resp.data;
   }
 

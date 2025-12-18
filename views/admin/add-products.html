@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>
+        Thêm Sản Phẩm | Sơn Jotun
+    </title>
+    <link rel="icon" href="favicon.ico">
+    <link href="../../assets/admin/styles/style.css" rel="stylesheet">
+    <style>
+        .error-message { color: #ef4444; font-size: 12px; display: block; }
+    </style>
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+</head>
+
+<body
+    x-data="{ page: 'addProducts', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+    x-init="
+         darkMode = JSON.parse(localStorage.getItem('darkMode'));
+         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+    :class="{'dark bg-gray-900': darkMode === true}">
+    <div x-show="loaded"
+        x-init="window.addEventListener('DOMContentLoaded', () => {setTimeout(() => loaded = false, 500)})"
+        class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
+        <div class="h-16 w-16 animate-spin rounded-full border-4 border-solid border-brand-500 border-t-transparent">
+        </div>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        <div w3-include-html="layouts/sidebar.html"></div>
+
+        <div class="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+            <div @click="sidebarToggle = false" :class="sidebarToggle ? 'block lg:hidden' : 'hidden'"
+                class="fixed w-full h-screen z-9 bg-gray-900/50"></div>
+            <div w3-include-html="layouts/header.html"></div>
+            <main>
+                <div class="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
+                    <div x-data="{ pageName: `Thêm Sản Phẩm`}">
+                        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+                            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName"></h2>
+
+                            <nav>
+                                <ol class="flex items-center gap-1.5">
+                                    <li>
+                                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
+                                            href="index.html">
+                                            Trang chủ
+                                            <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16"
+                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke=""
+                                                    stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName"></li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <form id="add-product">
+                        <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
+                            <!-- Cột trái: Thông tin chung -->
+                            <div class="space-y-6">
+                                <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                                    <div class="border-b border-gray-100 px-5 py-4 dark:border-gray-800 sm:px-6 sm:py-5">
+                                        <h3 class="text-base font-medium text-gray-800 dark:text-white/90">Thông tin chung</h3>
+                                    </div>
+                                    <div class="p-5 space-y-6 sm:p-6">
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Tên sản phẩm <span class="text-error-500">*</span>
+                                            </label>
+                                            <input type="text" name="name" id="name"
+                                                class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800"
+                                                placeholder="Nhập tên sản phẩm" required/>
+                                            <small class="error-message hidden mt-1 block text-red-500"></small>
+                                        </div>
+
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Thương hiệu (Brand)
+                                            </label>
+                                            <input type="text" name="brand" id="brand"
+                                                class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800"
+                                                placeholder="Nhập thương hiệu" />
+                                            <small class="error-message hidden mt-1 block text-red-500"></small>
+                                        </div>
+
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Dòng sản phẩm (Line)
+                                            </label>
+                                            <input type="text" name="line" id="line"
+                                                class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800"
+                                                placeholder="Nhập dòng sản phẩm" />
+                                            <small class="error-message hidden mt-1 block text-red-500"></small>
+                                        </div>
+
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Segment
+                                            </label>
+                                            <input type="text" name="segment" id="segment"
+                                                class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800"
+                                                placeholder="Nhập segment" />
+                                            <small class="error-message hidden mt-1 block text-red-500"></small>
+                                        </div>
+
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Finish
+                                            </label>
+                                            <input type="text" name="finish" id="finish"
+                                                class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800"
+                                                placeholder="Nhập finish" />
+                                            <small class="error-message hidden mt-1 block text-red-500"></small>
+                                        </div>
+
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Base
+                                            </label>
+                                            <input type="text" name="base" id="base"
+                                                class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800"
+                                                placeholder="Nhập base" />
+                                            <small class="error-message hidden mt-1 block text-red-500"></small>
+                                        </div>
+
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Hình ảnh sản phẩm
+                                            </label>
+                                            <label for="images"
+                                                class="flex flex-col items-center justify-center w-full h-28 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 text-gray-600 hover:border-brand-300 hover:bg-brand-50/30 transition-colors">
+                                                <div class="flex items-center gap-2">
+                                                    <span class="text-sm font-medium">Nhấp để chọn ảnh hoặc kéo thả</span>
+                                                </div>
+                                                <p class="text-xs text-gray-500 mt-1">Hỗ trợ nhiều ảnh, mỗi ảnh ≤ 5MB</p>
+                                                <input type="file" id="images" name="images" accept="image/*" multiple class="hidden" />
+                                            </label>
+                                            <div class="mt-2 flex items-center justify-between text-xs text-gray-500">
+                                                <span id="image-count">Chưa chọn ảnh</span>
+                                                <span>Định dạng: JPG, PNG</span>
+                                            </div>
+                                            <div id="image-preview" class="mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
+                                            <button id="btn-upload-images" type="button"
+                                                class="mt-3 inline-flex items-center justify-center gap-1 rounded-lg border border-brand-200 bg-brand-50 px-3 py-2 text-sm font-medium text-brand-700 hover:bg-brand-100">
+                                                Upload ảnh lên Cloudinary
+                                            </button>
+                                            <p id="upload-status" class="mt-2 text-xs text-gray-500"></p>
+                                            <small class="error-message hidden mt-1 block text-red-500" id="images-error"></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cột phải: Thông tin kỹ thuật -->
+                            <div class="space-y-6">
+                                <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                                    <div class="border-b border-gray-100 px-5 py-4 dark:border-gray-800 sm:px-6 sm:py-5">
+                                        <h3 class="text-base font-medium text-gray-800 dark:text-white/90">Thông tin kỹ thuật</h3>
+                                    </div>
+                                    <div class="p-5 space-y-6 sm:p-6">
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Độ phủ (m2/L)
+                                            </label>
+                                            <input type="number" name="cover_m2_per_L" id="cover_m2_per_L"
+                                                class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800"
+                                                placeholder="Nhập độ phủ (m2/L)" min="0" step="0.01" />
+                                            <small class="error-message hidden mt-1 block text-red-500"></small>
+                                        </div>
+
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Tags
+                                            </label>
+                                            <textarea name="tags" id="tags" rows="2"
+                                                class="dark:bg-dark-900 shadow-theme-xs w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800"
+                                                placeholder="Nhập tags, mỗi cái cách nhau bởi dấu phẩy (tag1, tag2, tag3)"></textarea>
+                                            <small class="error-message hidden mt-1 block text-red-500"></small>
+                                        </div>
+
+                                        <div>
+                                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                                Trạng thái <span class="text-error-500">*</span>
+                                            </label>
+                                            <div class="relative z-20 bg-transparent">
+                                                <select id="is_active" name="is_active"
+                                                    class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800" required>
+                                                    <option value="">Vui lòng chọn trạng thái</option>
+                                                    <option value="1">Đang bán</option>
+                                                    <option value="0">Ngừng bán</option>
+                                                </select>
+                                            <small class="error-message hidden mt-1 block text-red-500"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-end gap-3 mt-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
+                            <a href="products.html"
+                                class="rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                                Hủy bỏ
+                            </a>
+                            <button id="button_submit" type="button"
+                                class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 flex h-11 items-center justify-center rounded-lg border border-transparent bg-brand-500 px-4 py-2.5 text-sm font-medium text-white transition duration-300 ease-out hover:bg-brand-600 dark:bg-brand-600 dark:hover:bg-brand-700">
+                                Thêm sản phẩm
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        w3.includeHTML();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script defer src="../../assets/admin/scripts/bundle.js"></script>
+    
+    <script type="module" src="../../controllers/ui/admin/product/add.js"></script>
+</body>
+</html>

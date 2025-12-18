@@ -1,4 +1,4 @@
-import { ValidateAPI } from "./validate";
+import { ValidateAPI } from "./validate.js";
 
 export class FormulaComponentValidate extends ValidateAPI {
     checkValidate(data, mode = "create") {

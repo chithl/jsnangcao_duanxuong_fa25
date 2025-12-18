@@ -35,115 +35,103 @@
                 class="fixed w-full h-screen z-9 bg-gray-900/50"></div>
             <div w3-include-html="layouts/header.html"></div>
             <main>
-                <div class="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
-                    <div x-data="{ pageName: `Quản lí đánh giá`}">
-                        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
-                            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName"></h2>
+                <form id="edit-review">
+                    <div class="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
+                        <div x-data="{ pageName: `Quản lí đánh giá`}">
+                            <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+                                <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName">
+                                </h2>
 
-                            <nav>
-                                <ol class="flex items-center gap-1.5">
-                                    <li>
-                                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
-                                            href="index.html">
-                                            Trang chủ
-                                            <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16"
-                                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke=""
-                                                    stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
+                                <nav>
+                                    <ol class="flex items-center gap-1.5">
+                                        <li>
+                                            <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
+                                                href="index.html">
+                                                Trang chủ
+                                                <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16"
+                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke=""
+                                                        stroke-width="1.2" stroke-linecap="round"
+                                                        stroke-linejoin="round" />
+                                                </svg>
+                                            </a>
+                                        </li>
+                                        <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName"></li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="mx-auto max-w-3xl p-6">
+                                <div class="rounded-2xl border bg-white shadow-sm">
+
+                                    <!-- Header -->
+                                    <div class="flex items-center justify-between border-b px-6 py-4">
+                                        <h3 class="text-lg font-semibold text-gray-800">
+                                            Chi tiết đánh giá
+                                        </h3>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="space-y-5 px-6 py-5 text-sm">
+
+                                        <div class="grid grid-cols-3 gap-4">
+                                            <div class="text-gray-500">Sản phẩm:
+                                                <input class="col-span-2 font-medium text-gray-600" id="productId" />
+                                            </div>
+                                        </div>
+
+                                        <div class="grid grid-cols-3 gap-4">
+                                            <div class="text-gray-500">Người gửi:
+                                                <input class="col-span-2 font-medium text-gray-600" id="reviewerName" />
+                                            </div>
+                                        </div>
+
+                                        <div class="grid grid-cols-3 gap-4">
+                                            <div class="text-gray-500">Điểm đánh giá:
+                                                <input class="col-span-2 font-medium text-yellow-600" id="rating" />
+                                            </div>
+                                        </div>
+
+                                        <div class="grid grid-cols-3 gap-4">
+                                            <div class="text-gray-500">Nội dung: 
+                                                <input class="col-span-2 text-gray-600 leading-relaxed" id="comment"/>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- Status Control -->
+                                        <div class="grid grid-cols-3 items-center gap-4">
+                                            <div class="text-gray-500">Trạng thái</div>
+
+                                            <select id="status"
+                                                class="col-span-2 h-10 rounded-lg border px-4 text-sm focus:ring focus:ring-brand-300">
+                                                <option value="1">Hiện</option>
+                                                <option value="0">Ẩn</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div class="flex justify-end gap-3 border-t px-6 py-4">
+                                        <a href="review.html"
+                                            class="rounded-lg border px-4 py-2 text-sm text-gray-600 hover:bg-gray-50">
+                                            Quay lại
                                         </a>
-                                    </li>
-                                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName"></li>
-                                </ol>
-                            </nav>
+
+                                        <button id="btnUpdate"
+                                            class="rounded-lg bg-brand-500 px-5 py-2 text-sm font-medium text-white hover:bg-brand-600">
+                                            Cập nhật trạng thái
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="space-y-6">
-                        <div
-                            class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
-                            <div class="px-5 py-4 sm:px-6 sm:py-5">
-                                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
-                                    SỬA ĐÁNH GIÁ
-                                </h3>
-                            </div>
-                            <div class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
-                                <div>
-                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                        Sản phẩm
-                                    </label>
-                                    <input placeholder="" type="text"
-                                        class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
-                                </div>
-
-                                <div>
-                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                        Người gửi
-                                    </label>
-                                    <input placeholder="" type="text"
-                                        class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
-                                </div>
-
-                                <div>
-                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                        Điểm đánh giá
-                                    </label>
-                                    <div x-data="{ isOptionSelected: false }" class="relative z-20 bg-transparent">
-                                        <select
-                                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
-                                            <option value="" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400">
-                                                Chọn tùy chọn
-                                            </option>
-                                            <option value="" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400">
-                                                5 sao
-                                            </option>
-                                            <option value="" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400">
-                                                4 sao
-                                            </option>
-                                            <option value="" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400">
-                                                3 sao
-                                            </option>
-                                            <option value="" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400">
-                                                2 sao
-                                            </option>
-                                            <option value="" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400">
-                                                1 sao
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                        Nội dung
-                                    </label>
-                                    <textarea placeholder="" type="text"
-                                        class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"></textarea>
-                                </div>
-
-                                <div>
-                                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                        Ô nhập Ngày tháng
-                                    </label>
-
-                                    <div class="relative">
-                                        <input type="date" placeholder="Chọn ngày"
-                                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 pr-11 pl-4 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
-                                            onclick="this.showPicker()" />
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="flex items-center justify-end border-t border-gray-100 px-5 py-4 sm:px-6 sm:py-5 dark:border-gray-800">
-                                    <button type="submit"
-                                        class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 flex h-11 items-center justify-center rounded-lg border border-transparent bg-brand-500 px-4 py-2.5 text-sm font-medium text-white transition duration-300 ease-out hover:bg-brand-600 focus:ring-3 focus:outline-hidden dark:bg-brand-600 dark:hover:bg-brand-700 dark:focus:border-brand-800">
-                                        Cập nhật
-                                    </button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </form>
         </div>
         </main>
     </div>
@@ -151,6 +139,8 @@
     <script>
         w3.includeHTML();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="../../controllers/ui/admin/review/edit.js"></script>
     <script defer src="../../../assets/admin/scripts/bundle.js"></script>
 </body>
 

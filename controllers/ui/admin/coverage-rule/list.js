@@ -1,80 +1,48 @@
 import { CoverageRuleAPI } from "../../../api/CoverageRuleAPI.js";
 
-var coverageRuleModule = new CoverageRuleAPI();
+const ruleModule = new CoverageRuleAPI();
 
-async function loadCoverageRules() {
+async function loadRules() {
     try {
-        var coverageRuleList = await coverageRuleModule.getAllCoverageRules();
-        var data = Array.isArray(coverageRuleList) ? coverageRuleList : (coverageRuleList && coverageRuleList.data) || [];
-        var content = '';
-        data.forEach(element => {
-            content +=
-            `<tr>
+        const rules = await ruleModule.getAllCoverageRules();
+        let content = '';
+
+        rules.forEach(item => {
+            content += `
+            <tr>
+                <td class="px-5 py-4 sm:px-6"><p class="text-gray-500 text-theme-sm dark:text-gray-400">${item.id}</p></td>
+                <td class="px-5 py-4 sm:px-6"><p class="text-gray-500 text-theme-sm dark:text-gray-400">${item.segment}</p></td>
+                <td class="px-5 py-4 sm:px-6"><p class="text-gray-500 text-theme-sm dark:text-gray-400">${item.surface_type}</p></td>
+                <td class="px-5 py-4 sm:px-6"><p class="text-gray-500 text-theme-sm dark:text-gray-400">${item.recommended_coats}</p></td>
+                <td class="px-5 py-4 sm:px-6"><p class="text-gray-500 text-theme-sm dark:text-gray-400">${item.wastage_pct}%</p></td>
                 <td class="px-5 py-4 sm:px-6">
-                    <div class="flex items-center">
-                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                            ${element.id}
-                        </p>
+                    <div class="flex items-center gap-3">
+                        <a href="edit-coverage-rule.html?id=${item.id}" class="inline-flex items-center justify-center gap-1 rounded-full bg-blue-light-50 px-2.5 py-0.5 text-sm font-medium text-blue-light-500 dark:bg-blue-light-500/15 dark:text-blue-light-500">Sửa</a>
+                        <button class="btn-delete inline-flex items-center justify-center gap-1 rounded-full bg-error-50 px-2.5 py-0.5 text-sm font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500" data-id="${item.id}">Xóa</button>
                     </div>
-                </td>
-                <td class="px-5 py-4 sm:px-6">
-                    <div class="flex items-center">
-                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                            ${element.segment}
-                        </p>
-                    </div>
-                </td>
-                <td class="px-5 py-4 sm:px-6">
-                    <div class="flex items-center">
-                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                            ${element.surface_type}
-                        </p>
-                    </div>
-                </td>
-                <td class="px-5 py-4 sm:px-6">
-                    <div class="flex items-center">
-                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                            ${element.recommended_coats}
-                        </p>
-                    </div>
-                </td>
-                <td class="px-5 py-4 sm:px-6">
-                    <div class="flex items-center">
-                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
-                            ${element.wastage_pct}
-                        </p>
-                    </div>
-                </td>
-                <td class="px-5 py-4 sm:px-6">
-                    <a href="edit-coverage-rule.html?id=${element.id}" class="inline-flex items-center justify-center gap-1 rounded-full bg-blue-light-50 px-2.5 py-0.5 text-sm font-medium text-blue-light-500 dark:bg-blue-light-500/15 dark:text-blue-light-500">Sửa</a>
-                    <button class="btn-delete inline-flex items-center justify-center gap-1 rounded-full bg-error-50 px-2.5 py-0.5 text-sm font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500" data-id="${element.id}">Xóa</button>
                 </td>
             </tr>`;
         });
+
         const listEl = document.getElementById('coverage-rule-list');
         if (listEl) {
             listEl.innerHTML = content;
             addDeleteListeners();
-        } else {
-            console.warn('Không tìm thấy phần tử có id "coverage-rule-list".');
         }
     } catch (error) {
-        console.error('Lỗi khi tải danh sách coverage-rules:', error);
+        console.error(error);
     }
 }
 
 function addDeleteListeners() {
-    const deleteButtons = document.querySelectorAll('.btn-delete');
-    deleteButtons.forEach(button => {
+    document.querySelectorAll('.btn-delete').forEach(button => {
         button.addEventListener('click', async (e) => {
-            const idToDelete = e.target.getAttribute('data-id');
-            if (confirm(`Bạn có chắc chắn muốn xóa Quy tắc định mức có ID: ${idToDelete} không?`)) {
+            const id = e.target.getAttribute('data-id');
+            if (confirm(`Xóa quy tắc này?`)) {
                 try {
-                    const response = await coverageRuleModule.deleteCoverageRule(idToDelete);
-                    if (response && (response.status === 204 || response.status === 200)) {
-                        alert("Xóa quy tắc định mức thành công!");
-                        loadCoverageRules();
-                    }
+                    await ruleModule.deleteCoverageRule(id);
+                    alert("Xóa thành công!");
+                    loadRules();
                 } catch (error) {
                     console.error(error);
                 }
@@ -83,6 +51,4 @@ function addDeleteListeners() {
     });
 }
 
-(async () => {
-    await loadCoverageRules();
-})();
+(async () => { await loadRules(); })();

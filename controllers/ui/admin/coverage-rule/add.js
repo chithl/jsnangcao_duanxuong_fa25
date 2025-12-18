@@ -1,25 +1,21 @@
 import { CoverageRuleAPI } from "../../../api/CoverageRuleAPI.js";
 
-var coverageRuleModule = new CoverageRuleAPI();
-var form = document.getElementById("add-coverage-rule");
+const ruleModule = new CoverageRuleAPI();
+const form = document.getElementById("add-coverage-rule-form");
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    var segmentValue = document.getElementById("segment").value;
-    var surfaceTypeValue = document.getElementById("surface_type").value;
-    var recommendedCoatsValue = document.getElementById("recommended_coats").value;
-    var wastagePctValue = document.getElementById("wastage_pct").value;
-    var data = {
-        segment: segmentValue,
-        surface_type: surfaceTypeValue,
-        recommended_coats: recommendedCoatsValue,
-        wastage_pct: wastagePctValue
+    const data = {
+        segment: document.getElementById("segment").value,
+        surface_type: document.getElementById("surface_type").value,
+        recommended_coats: parseInt(document.getElementById("recommended_coats").value),
+        wastage_pct: parseFloat(document.getElementById("wastage_pct").value)
     };
     try {
-        var response = await coverageRuleModule.createCoverageRule(data);
-        if (response && response.status === 201) {
-            alert("Thêm quy tắc định mức thành công!");
-            window.location.href = "coverage-rules.html"; 
+        const response = await ruleModule.createCoverageRule(data);
+        if (response && (response.status === 200 || response.status === 201)) {
+            alert("Thêm thành công!");
+            window.location.href = "coverage-rules.html";
         }
     } catch (error) {
         console.error(error);

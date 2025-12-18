@@ -6,9 +6,7 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>
-        Quản lý Quy tắc định mức | Sơn Jotun
-    </title>
+    <title>Quản lý Quy tắc định mức | Sơn Jotun</title>
     <link rel="icon" href="favicon.ico">
     <link href="../../assets/admin/styles/style.css" rel="stylesheet">
     <script src="https://www.w3schools.com/lib/w3.js"></script>
@@ -62,9 +60,7 @@
                         <div
                             class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
                             <div class="flex items-center justify-between px-5 py-4 sm:px-6 sm:py-5"> 
-                                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
-                                    Danh sách
-                                </h3>
+                                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">Danh sách quy tắc</h3>
                             </div>
                             <div class="p-5 border-t border-gray-100 dark:border-gray-800 sm:p-6">
                                 <div
@@ -73,59 +69,15 @@
                                         <table class="min-w-full">
                                             <thead>
                                                 <tr class="border-b border-gray-100 dark:border-gray-800">
-                                                    <th class="px-5 py-3 sm:px-6">
-                                                        <div class="flex items-center">
-                                                            <p
-                                                                class="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
-                                                                Mã Định Danh
-                                                            </p>
-                                                        </div>
-                                                    </th>
-                                                    <th class="px-5 py-3 sm:px-6">
-                                                        <div class="flex items-center">
-                                                            <p
-                                                                class="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
-                                                                Phân Khúc
-                                                            </p>
-                                                        </div>
-                                                    </th>
-                                                    <th class="px-5 py-3 sm:px-6">
-                                                        <div class="flex items-center">
-                                                            <p
-                                                                class="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
-                                                                Loại Bề Mặt
-                                                            </p>
-                                                        </div>
-                                                    </th>
-                                                    <th class="px-5 py-3 sm:px-6">
-                                                        <div class="flex items-center">
-                                                            <p
-                                                                class="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
-                                                                Số Lớp Đề Xuất
-                                                            </p>
-                                                        </div>
-                                                    </th>
-                                                    <th class="px-5 py-3 sm:px-6">
-                                                        <div class="flex items-center">
-                                                            <p
-                                                                class="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
-                                                                Hệ số Hao Hụt (%)
-                                                            </p>
-                                                        </div>
-                                                    </th>
-                                                    <th class="px-5 py-3 sm:px-6">
-                                                        <div class="flex items-center">
-                                                            <p
-                                                                class="font-medium text-gray-700 text-theme-xs dark:text-gray-400">
-                                                                Thao tác
-                                                            </p>
-                                                        </div>
-                                                    </th>
+                                                    <th class="px-5 py-3 sm:px-6 text-left text-theme-xs font-medium text-gray-700 dark:text-gray-400">ID</th>
+                                                    <th class="px-5 py-3 sm:px-6 text-left text-theme-xs font-medium text-gray-700 dark:text-gray-400">Phân khúc</th>
+                                                    <th class="px-5 py-3 sm:px-6 text-left text-theme-xs font-medium text-gray-700 dark:text-gray-400">Loại bề mặt</th>
+                                                    <th class="px-5 py-3 sm:px-6 text-left text-theme-xs font-medium text-gray-700 dark:text-gray-400">Số lớp</th>
+                                                    <th class="px-5 py-3 sm:px-6 text-left text-theme-xs font-medium text-gray-700 dark:text-gray-400">Hao hụt</th>
+                                                    <th class="px-5 py-3 sm:px-6 text-left text-theme-xs font-medium text-gray-700 dark:text-gray-400">Thao tác</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="divide-y divide-gray-100 dark:divide-gray-800" id="coverage-rule-list">
-                                                <!-- JS -->
-                                            </tbody>
+                                            <tbody class="divide-y divide-gray-100 dark:divide-gray-800" id="coverage-rule-list"></tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -136,11 +88,9 @@
             </main>
         </div>
     </div>
-    <script>
-        w3.includeHTML();
-    </script>
+    <script>w3.includeHTML();</script>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
-    <script type="module" src="../../../controllers/ui/admin/coverage-rule/list.js"></script>
+    <script type="module" src="../../controllers/ui/admin/coverage-rule/list.js"></script>
     <script defer src="../../assets/admin/scripts/bundle.js"></script>
 </body>
 

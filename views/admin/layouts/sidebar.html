@@ -131,9 +131,83 @@
                             </ul>
                         </div>
                     </li>
-
                     <li>
-                        <a href="#" @click.prevent="selected = (selected === 'FormulaComponents' ? '':'FormulaComponents')"
+                        <a href="#"
+                            @click.prevent="selected = (selected === 'ColorManagement' ? '' : 'ColorManagement')"
+                            class="menu-item group"
+                            :class="(selected === 'ColorManagement') ? 'menu-item-active' : 'menu-item-inactive'">
+
+                            <!-- ICON -->
+                            <svg :class="(selected === 'CoverageRules') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M5.5 3.25C4.25736 3.25 3.25 4.25736 3.25 5.5V18.5C3.25 19.7426 4.25736 20.75 5.5 20.75H18.5001C19.7427 20.75 20.7501 19.7426 20.7501 18.5V5.5C20.7501 4.25736 19.7427 3.25 18.5001 3.25H5.5ZM4.75 5.5C4.75 5.08579 5.08579 4.75 5.5 4.75H18.5001C18.9143 4.75 19.2501 5.08579 19.2501 5.5V18.5C19.2501 18.9142 18.9143 19.25 18.5001 19.25H5.5C5.08579 19.25 4.75 18.9142 4.75 18.5V5.5ZM6.25005 9.7143C6.25005 9.30008 6.58583 8.9643 7.00005 8.9643L17 8.96429C17.4143 8.96429 17.75 9.30008 17.75 9.71429C17.75 10.1285 17.4143 10.4643 17 10.4643L7.00005 10.4643C6.58583 10.4643 6.25005 10.1285 6.25005 9.7143ZM6.25005 14.2857C6.25005 13.8715 6.58583 13.5357 7.00005 13.5357H17C17.4143 13.5357 17.75 13.8715 17.75 14.2857C17.75 14.6999 17.4143 15.0357 17 15.0357H7.00005C6.58583 15.0357 6.25005 14.6999 6.25005 14.2857Z"
+                                    fill="" />
+                            </svg>
+
+                            <!-- TEXT -->
+                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                Quản lý màu
+                            </span>
+
+                            <!-- ARROW -->
+                            <svg class="menu-item-arrow absolute right-2.5 top-1/2 -translate-y-1/2 stroke-current"
+                                :class="[
+                                    (selected === 'ColorManagement') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive',
+                                    sidebarToggle ? 'lg:hidden' : ''
+                                ]" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.8 7.4L10 12.6L15.2 7.4" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </a>
+
+                        <!-- SUB MENU -->
+                        <div class="overflow-hidden transform translate"
+                            :class="(selected === 'ColorManagement') ? 'block' : 'hidden'">
+
+                            <ul :class="sidebarToggle ? 'lg:hidden' : 'flex'"
+                                class="flex flex-col gap-1 mt-2 menu-dropdown pl-9">
+
+                                <!-- Colorants -->
+                                <li>
+                                    <a href="colorants.html" class="menu-dropdown-item group"
+                                        :class="page === 'Colorants' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Quản lý Colorants
+                                    </a>
+                                </li>
+
+                                <!-- Colors -->
+                                <li>
+                                    <a href="colors.html" class="menu-dropdown-item group"
+                                        :class="page === 'Colors' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Quản lý Colors
+                                    </a>
+                                </li>
+
+                                <!-- Color Palettes -->
+                                <li>
+                                    <a href="color-palettes.html" class="menu-dropdown-item group"
+                                        :class="page === 'ColorPalettes' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Quản lý Color Palettes
+                                    </a>
+                                </li>
+
+                                <!-- Color Formulas -->
+                                <li>
+                                    <a href="color-formulas.html" class="menu-dropdown-item group"
+                                        :class="page === 'ColorFormulas' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Quản lý Color Formulas
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#"
+                            @click.prevent="selected = (selected === 'FormulaComponents' ? '':'FormulaComponents')"
                             class="menu-item group"
                             :class=" (selected === 'FormulaComponents') ? 'menu-item-active' : 'menu-item-inactive'">
                             <svg :class="(selected === 'FormulaComponents') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
@@ -221,24 +295,6 @@
                         </div>
                     </li>
                     <li>
-                        <a href="orders.html"
-                            class="menu-item group"
-                            :class="page === 'orders' ? 'menu-item-active' : 'menu-item-inactive'">
-                            <svg :class="page === 'orders' ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M5.5 3.25C4.25736 3.25 3.25 4.25736 3.25 5.5V18.5C3.25 19.7426 4.25736 20.75 5.5 20.75H18.5001C19.7427 20.75 20.7501 19.7426 20.7501 18.5V5.5C20.7501 4.25736 19.7427 3.25 18.5001 3.25H5.5ZM4.75 5.5C4.75 5.08579 5.08579 4.75 5.5 4.75H18.5001C18.9143 4.75 19.2501 5.08579 19.2501 5.5V18.5C19.2501 18.9142 18.9143 19.25 18.5001 19.25H5.5C5.08579 19.25 4.75 18.9142 4.75 18.5V5.5ZM6.25005 9.7143C6.25005 9.30008 6.58583 8.9643 7.00005 8.9643L17 8.96429C17.4143 8.96429 17.75 9.30008 17.75 9.71429C17.75 10.1285 17.4143 10.4643 17 10.4643L7.00005 10.4643C6.58583 10.4643 6.25005 10.1285 6.25005 9.7143ZM6.25005 14.2857C6.25005 13.8715 6.58583 13.5357 7.00005 13.5357H17C17.4143 13.5357 17.75 13.8715 17.75 14.2857C17.75 14.6999 17.4143 15.0357 17 15.0357H7.00005C6.58583 15.0357 6.25005 14.6999 6.25005 14.2857Z"
-                                    fill="" />
-                            </svg>
-
-                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
-                                Quản Lý Đơn Hàng
-                            </span>
-                        </a>
-                    </li>
-                    
-                    <li>
                         <a href="#" @click.prevent="selected = (selected === 'Forms' ? '':'Forms')"
                             class="menu-item group"
                             :class=" (selected === 'Forms') || (page === 'formElements' || page === 'formLayout' || page === 'proFormElements' || page === 'proFormLayout') ? 'menu-item-active' : 'menu-item-inactive'">
@@ -314,7 +370,6 @@
                             </ul>
                         </div>
                     </li>
-
 
 
                     <li>

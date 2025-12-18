@@ -1,0 +1,166 @@
+<! doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Chỉnh Sửa Bảng Màu | Sơn Jotun</title>
+    <link rel="icon" href="favicon.ico">
+    <link href="../../assets/admin/styles/style.css" rel="stylesheet">
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+</head>
+
+<body x-data="{ page: 'editColorPalette', loaded: true, darkMode: false, stickyMenu: false, sidebarToggle: false }" x-init="
+        darkMode = JSON.parse(localStorage.getItem('darkMode'));
+        $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))
+    " : class="{'dark bg-gray-900':  darkMode === true}">
+
+    <!-- Loading -->
+    <div x-show="loaded"
+        x-init="window.addEventListener('DOMContentLoaded', () => { setTimeout(() => loaded = false, 500) })"
+        class="fixed inset-0 z-999999 flex items-center justify-center bg-white dark:bg-black">
+        <div class="h-16 w-16 animate-spin rounded-full border-4 border-brand-500 border-t-transparent"></div>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        <div w3-include-html="layouts/sidebar.html"></div>
+
+        <div class="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+            <div @click="sidebarToggle = false" : class="sidebarToggle ? 'block lg:hidden' : 'hidden'"
+                class="fixed inset-0 z-9 bg-gray-900/50"></div>
+
+            <div w3-include-html="layouts/header.html"></div>
+
+            <main>
+                <div class="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
+
+                    <!-- Page title -->
+                    <div x-data="{ pageName: 'Chỉnh Sửa Bảng Màu' }">
+                        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+                            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName"></h2>
+
+                            <nav>
+                                <ol class="flex items-center gap-1. 5">
+                                    <li>
+                                        <a href="index.html"
+                                            class="inline-flex items-center gap-1. 5 text-sm text-gray-500 dark:text-gray-400">
+                                            Trang chủ
+                                            <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16"
+                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6. 0765 12.667L10.2432 8.50033L6.0765 4.33366"
+                                                    stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="color-palettes.html"
+                                            class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+                                            Bảng Màu
+                                            <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16"
+                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366"
+                                                    stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName"></li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Form -->
+                    <div class="grid grid-cols-1 gap-6">
+                        <form id="edit-color-palette">
+                            <div
+                                class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+
+                                <div class="flex items-center justify-between px-5 py-4 sm:px-6 sm:py-5">
+                                    <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
+                                        Thông Tin Bảng Màu
+                                    </h3>
+
+                                    <a href="color-palettes.html"
+                                        class="inline-flex items-center gap-1. 5 rounded-lg bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600">
+                                        Quay lại
+                                    </a>
+                                </div>
+
+                                <div class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
+
+                                    <!-- Hidden ID field -->
+                                    <input type="hidden" name="id" id="palette-id">
+
+                                    <!-- Tên bảng màu -->
+                                    <div>
+                                        <label
+                                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                            Tên Bảng Màu <span class="text-error-500">*</span>
+                                        </label>
+                                        <input type="text" name="name" id="name" placeholder="vd: Basic Neutrals"
+                                            class="dark: bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder: text-gray-400 focus: ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
+                                            required>
+                                        <small id="error-name" class="mt-1 block text-sm text-error-500 hidden"></small>
+                                    </div>
+
+                                    <!-- Ghi chú -->
+                                    <div>
+                                        <label
+                                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                            Ghi Chú
+                                        </label>
+                                        <textarea name="notes" id="notes" rows="4" 
+                                            placeholder="Nhập ghi chú về bảng màu (nếu có)..."
+                                            class="dark: bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"></textarea>
+                                        <small id="error-notes" class="mt-1 block text-sm text-error-500 hidden"></small>
+                                    </div>
+
+                                    <!-- Trạng thái -->
+                                    <div>
+                                        <label
+                                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                            Trạng Thái <span class="text-error-500">*</span>
+                                        </label>
+                                        <select name="is_active" id="is_active"
+                                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
+                                            required>
+                                            <option value="" disabled>-- Chọn trạng thái --</option>
+                                            <option value="true">Hoạt động</option>
+                                            <option value="fa">Không hoạt động</option>
+                                        </select>
+                                        <small id="error-status" class="mt-1 block text-sm text-error-500 hidden"></small>
+                                    </div>
+                                </div>
+
+                                <!-- Submit -->
+                                <div
+                                    class="flex items-center justify-end gap-3 border-t border-gray-100 px-5 py-4 sm:px-6 sm: py-5 dark:border-gray-800">
+                                    <a href="color-palettes.html"
+                                        class="shadow-theme-xs h-11 flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700">
+                                        Hủy
+                                    </a>
+                                    <button type="submit"
+                                        class="shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 flex h-11 items-center justify-center rounded-lg border border-transparent bg-brand-500 px-4 py-2.5 text-sm font-medium text-white transition duration-300 ease-out hover:bg-brand-600 focus:ring-3 focus:outline-hidden dark:bg-brand-600 dark:hover:bg-brand-700 dark:focus:border-brand-800">
+                                        Cập Nhật
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script> w3.includeHTML(); </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="../../assets/admin/scripts/bundle.js"></script>
+    <!-- Controller -->
+    <script type="module" src="../../controllers/ui/admin/color/palette/edit.js"></script>
+
+</body>
+
+</html>

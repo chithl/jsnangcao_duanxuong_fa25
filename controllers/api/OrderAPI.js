@@ -1,87 +1,110 @@
 import { BaseAPI } from "./BaseAPI.js";
+import { OrderValidate } from "../validate/OrderValidate.js";
 
+/**
+ * OrderAPI
+ * --------------------------------------------------
+ * Class dùng để thao tác với Order (đơn hàng)
+ * Kế thừa BaseAPI và tích hợp validate cho frontend
+ */
 export class OrderAPI extends BaseAPI {
     constructor() {
-        super();
-        this.endpoint = "orders";
+        super("orders");
+        this.validator = new OrderValidate();
     }
 
     /**
-     * Get all orders
+     * Lấy danh sách tất cả đơn hàng
+     * @returns {Promise<AxiosResponse|any>}
      */
-    async getAllOrder() {
-        try {
-            const response = await fetch(`${this.baseURL}/${this.endpoint}`);
-            return await response.json();
-        } catch (error) {
-            console.error("Error fetching orders:", error);
-            throw error;
-        }
+    async getOrders() {
+        return this.getAll();
     }
 
     /**
-     * Get order by id
+     * Lấy chi tiết đơn hàng theo ID
+     * @param {string} id - ID đơn hàng
+     * @returns {Promise<AxiosResponse|any>}
      */
-    async getOneOrder(id) {
-        try {
-            const response = await fetch(`${this.baseURL}/${this.endpoint}/${id}`);
-            return await response.json();
-        } catch (error) {
-            console.error("Error fetching order:", error);
-            throw error;
+    async getOrderById(id) {
+        if (!id) {
+            return {
+                error: true,
+                errors: [{ field: "id", message: "Order ID không hợp lệ" }]
+            };
         }
+        return this.getOne(id);
     }
 
     /**
-     * Create new order
+     * Tạo mới đơn hàng
+     * - Validate dữ liệu trước khi gửi API
+     * - Firebase sẽ tự sinh ID
+     *
+     * @param {object} data - dữ liệu đơn hàng
+     * @returns {Promise<AxiosResponse|object>}
      */
-    async storeOrder(data) {
-        try {
-            const response = await fetch(`${this.baseURL}/${this.endpoint}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            });
-            return await response.json();
-        } catch (error) {
-            console.error("Error creating order:", error);
-            throw error;
+    async createOrder(data) {
+        const { isValid, errors } = this.validator.checkValidate(data, "create");
+
+        if (!isValid) {
+            return { error: true, errors };
         }
+
+        return this.store({
+            ...data,
+            status: "pending",
+            created_at: Date.now(),
+            paid_at: null
+        });
     }
 
     /**
-     * Update existing order
+     * Cập nhật toàn bộ đơn hàng (ít dùng)
+     * @param {string} id - ID đơn hàng
+     * @param {object} data - dữ liệu cập nhật
+     * @returns {Promise<AxiosResponse|object>}
      */
     async updateOrder(id, data) {
-        try {
-            const response = await fetch(`${this.baseURL}/${this.endpoint}/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            });
-            return await response.json();
-        } catch (error) {
-            console.error("Error updating order:", error);
-            throw error;
+        const { isValid, errors } = this.validator.checkValidate(data, "update");
+
+        if (!isValid) {
+            return { error: true, errors };
         }
+
+        return this.update(id, data);
     }
 
     /**
-     * Delete order
+     * Cập nhật trạng thái đơn hàng
+     * @param {string} id - ID đơn hàng
+     * @param {string} status - pending | paid | shipping | completed | canceled
+     * @returns {Promise<AxiosResponse|any>}
+     */
+    async updateStatus(id, status) {
+        return this.patch(id, { status });
+    }
+
+    /**
+     * Đánh dấu đơn hàng đã thanh toán
+     * @param {string} id - ID đơn hàng
+     * @param {"COD"|"online"} payment_method
+     * @returns {Promise<AxiosResponse|any>}
+     */
+    async markAsPaid(id, payment_method = "online") {
+        return this.patch(id, {
+            status: "paid",
+            payment_method,
+            paid_at: Date.now()
+        });
+    }
+
+    /**
+     * Xóa đơn hàng
+     * @param {string} id - ID đơn hàng
+     * @returns {Promise<AxiosResponse|any>}
      */
     async deleteOrder(id) {
-        try {
-            const response = await fetch(`${this.baseURL}/${this.endpoint}/${id}`, {
-                method: "DELETE"
-            });
-            return await response.json();
-        } catch (error) {
-            console.error("Error deleting order:", error);
-            throw error;
-        }
+        return this.delete(id);
     }
 }

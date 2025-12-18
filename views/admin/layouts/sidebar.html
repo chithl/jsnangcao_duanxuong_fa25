@@ -94,6 +94,52 @@
                     </li>
 
                     <li>
+                        <a href="#" @click.prevent="selected = (selected === 'CalcSessions' ? '':'CalcSessions')"
+                            class="menu-item group"
+                            :class=" (selected === 'CalcSessions') ? 'menu-item-active' : 'menu-item-inactive'">
+                            
+                            <svg :class="(selected === 'CalcSessions') ? 'menu-item-icon-active' : 'menu-item-icon-inactive'"
+                                width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M5.25 3C4.00736 3 3 4.00736 3 5.25V18.75C3 19.9926 4.00736 21 5.25 21H18.75C19.9926 21 21 19.9926 21 18.75V5.25C21 4.00736 19.9926 3 18.75 3H5.25ZM4.5 5.25C4.5 4.83579 4.83579 4.5 5.25 4.5H18.75C19.1642 4.5 19.5 4.83579 19.5 5.25V18.75C19.5 19.1642 19.1642 19.5 18.75 19.5H5.25C4.83579 19.5 4.5 19.1642 4.5 18.75V5.25ZM7.5 7.5H9V9H7.5V7.5ZM11.25 7.5H12.75V9H11.25V7.5ZM15 7.5H16.5V9H15V7.5ZM7.5 11.25H9V12.75H7.5V11.25ZM11.25 11.25H12.75V12.75H11.25V11.25ZM15 11.25H16.5V12.75H15V11.25ZM7.5 15H9V16.5H7.5V15ZM11.25 15H16.5V16.5H11.25V15Z"
+                                    fill="currentColor" />
+                            </svg>
+
+                            <span class="menu-item-text" :class="sidebarToggle ? 'lg:hidden' : ''">
+                                Lịch sử Tính toán
+                            </span>
+
+                            <svg class="menu-item-arrow absolute right-2.5 top-1/2 -translate-y-1/2 stroke-current"
+                                :class="[(selected === 'CalcSessions') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive', sidebarToggle ? 'lg:hidden' : '' ]"
+                                width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.79175 7.39584L10.0001 12.6042L15.2084 7.39585" stroke="" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+
+                        <div class="overflow-hidden transform translate"
+                            :class="(selected === 'CalcSessions') ? 'block' :'hidden'">
+                            <ul :class="sidebarToggle ? 'lg:hidden' : 'flex'"
+                                class="flex flex-col gap-1 mt-2 menu-dropdown pl-9">
+                                <li>
+                                    <a href="calc-sessions.html" class="menu-dropdown-item group"
+                                        :class="page === 'calcSessions' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Danh sách tính toán
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="add-calc-session.html" class="menu-dropdown-item group"
+                                        :class="page === 'addCalcSession' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                                        Thêm bản tính mới
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
                         <a href="#" @click.prevent="selected = (selected === 'Review' ? '':'Review')"
                             class="menu-item group"
                             :class=" (selected === 'Review') ? 'menu-item-active' : 'menu-item-inactive'">

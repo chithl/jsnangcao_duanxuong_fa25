@@ -33,6 +33,8 @@ export class CategoryAPI extends BaseAPI {
      */
     async getOneCategory(id) {
         let resp = await this.getOne(id);
+        console.log(resp.data);
+
         return resp.data;
     }
 
@@ -58,6 +60,17 @@ export class CategoryAPI extends BaseAPI {
     }
 
     /**
+ * Cập nhật nhanh 1 hoặc vài field (PATCH)
+ * @param {string|number} id
+ * @param {object} data
+ * @returns {Promise<object|any>}
+ */
+    async patchCategory(id, data) {
+        let resp = await this.patch(id, data);
+        return resp.data;
+    }
+
+    /**
      * Xóa danh mục theo ID
      * @param {string|number} id - ID của danh mục cần xóa
      * @returns {Promise<object|any>} Kết quả xóa hoặc lỗi
@@ -66,4 +79,32 @@ export class CategoryAPI extends BaseAPI {
         let resp = await this.delete(id);
         return resp.data;
     }
+
+    // ======== check trùng ========== //
+
+    async checkDuplicateName(name, excludeId = null) {
+        let params = { name };
+        if (excludeId) params.exclude_id = excludeId;
+
+        let resp = await this.getAll(params);
+        return resp.data.length > 0;
+    }
+
+    // ======= Lọc ========== //
+
+    async imporCategory(formData) {
+        let resp = await this.post("import", formData);
+        return resp.data;
+    }
+
+    /**
+     * Export sản phẩm ra CSV / JSON
+     * @param {object} params
+     * @returns {Promise<object|any>}
+     */
+    async exportCategory(params = {}) {
+        let resp = await this.post("export", params);
+        return resp.data;
+    }
+
 }

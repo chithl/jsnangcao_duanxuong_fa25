@@ -124,28 +124,26 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    nameEl.textContent = product.name || "-";
-    skuEl.textContent = product.sku || "-";
-    brandEl.textContent = product.brand || "-";
-    lineEl.textContent = product.line || "-";
-    segmentEl.textContent = product.segment || "-";
-    finishEl.textContent = product.finish || "-";
-    baseEl.textContent = product.base || "-";
-    coverEl.textContent = product.cover_m2_per_L
-      ? `${product.cover_m2_per_L}`
-      : "-";
-    tagsEl.textContent = Array.isArray(product.tags)
+    nameEl.value = product.name || "";
+    skuEl.value = product.sku || "";
+    brandEl.value = product.brand || "";
+    lineEl.value = product.line || "";
+    segmentEl.value = product.segment || "";
+    finishEl.value = product.finish || "";
+    baseEl.value = product.base || "";
+    coverEl.value = product.cover_m2_per_L ? `${product.cover_m2_per_L}` : "";
+    tagsEl.value = Array.isArray(product.tags)
       ? product.tags.join(", ")
-      : "-";
-    createdEl.textContent = formatDate(product.created_at);
+      : "";
+    createdEl.value = formatDate(product.created_at);
 
     if (statusBadge) {
       if (product.is_active) {
         statusBadge.textContent = "Đang bán";
-        statusBadge.className = "badge-active";
-      } else {
+        statusBadge.className = "badge-active rounded-full px-2 py-1 text-sm font-medium";
+      } else {``
         statusBadge.textContent = "Ngừng bán";
-        statusBadge.className = "badge-inactive";
+        statusBadge.className = "badge-inactive rounded-full px-2 py-1 text-sm font-medium";
       }
     }
 
@@ -165,14 +163,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else if (imagesWrap) {
       if (imageEmpty) imageEmpty.classList.add("hidden");
       imagesWrap.innerHTML = imgs
-        .map(
-          (src, idx) => `
-                <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-                    <img src="${src}" alt="image-${idx}" class="w-full h-28 object-cover" />
-                </div>
-            `
-        )
-        .join("");
+  .map(
+    (src, idx) => `
+      <div style="width: 100px; height: 100px; overflow: hidden;">
+        <img 
+          src="${src}" 
+          alt="image-${idx}" 
+          style="width: 100%; height: 100%; object-fit: cover;"
+        />
+      </div>
+    `
+  )
+  .join("");
+
     }
 
     // Load variants
@@ -196,9 +199,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     for (const variant of variants) {
       rows += `
                 <tr class="border-b border-gray-200 dark:border-gray-800">
-                    <td class="px-5 py-4 sm:px-6">
+                    <td class="px-5 py-4 sm:px-6 hidden">
                         <div class="flex items-center">
-                            <p class="font-medium text-gray-800 dark:text-white/90">${
+                            <p class="font-medium text-gray-800 dark:text-white/90" hidden>${
                               variant.id || "-"
                             }</p>
                         </div>
@@ -231,17 +234,23 @@ document.addEventListener("DOMContentLoaded", async () => {
                             )}</p>
                         </div>
                     </td>
-<td class="px-5 py-4 sm:px-6">
-  <div class="flex items-center">
-    <p class="text-gray-800 dark:text-white/90">
-      ${(variant.supported_palettes || [])
-        .map((palette) => `<span>${palette}</span>`)
-        .join(", ")}
-    </p>
-  </div>
-</td>
-
-                                        <td class="px-5 py-4 sm:px-6">
+                    <td class="px-5 py-4 sm:px-6">
+                        <div class="flex items-center">
+                            <p class="text-gray-800 dark:text-white/90">${
+                              variant.created_at
+                            }</p>
+                        </div>
+                    </td>
+                    <td class="px-5 py-4 sm:px-6">
+                      <div class="flex items-center">
+                        <p class="text-gray-800 dark:text-white/90">
+                          ${(variant.supported_palettes || [])
+                            .map((palette) => `<span>${palette}</span>`)
+                            .join(", ")}
+                        </p>
+                      </div>
+                    </td>
+                    <td class="px-5 py-4 sm:px-6">
                         <div class="flex items-center">
                             <p class="text-gray-800 dark:text-white/90">${
                               variant.hex_preview || "-"
@@ -249,14 +258,30 @@ document.addEventListener("DOMContentLoaded", async () => {
                         </div>
                     </td>
                     <td class="px-5 py-4 sm:px-6">
-                        <div class="flex items-center">
+                        <div class="flex items-center ">
                             <p class="${
                               variant.is_active
                                 ? "badge-active"
                                 : "badge-inactive"
-                            }">
-                                ${variant.is_active ? "Đang bán" : "Ngừng bán"}
+                            } whitespace-nowrap px-2 py-1 text-sm font-medium rounded-full">
+                                ${variant.is_active ? "Bán" : "Ngừng"}
                             </p>
+                        </div>
+                    </td>
+                    <td class="px-5 py-4 sm:px-6">
+                        <div class="flex items-center gap-2">
+                            <button type="button" onclick="editVariant('${
+                              variant.id
+                            }')"
+                                class="inline-flex items-center justify-center gap-1 rounded-full bg-blue-light-50 px-2.5 py-0.5 text-sm font-medium text-blue-light-500 dark:bg-blue-light-500/15 dark:text-blue-light-500 hover:bg-blue-light-100">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+                            <button type="button" onclick="deleteVariant('${
+                              variant.id
+                            }')"
+                                class="inline-flex items-center justify-center gap-1 rounded-full bg-error-50 px-2.5 py-0.5 text-sm font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500 hover:bg-error-100">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -272,3 +297,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     // window.location.href = "products.html";
   }
 });
+
+// Xử lý sửa biến thể
+window.editVariant = function (variantId) {
+  window.location.href = `edit-variant.html?id=${variantId}`;
+};
+
+// Xử lý xóa biến thể
+window.deleteVariant = async function (variantId) {
+  if (!confirm("Bạn có chắc chắn muốn xóa biến thể này?")) return;
+
+  try {
+    const variantModule = new VariantAPI();
+    await variantModule.deleteVariant(variantId);
+    alert("Xóa biến thể thành công!");
+    location.reload();
+  } catch (error) {
+    console.error("Lỗi khi xóa biến thể:", error);
+    alert("Không thể xóa biến thể. Vui lòng thử lại!");
+  }
+};

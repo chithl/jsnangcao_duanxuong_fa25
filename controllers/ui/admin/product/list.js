@@ -2,8 +2,15 @@ import { ProductAPI } from "../../../api/ProductAPI.js";
 
 var productModule = new ProductAPI();
 
-export async function loadList() {
+let currentPage = 1;
+let pageSize = 10;
+let totalItems = 0;
+
+export async function loadList(page = 1, size = 10) {
   try {
+    currentPage = page;
+    pageSize = size;
+    
     var productList = await productModule.getAllProduct();
     var data = [];
 
@@ -19,11 +26,17 @@ export async function loadList() {
       }));
     }
 
+    // Tính toán phân trang
+    totalItems = data.length;
+    const startIndex = (page - 1) * size;
+    const endIndex = startIndex + size;
+    const paginatedData = data.slice(startIndex, endIndex);
+
     var content = "";
 
-    data.forEach((element) => {
+    paginatedData.forEach((element) => {
       content += `<tr>
-                <td class="px-5 py-4 sm:px-6">
+                <td class="px-5 py-4 sm:px-6" hidden>
                     <div class="flex items-center">
                         <p class="text-gray-500 text-theme-sm dark:text-gray-400">
                             ${element.id}
@@ -54,12 +67,12 @@ export async function loadList() {
                 <td class="px-5 py-4 sm:px-6">
                     <div class="flex items-center">
                     `;
-                        if (element.images && element.images.length > 0) {
-                            content += `<img src="${element.images[0]}" alt="${element.name}" class="w-10 h-10 rounded-full object-cover mr-1"/>`;
-                        } else {
-                            content += `<img src="https://via.placeholder.com/40" alt="${element.name}" class="w-10 h-10 rounded-full object-cover"/>`;
-                        }
-                        content += `
+      if (element.images && element.images.length > 0) {
+        content += `<img src="${element.images[0]}" alt="${element.name}" class="w-10 h-10 rounded-full object-cover mr-1"/>`;
+      } else {
+        content += `<img src="https://via.placeholder.com/40" alt="${element.name}" class="w-10 h-10 rounded-full object-cover"/>`;
+      }
+      content += `
                     </div> 
                 </td>
                 <td class="px-5 py-4 sm:px-6">
@@ -75,8 +88,8 @@ export async function loadList() {
                         }">
                             ${
                               element.is_active == true
-                                ? "Đang bán"
-                                : "Ngừng bán"
+                                ? "Bán"
+                                : "Ngừng"
                             }
                         </p>
                     </div>
@@ -106,9 +119,100 @@ export async function loadList() {
     } else {
       console.warn('Không tìm thấy phần tử có id "product-list".');
     }
+    
+    // Render phân trang
+    renderPagination();
   } catch (error) {
     console.error("Lỗi khi tải danh sách sản phẩm:", error);
   }
+}
+
+// Hàm render phân trang
+function renderPagination() {
+  const totalPages = Math.ceil(totalItems / pageSize);
+  const paginationEl = document.getElementById("pagination");
+  
+  if (!paginationEl || totalPages <= 1) {
+    if (paginationEl) paginationEl.innerHTML = '';
+    return;
+  }
+  
+  let paginationHTML = '';
+  
+  // Nút Previous
+  paginationHTML += `
+    <button 
+      onclick="changePage(${currentPage - 1})" 
+      ${currentPage === 1 ? 'disabled' : ''}
+      class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+      Trước
+    </button>
+  `;
+  
+  // Các nút số trang
+  const maxPagesToShow = 5;
+  let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+  let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+  
+  if (endPage - startPage < maxPagesToShow - 1) {
+    startPage = Math.max(1, endPage - maxPagesToShow + 1);
+  }
+  
+  if (startPage > 1) {
+    paginationHTML += `
+      <button 
+        onclick="changePage(1)" 
+        class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700">
+        1
+      </button>
+    `;
+    if (startPage > 2) {
+      paginationHTML += `<span class="px-2 py-2 text-gray-500">...</span>`;
+    }
+  }
+  
+  for (let i = startPage; i <= endPage; i++) {
+    paginationHTML += `
+      <button 
+        onclick="changePage(${i})" 
+        class="px-3 py-2 text-sm font-medium ${i === currentPage 
+          ? 'text-white bg-brand-500 border border-brand-500' 
+          : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700'} rounded-md">
+        ${i}
+      </button>
+    `;
+  }
+  
+  if (endPage < totalPages) {
+    if (endPage < totalPages - 1) {
+      paginationHTML += `<span class="px-2 py-2 text-gray-500">...</span>`;
+    }
+    paginationHTML += `
+      <button 
+        onclick="changePage(${totalPages})" 
+        class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700">
+        ${totalPages}
+      </button>
+    `;
+  }
+  
+  // Nút Next
+  paginationHTML += `
+    <button 
+      onclick="changePage(${currentPage + 1})" 
+      ${currentPage === totalPages ? 'disabled' : ''}
+      class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+      Sau
+    </button>
+  `;
+  
+  paginationEl.innerHTML = paginationHTML;
+}
+
+// Hàm chuyển trang
+window.changePage = function(page) {
+  if (page < 1 || page > Math.ceil(totalItems / pageSize)) return;
+  loadList(page, pageSize);
 }
 
 // Hàm xóa sản phẩm

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Quản Lý Tồn Kho | Sơn Jotun</title>
+    <link rel="icon" href="favicon.ico" />
+    <link href="../../assets/admin/styles/style.css" rel="stylesheet" />
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+  </head>
+
+  <body
+    x-data="{ page: 'inventories', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+    x-init="
+         darkMode = JSON.parse(localStorage.getItem('darkMode'));
+         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+    :class="{'dark bg-gray-900': darkMode === true}"
+  >
+    <div
+      x-show="loaded"
+      x-init="window.addEventListener('DOMContentLoaded', () => {setTimeout(() => loaded = false, 500)})"
+      class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black"
+    >
+      <div
+        class="h-16 w-16 animate-spin rounded-full border-4 border-solid border-brand-500 border-t-transparent"
+      ></div>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+      <div w3-include-html="./layouts/sidebar.html"></div>
+
+      <div
+        class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto"
+      >
+        <div
+          @click="sidebarToggle = false"
+          :class="sidebarToggle ? 'block lg:hidden' : 'hidden'"
+          class="fixed w-full h-screen z-9 bg-gray-900/50"
+        ></div>
+        <div w3-include-html="layouts/header.html"></div>
+
+        <main>
+          <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+            <div x-data="{ pageName: `Quản Lý Tồn Kho`}">
+              <div
+                class="mb-6 flex flex-wrap items-center justify-between gap-3"
+              >
+                <h2
+                  class="text-xl font-semibold text-gray-800 dark:text-white/90"
+                  x-text="pageName"
+                ></h2>
+
+                <nav>
+                  <ol class="flex items-center gap-1.5">
+                    <li>
+                      <a
+                        class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
+                        href="index.html"
+                      >
+                        Trang chủ
+                        <svg
+                          class="stroke-current"
+                          width="17"
+                          height="16"
+                          viewBox="0 0 17 16"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366"
+                            stroke=""
+                            stroke-width="1.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </a>
+                    </li>
+                    <li
+                      class="text-sm text-gray-800 dark:text-white/90"
+                      x-text="pageName"
+                    ></li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+
+            <div class="space-y-5 sm:space-y-6">
+              <!-- Danh sách tồn kho -->
+              <div
+                class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]"
+              >
+                <div class="px-5 py-4 sm:px-6 sm:py-5">
+                  <h3
+                    class="text-base font-medium text-gray-800 dark:text-white/90"
+                  >
+                    Danh sách tồn kho
+                  </h3>
+                </div>
+                <div
+                  class="p-5 border-t border-gray-100 dark:border-gray-800 sm:p-6"
+                >
+                  <div
+                    class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]"
+                  >
+                    <div class="max-w-full overflow-x-auto">
+                      <table class="min-w-full">
+                        <thead>
+                          <tr
+                            class="border-b border-gray-100 dark:border-gray-800"
+                          >
+                            <th class="px-5 py-3 sm:px-6">
+                              <div class="flex items-center">
+                                <p
+                                  class="font-medium text-gray-500 text-theme-xs dark:text-gray-400"
+                                >
+                                  SKU
+                                </p>
+                              </div>
+                            </th>
+                            <th class="px-5 py-3 sm:px-6">
+                              <div class="flex items-center">
+                                <p
+                                  class="font-medium text-gray-500 text-theme-xs dark:text-gray-400"
+                                >
+                                  Số lượng
+                                </p>
+                              </div>
+                            </th>
+                            <th class="px-5 py-3 sm:px-6">
+                              <div class="flex items-center">
+                                <p
+                                  class="font-medium text-gray-500 text-theme-xs dark:text-gray-400"
+                                >
+                                  Vị trí kho
+                                </p>
+                              </div>
+                            </th>
+                            <th class="px-5 py-3 sm:px-6">
+                              <div class="flex items-center">
+                                <p
+                                  class="font-medium text-gray-500 text-theme-xs dark:text-gray-400"
+                                >
+                                  Trạng thái
+                                </p>
+                              </div>
+                            </th>
+                            <th class="px-5 py-3 sm:px-6">
+                              <div class="flex items-center">
+                                <p
+                                  class="font-medium text-gray-500 text-theme-xs dark:text-gray-400"
+                                >
+                                  Cập nhật lần cuối
+                                </p>
+                              </div>
+                            </th>
+                            <th class="px-5 py-3 sm:px-6">
+                              <div class="flex items-center">
+                                <p
+                                  class="font-medium text-gray-500 text-theme-xs dark:text-gray-400"
+                                >
+                                  Hành động
+                                </p>
+                              </div>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody
+                          id="inventory-list"
+                          class="divide-y divide-gray-100 dark:divide-gray-800"
+                        >
+                          <tr>
+                            <td
+                              colspan="6"
+                              class="px-5 py-8 text-center text-gray-500"
+                            >
+                              <div class="flex justify-center">
+                                <div
+                                  class="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-500"
+                                ></div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      w3.includeHTML();
+    </script>
+    <script type="module">
+      import { loadInventoryList } from "../../controllers/ui/admin/inventory/list.js";
+      loadInventoryList();
+    </script>
+    <script defer src="../../assets/admin/scripts/bundle.js"></script>
+  </body>
+</html>

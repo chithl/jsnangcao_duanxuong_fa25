@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Thêm Tồn Kho | Sơn Jotun</title>
+  <link rel="icon" href="favicon.ico">
+  <link href="../../assets/admin/styles/style.css" rel="stylesheet">
+  <script src="https://www.w3schools.com/lib/w3.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+</head>
+
+<body x-data="{ page: 'add-inventories', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+  x-init="darkMode = JSON.parse(localStorage.getItem('darkMode')); $watch('darkMode', v => localStorage.setItem('darkMode', JSON.stringify(v)))"
+  :class="{'dark bg-gray-900': darkMode === true}">
+
+  <div x-show="loaded" x-init="window.addEventListener('DOMContentLoaded', () => {setTimeout(() => loaded = false, 400)})"
+    class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
+    <div class="h-16 w-16 animate-spin rounded-full border-4 border-solid border-brand-500 border-t-transparent"></div>
+  </div>
+
+  <div class="flex h-screen overflow-hidden">
+    <div w3-include-html="./layouts/sidebar.html"></div>
+
+    <div class="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+      <div @click="sidebarToggle = false" :class="sidebarToggle ? 'block lg:hidden' : 'hidden'" class="fixed w-full h-screen z-9 bg-gray-900/50"></div>
+      <div w3-include-html="layouts/header.html"></div>
+
+      <main>
+        <div class="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
+          <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">Thêm Tồn Kho</h2>
+            <div class="flex items-center gap-3">
+              <nav>
+              <ol class="flex items-center gap-1.5">
+                <li>
+                  <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" href="index.html">
+                    Trang chủ
+                    <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke="" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </a>
+                </li>
+                <li class="text-sm text-gray-800 dark:text-white/90">Thêm tồn kho</li>
+              </ol>
+              </nav>
+            </div>
+          </div>
+
+          <form id="inventory-form" class="space-y-6">
+            <div class="space-y-6">
+              <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                <div class="border-b border-gray-100 px-5 py-4 dark:border-gray-800 sm:px-6 sm:py-5">
+                  <h3 class="text-base font-medium text-gray-800 dark:text-white/90">Thông tin tồn kho</h3>
+                </div>
+                <div class="p-5 space-y-5 sm:p-6">
+
+                  <div>
+                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">SKU <span class="text-error-500">*</span></label>
+                    <input type="text" id="sku" name="sku" placeholder="Nhập SKU (theo biến thể)" required
+                      class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800" />
+                    <small id="sku-help" class="mt-1 block text-xs text-gray-500">SKU liên kết tới biến thể sản phẩm.</small>
+                  </div>
+
+                  <div>
+                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Số lượng <span class="text-error-500">*</span></label>
+                    <input type="number" id="quantity" name="quantity" placeholder="Nhập số lượng" min="0" step="1" required
+                      class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800" />
+                  </div>
+
+                  <div>
+                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Vị trí kho</label>
+                    <input type="text" id="location" name="location" placeholder="Ví dụ: Kho A" 
+                      class="dark:bg-dark-900 shadow-theme-xs h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800" />
+                  </div>
+
+                  <div>
+                    <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Ghi chú</label>
+                    <textarea id="note" name="note" rows="3" placeholder="Ghi chú nhập kho (không bắt buộc)"
+                      class="dark:bg-dark-900 shadow-theme-xs w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800"></textarea>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center justify-end gap-3 mt-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
+                <button type="submit" id="btn-save" class="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-brand-600">
+                Thêm tồn kho
+                </button>
+                <a href="inventories.html" class="inline-flex items-center justify-center gap-2 rounded-lg bg-gray-100 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200">Hủy</a>
+            </div>
+
+            <div id="form-status" class="hidden rounded-lg border border-gray-200 p-3 text-sm"></div>
+        </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script> w3.includeHTML(); </script>
+  <script type="module">
+    import { initInventoryAddForm } from '../../controllers/ui/admin/inventory/add.js';
+    initInventoryAddForm();
+  </script>
+  <script defer src="../../assets/admin/scripts/bundle.js"></script>
+</body>
+
+</html>

@@ -1,4 +1,6 @@
 import { ProductAPI } from "../../../api/ProductAPI.js";
+import { CategoryAPI } from "../../../api/CategoryAPI.js";
+import { VariantAPI } from "../../../api/VariantAPI.js";
 
 function findProductById(productId, allProducts) {
     if (!allProducts) return null;
@@ -36,6 +38,8 @@ function findProductById(productId, allProducts) {
 
 document.addEventListener('DOMContentLoaded', async () => {
     let productModule = new ProductAPI();
+    let categoryModule = new CategoryAPI();
+    let variantModule = new VariantAPI();
     let form = document.getElementById('edit-product');
     let currentProductId = null;
     let originalName = '';
@@ -44,6 +48,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Dữ liệu sản phẩm để kiểm tra trùng tên
     let existingProducts = [];
+    let categories = [];
+    let existingVariants = [];
 
     // Validation rules
     const validationRules = {
@@ -78,6 +84,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // 2c. Tải danh sách biến thể để kiểm tra trùng SKU
+    async function loadVariants() {
+        try {
+            const variantResponse = await variantModule.getAllVariants ? await variantModule.getAllVariants() : await variantModule.getAllVariant();
+            if (Array.isArray(variantResponse)) {
+                existingVariants = variantResponse;
+            } else if (variantResponse && Array.isArray(variantResponse.data)) {
+                existingVariants = variantResponse.data;
+            } else if (variantResponse && typeof variantResponse === 'object') {
+                existingVariants = Object.entries(variantResponse).map(([id, data]) => ({ id, ...data }));
+            } else {
+                existingVariants = [];
+            }
+        } catch (error) {
+            console.error('Lỗi khi tải biến thể:', error);
+            existingVariants = [];
+        }
+    }
+
+    // 2b. Tải danh mục và fill select
+    async function loadCategories(selectedId = '') {
+        try {
+            const categoryResponse = await categoryModule.getAllCategory();
+            if (Array.isArray(categoryResponse)) {
+                categories = categoryResponse;
+            } else if (categoryResponse && Array.isArray(categoryResponse.data)) {
+                categories = categoryResponse.data;
+            } else if (categoryResponse && typeof categoryResponse === 'object') {
+                categories = Object.entries(categoryResponse).map(([id, data]) => ({ id, ...data }));
+            } else {
+                categories = [];
+            }
+            renderCategoryOptions(selectedId);
+        } catch (error) {
+            console.error('Lỗi khi tải danh mục:', error);
+            categories = [];
+        }
+    }
+
     // 3. Tải chi tiết sản phẩm và điền vào form
     async function loadProductDetails(productId) {
         try {
@@ -94,12 +139,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.getElementById('product_id').value = productId;
                 document.getElementById('name').value = product.name || '';
                 document.getElementById('brand').value = product.brand || '';
+                document.getElementById('category_id').value = product.category_id || '';
                 document.getElementById('line').value = product.line || '';
                 document.getElementById('segment').value = product.segment || '';
                 document.getElementById('finish').value = product.finish || '';
                 document.getElementById('base').value = product.base || '';
                 document.getElementById('sku').value = product.sku || '';
                 document.getElementById('cover_m2_per_L').value = product.cover_m2_per_L || '';
+
+                renderCategoryOptions(product.category_id || '');
                 
                 // Tags: chuyển array thành string
                 if (Array.isArray(product.tags)) {
@@ -136,6 +184,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const errors = {};
         const nameValue = document.getElementById('name').value.trim();
         const brandValue = document.getElementById('brand').value.trim();
+        const categoryValue = document.getElementById('category_id')?.value || '';
         const lineValue = document.getElementById('line').value.trim();
         const segmentValue = document.getElementById('segment').value.trim();
         const finishValue = document.getElementById('finish').value.trim();
@@ -144,6 +193,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tagsText = document.getElementById('tags')?.value || '';
         const parsedTags = parseTags(tagsText);
         const isActiveValue = document.getElementById('is_active').value;
+        const skuValue = document.getElementById('sku')?.value.trim() || '';
 
         if (!nameValue) {
             errors.name = 'Tên sản phẩm là bắt buộc';
@@ -161,6 +211,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (!brandValue) errors.brand = 'Thương hiệu không được để trống';
+    if (!categoryValue) errors.category_id = 'Vui lòng chọn danh mục';
+        if (skuValue) {
+            const duplicateSku = existingProducts.find(p => p.id !== currentProductId && (p.sku || '').toLowerCase() === skuValue.toLowerCase());
+            if (duplicateSku) {
+                errors.sku = 'SKU này đã tồn tại';
+            }
+        }
         if (!lineValue) errors.line = 'Dòng sản phẩm không được để trống';
         if (!segmentValue) errors.segment = 'Segment không được để trống';
         if (!finishValue) errors.finish = 'Finish không được để trống';
@@ -232,6 +289,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                 errorEl.classList.remove('hidden');
             }
         });
+    }
+
+    function renderCategoryOptions(selectedId = '') {
+        const select = document.getElementById('category_id');
+        if (!select) return;
+        const prev = selectedId || select.value;
+        select.innerHTML = '<option value="">Chọn danh mục</option>';
+
+        categories
+            .filter(cat => cat && cat.is_active !== false)
+            .forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat.id || '';
+                opt.textContent = cat.name || 'Không có tên';
+                select.appendChild(opt);
+            });
+
+        if (prev && Array.from(select.options).some(o => o.value === prev)) {
+            select.value = prev;
+        }
     }
 
     // 6. Parse tags từ string thành array
@@ -336,6 +413,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Khởi tạo
     await loadProducts();
+    await loadCategories();
     
     const productId = getProductIdFromURL();
     if (!productId) {
@@ -430,6 +508,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Thu thập dữ liệu từ form
         const name = document.getElementById('name').value.trim();
         const brand = document.getElementById('brand')?.value.trim() || '';
+        const categoryId = document.getElementById('category_id')?.value || '';
         const line = document.getElementById('line')?.value.trim() || '';
         const segment = document.getElementById('segment')?.value.trim() || '';
         const finish = document.getElementById('finish')?.value.trim() || '';
@@ -470,6 +549,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             segment,
             finish,
             base: base_val,
+            category_id: categoryId,
             sku,
             cover_m2_per_L: cover === '' ? null : Number(cover),
             tags: parsedTags,

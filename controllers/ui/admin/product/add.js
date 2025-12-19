@@ -1,11 +1,17 @@
 import { ProductAPI } from "../../../api/ProductAPI.js";
+import { CategoryAPI } from "../../../api/CategoryAPI.js";
+import { VariantAPI } from "../../../api/VariantAPI.js";
 
 document.addEventListener('DOMContentLoaded', async () => {
     let productModule = new ProductAPI();
+    let categoryModule = new CategoryAPI();
+    let variantModule = new VariantAPI();
     let form = document.getElementById('add-product');
 
     // Dữ liệu sản phẩm để kiểm tra trùng tên
     let existingProducts = [];
+    let categories = [];
+    let existingVariants = [];
 
     // Validation rules
     const validationRules = {
@@ -31,11 +37,54 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // 1c. Tải danh sách biến thể để kiểm tra trùng SKU
+    async function loadVariants() {
+        try {
+            const variantResponse = await variantModule.getAllVariants ? await variantModule.getAllVariants() : await variantModule.getAllVariant();
+            if (Array.isArray(variantResponse)) {
+                existingVariants = variantResponse;
+            } else if (variantResponse && Array.isArray(variantResponse.data)) {
+                existingVariants = variantResponse.data;
+            } else if (variantResponse && typeof variantResponse === 'object') {
+                existingVariants = Object.entries(variantResponse).map(([id, data]) => ({ id, ...data }));
+            } else {
+                existingVariants = [];
+            }
+        } catch (error) {
+            console.error('Lỗi khi tải biến thể:', error);
+            existingVariants = [];
+        }
+    }
+
+    // 1b. Tải danh sách danh mục để hiển thị lựa chọn
+    async function loadCategories() {
+        try {
+            const categoryResponse = await categoryModule.getAllCategory();
+            if (Array.isArray(categoryResponse)) {
+                categories = categoryResponse;
+            } else if (categoryResponse && Array.isArray(categoryResponse.data)) {
+                categories = categoryResponse.data;
+            } else if (categoryResponse && typeof categoryResponse === 'object') {
+                categories = Object.entries(categoryResponse).map(([id, data]) => ({
+                    id,
+                    ...data
+                }));
+            } else {
+                categories = [];
+            }
+            renderCategoryOptions();
+        } catch (error) {
+            console.error('Lỗi khi tải danh mục:', error);
+            categories = [];
+        }
+    }
+
     // 2. Hàm kiểm tra lỗi
     function validateForm() {
         const errors = {};
         const nameValue = document.getElementById('name').value.trim();
         const brandValue = document.getElementById('brand').value.trim();
+        const categoryValue = document.getElementById('category_id')?.value || '';
         const lineValue = document.getElementById('line').value.trim();
         const segmentValue = document.getElementById('segment').value.trim();
         const finishValue = document.getElementById('finish').value.trim();
@@ -54,6 +103,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (!brandValue) errors.brand = 'Thương hiệu không được để trống';
+    if (!categoryValue) errors.category_id = 'Vui lòng chọn danh mục';
         if (!lineValue) errors.line = 'Dòng sản phẩm không được để trống';
         if (!segmentValue) errors.segment = 'Segment không được để trống';
         if (!finishValue) errors.finish = 'Finish không được để trống';
@@ -126,6 +176,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                 errorEl.classList.remove('hidden');
             }
         });
+    }
+
+    function renderCategoryOptions() {
+        const select = document.getElementById('category_id');
+        if (!select) return;
+        const previousValue = select.value;
+        select.innerHTML = '<option value="">Chọn danh mục</option>';
+
+        categories
+            .filter(cat => cat && cat.is_active !== false)
+            .forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat.id || '';
+                opt.textContent = cat.name || 'Không có tên';
+                select.appendChild(opt);
+            });
+
+        if (previousValue && Array.from(select.options).some(o => o.value === previousValue)) {
+            select.value = previousValue;
+        }
     }
 
     // 4. Chuyển ảnh sang Base64
@@ -205,8 +275,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         return `${base}-${rand}`;
     }
 
+    function generateUniqueSKU(name, maxAttempts = 5) {
+        for (let i = 0; i < maxAttempts; i++) {
+            const candidate = generateSKU(name);
+            const dupInProducts = existingProducts.some(p => (p.sku || '').toLowerCase() === candidate.toLowerCase());
+            const dupInVariants = existingVariants.some(v => (v.sku || '').toLowerCase() === candidate.toLowerCase());
+            if (!dupInProducts && !dupInVariants) return candidate;
+        }
+        return null;
+    }
+
     // Khởi tạo dữ liệu
     await loadProducts();
+    await loadCategories();
 
     // Preview ảnh khi chọn
     const imageInput = document.getElementById('images');
@@ -311,6 +392,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Thu thập dữ liệu từ form
         const name = document.getElementById('name').value.trim();
         const brand = document.getElementById('brand')?.value.trim() || '';
+        const categoryId = document.getElementById('category_id')?.value || '';
         const line = document.getElementById('line')?.value.trim() || '';
         const segment = document.getElementById('segment')?.value.trim() || '';
         const finish = document.getElementById('finish')?.value.trim() || '';
@@ -320,6 +402,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const isActiveValue = document.getElementById('is_active').value;
         const files = document.getElementById('images')?.files || [];
         const parsedTags = parseTags(tagsText);
+
+        // Tạo SKU và kiểm tra trùng
+        const sku = generateUniqueSKU(name);
+        if (!sku) {
+            displayErrors({ sku: 'Không thể tạo SKU duy nhất, vui lòng thử lại hoặc đổi tên sản phẩm' });
+            alert('Không thể tạo SKU duy nhất, vui lòng thử lại hoặc đổi tên sản phẩm.');
+            return;
+        }
 
         // Nếu chưa upload thủ công mà vẫn còn file chọn => upload trước khi submit
         if (files.length > 0 && uploadedImages.length === 0) {
@@ -350,10 +440,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             segment,
             finish,
             base: base_val,
+            category_id: categoryId,
             cover_m2_per_L: cover === '' ? null : Number(cover),
             tags: parsedTags,
             is_active: isActiveValue === '1',
-            sku: generateSKU(name),
+            sku,
             images: uploadedImages.map(i => i.url),
             created_at: new Date().toISOString()
         };

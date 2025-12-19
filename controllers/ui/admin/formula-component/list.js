@@ -20,16 +20,15 @@ async function loadComponents() {
 
         let content = '';
         console.log("Components:", components)
-        components.forEach(item => {
+        components.forEach((item, index) => {
             const colorant = colorants.find(c => c.id === item.colorant_id);
-            const colorantLabel = colorant ? `${colorant.code} - ${colorant.name}` : item.colorant_id;
-
+            const colorantLabel = colorant ? `${colorant.name}` : item.colorant_id;
             const formula = formulas.find(f => f.id === item.formula_id);
             const formulaLabel = formula ? `${formula.code} - ${formula.name}` : item.formula_id;
 
             content += `
             <tr>
-                <td class="px-5 py-4 sm:px-6"><p class="text-gray-500 text-theme-sm dark:text-gray-400">${item.id}</p></td>
+                <td class="px-5 py-4 sm:px-6"><p class="text-gray-500 text-theme-sm dark:text-gray-400">${index + 1}</p></td>
                 <td class="px-5 py-4 sm:px-6"><p class="text-gray-500 text-theme-sm dark:text-gray-400">${formulaLabel}</p></td>
                 <td class="px-5 py-4 sm:px-6"><p class="text-gray-500 text-theme-sm dark:text-gray-400">${colorantLabel}</p></td>
                 <td class="px-5 py-4 sm:px-6"><p class="text-gray-500 text-theme-sm dark:text-gray-400">${item.ml_per_L}</p></td>

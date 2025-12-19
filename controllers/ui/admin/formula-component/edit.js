@@ -22,7 +22,7 @@ const form = document.getElementById("edit-formula-component-form");
             formulaResp.data.forEach(item => {
                 const opt = document.createElement("option");
                 opt.value = item.id;
-                opt.textContent = `${item.code} - ${item.name}`;
+                opt.textContent = `${item.name}`;
                 select.appendChild(opt);
             });
         }
@@ -32,7 +32,7 @@ const form = document.getElementById("edit-formula-component-form");
             colorantResp.data.forEach(item => {
                 const opt = document.createElement("option");
                 opt.value = item.id;
-                opt.textContent = `${item.code} - ${item.name}`;
+                opt.textContent = `${item.name}`;
                 select.appendChild(opt);
             });
         }

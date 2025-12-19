@@ -6,6 +6,26 @@ export class AuthAPI extends BaseAPI {
         super("users"); // users.json
     }
 
+    decodeGoogleToken(idToken) {
+        try {
+            const parts = idToken.split(".");
+            if (parts.length < 2) return null;
+
+            const base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+            const jsonPayload = decodeURIComponent(
+                atob(base64)
+                    .split("")
+                    .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+                    .join("")
+            );
+
+            return JSON.parse(jsonPayload);
+        } catch (error) {
+            console.error("DECODE GOOGLE TOKEN ERROR:", error);
+            return null;
+        }
+    }
+
     /**
      * Kiểm tra email tồn tại
      * GET /auth/check-email-exists
@@ -73,7 +93,6 @@ export class AuthAPI extends BaseAPI {
                 phone: data.phone || "",
                 password: data.password,
                 role: "customer",
-                status: 1,
                 createdAt: new Date().toLocaleString("vi-VN"),
                 updatedAt: ""
             });
@@ -165,8 +184,7 @@ export class AuthAPI extends BaseAPI {
                         name: user.name,
                         email: user.email,
                         phone: user.phone,
-                        role: user.role,
-                        status: user.status
+                        role: user.role
                     }
                 }
             };
@@ -175,6 +193,92 @@ export class AuthAPI extends BaseAPI {
             return {
                 success: false,
                 errors: [{ message: "Server error" }]
+            };
+        }
+    }
+
+    /**
+     * Đăng nhập/đăng ký bằng Google ID token
+     * POST /auth/google
+     */
+    async loginWithGoogle(idToken) {
+        try {
+            const payload = this.decodeGoogleToken(idToken);
+
+            if (!payload || !payload.email) {
+                return {
+                    success: false,
+                    errors: [{ message: "Token Google không hợp lệ" }]
+                };
+            }
+
+            const res = await this.getAll();
+            const users = res.data || {};
+            const userList = Object.keys(users).map((id) => ({ id, ...users[id] }));
+
+            let user = userList.find((u) => u.email === payload.email);
+            let userId = user?.id;
+
+            if (!user) {
+                const newUser = {
+                    name: payload.name || payload.email.split("@")[0],
+                    email: payload.email,
+                    phone: payload.phone_number || "",
+                    password: "",
+                    role: "customer",
+                    googleId: payload.sub || "",
+                    avatar: payload.picture || "",
+                    createdAt: new Date().toLocaleString("vi-VN"),
+                    updatedAt: ""
+                };
+
+                const createRes = await this.store(newUser);
+
+                if (createRes?.data?.error) {
+                    return {
+                        success: false,
+                        errors: [{ message: createRes.data.error.message || "Firebase error" }]
+                    };
+                }
+
+                userId = createRes?.data?.name;
+
+                if (!userId) {
+                    console.error("GOOGLE LOGIN STORE RESPONSE", createRes);
+
+                    return {
+                        success: false,
+                        errors: [{ message: "Không tạo được user từ Google" }]
+                    };
+                }
+
+                user = { id: userId, ...newUser };
+            }
+
+            const token = btoa(
+                JSON.stringify({
+                    uid: userId,
+                    email: payload.email,
+                    provider: "google",
+                    time: Date.now()
+                })
+            );
+
+            const { password, ...safeUser } = user;
+
+            return {
+                success: true,
+                data: {
+                    token,
+                    user: safeUser
+                }
+            };
+        } catch (error) {
+            console.error("GOOGLE LOGIN ERROR:", error);
+
+            return {
+                success: false,
+                errors: [{ message: error.message || "Server error" }]
             };
         }
     }

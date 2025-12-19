@@ -1,73 +1,108 @@
 <!DOCTYPE html>
 <html lang="vi">
-
-<head>
+  <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <meta name="author" content="Untree.co" />
     <link rel="apple-touch-icon" href="../assets/client/img/apple-icon.png" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../assets/client/img/favicon.ico" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="../../assets/client/img/favicon.ico"
+    />
 
     <link rel="stylesheet" href="../../assets/client/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../assets/client/css/templatemo.css" />
     <link rel="stylesheet" href="../../assets/client/css/custom.css" />
 
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
+    />
     <link rel="stylesheet" href="../../assets/client/css/fontawesome.min.css" />
-    <script src="https://www.w3schools.com/lib/w3.js"></script>     
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
     <title>Sơn Jotun - Trang chủ</title>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <!-- Menu -->
     <div w3-include-html="layouts/menu.html"></div>
-
 
     <!-- Bắt đầu body -->
 
     <main class="register-page">
-        <div class="register-container">
-            <h2>Đăng Ký</h2>
-            <form class="register-form">
-                <div class="form-group">
-                    <label for="fullname">Họ và Tên</label>
-                    <input type="text" id="fullname" name="fullname" placeholder="Nhập họ và tên của bạn">
-                    <small class="error-message text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Nhập địa chỉ email">
-                </div>
-                <div class="form-group">
-                    <label for="reg_password">Mật khẩu</label>
-                    <input type="password" id="reg_password" name="reg_password" placeholder="Tạo mật khẩu">
-                </div>
-                <div class="form-group">
-                    <label for="confirm_password">Xác nhận Mật khẩu</label>
-                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Xác nhận mật khẩu"
-                       >
-                </div>
-                <button type="submit" class="btn-register">Đăng Ký Ngay</button>
-                <div class="form-footer">
-                    <span>Đã có tài khoản?</span>
-                    <a href="login.html" class="login-link">Đăng nhập tại đây</a>
-                </div>
-            </form>
-        </div>
+      <div class="register-container">
+        <h2>Đăng Ký</h2>
+        <form class="register-form">
+          <div class="form-group">
+            <label for="fullname">Họ và Tên</label>
+            <input
+              type="text"
+              id="fullname"
+              name="fullname"
+              placeholder="Nhập họ và tên của bạn"
+            />
+            <small class="error-message text-danger"></small>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Nhập địa chỉ email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="reg_password">Mật khẩu</label>
+            <input
+              type="password"
+              id="reg_password"
+              name="reg_password"
+              placeholder="Tạo mật khẩu"
+            />
+          </div>
+          <div class="form-group">
+            <label for="confirm_password">Xác nhận Mật khẩu</label>
+            <input
+              type="password"
+              id="confirm_password"
+              name="confirm_password"
+              placeholder="Xác nhận mật khẩu"
+            />
+          </div>
+          <button type="submit" class="btn-register">Đăng Ký Ngay</button>
+          <div class="text-center fw-bold fs-6 py-2">
+            <span>Hoặc đăng nhập bằng Google</span>
+          </div>
+          <div
+            id="g_id_onload"
+            data-auto_prompt="false"
+            data-callback="handleCredentialResponse"
+            data-client_id="327819032175-oomhbogma8u4nhf5n54gr044geagbdgb.apps.googleusercontent.com"
+          ></div>
+          <!-- g_id_signin places the button on a page and supports customization -->
+          <div class="g_id_signin"></div>
+          <div class="form-footer">
+            <span>Đã có tài khoản?</span>
+            <a href="login.html" class="login-link">Đăng nhập tại đây</a>
+          </div>
+        </form>
+      </div>
     </main>
 
     <!-- Kết thúc body -->
-
 
     <!-- Footer -->
     <div w3-include-html="layouts/footer.html"></div>
 
     <script>
-        w3.includeHTML();
+      w3.includeHTML();
     </script>
-
+    <script src="https://accounts.google.com/gsi/client" async></script>
     <script src="../../assets/client/js/jquery-1.11.0.min.js"></script>
     <script src="../../assets/client/js/jquery-migrate-1.2.1.min.js"></script>
     <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
@@ -78,5 +113,57 @@
     <script type="module" src="../../assets/client/js/menu.js"></script>
 
 </body>
-
+    <script
+      type="module"
+      src="../../controllers/ui/client/register.js"
+    ></script>
+  </body>
 </html>
+<script>
+  function decodeJWT(token) {
+    let base64Url = token.split(".")[1];
+    let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    let jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+  }
+
+  function handleCredentialResponse(response) {
+    // Gọi API đăng nhập/đăng ký bằng Google và lưu session
+    if (!response || !response.credential) {
+      alert("Không nhận được thông tin đăng nhập Google");
+      return;
+    }
+
+    // Dynamic import để dùng lại AuthAPI (ES module)
+    import("../../controllers/api/AuthAPI.js")
+      .then(async ({ AuthAPI }) => {
+        const auth = new AuthAPI();
+        const result = await auth.loginWithGoogle(response.credential);
+
+        if (!result.success) {
+          const msg =
+            (result.errors && result.errors[0] && result.errors[0].message) ||
+            "Đăng nhập Google thất bại";
+          alert(msg);
+          return;
+        }
+
+        // Lưu token + user, chuyển hướng về trang chủ
+        localStorage.setItem("token", result.data.token);
+        localStorage.setItem("user", JSON.stringify(result.data.user));
+        alert("Đăng nhập bằng Google thành công");
+        window.location.href = "index.html";
+      })
+      .catch((err) => {
+        console.error("Import AuthAPI lỗi:", err);
+        alert("Không thể khởi tạo đăng nhập Google");
+      });
+  }
+</script>

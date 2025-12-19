@@ -8,13 +8,24 @@ const $ = (id) => document.getElementById(id);
 
 async function loadCartForUser() {
     try {
-        const cart = await cartModule.getCartByUser("-OgefUjAMBYXbbt7tUIX");
+        let userIdBySess = "-OgefUjAMBYXbbt7tUIX";
+        let cartId = "";
+
+        if (localStorage.getItem('user')) {
+            console.log(JSON.parse(localStorage.getItem('user')));
+            userIdBySess = JSON.parse(localStorage.getItem('user')).id;
+        }
+
+        const cart = await cartModule.getCartByUser(userIdBySess);
+        console.log(cart);
+        console.log(cart.cart_detail);
         const cartContainer = $("cart-items");
 
         let cartContent = "";
         let subtotal = 0;
         let total = 0;
         if (!cart || !cart.cart_details || Object.keys(cart.cart_details).length === 0) {
+            document.querySelector("#btn-checkout").disabled = true;
             // Giỏ hàng trống nhưng vẫn hiện card
             cartContent = `
                 <div class="card mb-3">
@@ -24,8 +35,11 @@ async function loadCartForUser() {
                 </div>
             `;
         } else {
+            document.querySelector("#btn-checkout").disabled = false;
+            let cartDetail = Object.values(cart.cart_details);
+            console.log(cartDetail);
             // Giỏ hàng có sản phẩm
-            for (const detailId in cart.cart_details) {
+            for (const detailId in cartDetail) {
                 const item = cart.cart_details[detailId];
                 if (!item) continue;
 
@@ -33,6 +47,7 @@ async function loadCartForUser() {
                 const name = product?.name ?? "";
                 const image = product?.images?.[0] ?? "";
                 const stock = product?.stock ?? 0;
+
 
                 subtotal += item.unit_price * item.quantity;
                 total += item.unit_price * item.quantity; // Chưa tính thuế, phí vận chuyển
@@ -69,7 +84,7 @@ async function loadCartForUser() {
                 `;
             }
         }
-        
+
         cartContainer.innerHTML = cartContent;
 
         $("subtotal").innerText = subtotal.toLocaleString() + "đ";
@@ -152,6 +167,10 @@ function showAlert(message, type = "success") {
             ${message}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-    `;}
+    `;
+}
+
+
+
 // Load giỏ hàng khi trang mở
 await loadCartForUser();

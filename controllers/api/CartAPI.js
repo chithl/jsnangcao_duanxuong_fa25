@@ -38,10 +38,15 @@ export class CartAPI extends BaseAPI {
 
     async getCartByUser(user_id) {
         const carts = await this.getAllCart();
-        // console.log(carts);
+        if(carts == null) return null;
         const cartArray = Object.entries(carts).map(([cartKey, cart]) => ({ cartKey, ...cart }));
-        console.log(cartArray);
         return cartArray.find(c => c.user_id === user_id) || null;
+    }
+
+    async createNewCart(data) {
+        console.log("Create")
+        const cartRes = await super.store(data);
+        return cartRes;
     }
 
     // Thêm sản phẩm vào giỏ hàng

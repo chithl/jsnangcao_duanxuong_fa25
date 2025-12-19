@@ -38,12 +38,13 @@
                     <form action="http://localhost:8888/create_payment" method="post" id="checkout-form">
                         <input id="amount" type="hidden" name="amount" class="form-control" value="">
                         <input type="hidden" id="user_id" name="user_id" class="form-control" value="">
+                        <input type="hidden" id="promotion_code" name="promotion_code" class="form-control" value="">
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Họ và tên</label>
                                 <div class="input-group">
-                                    <input required id="fullname" name="receiver_name" type="text" class="form-control"
+                                    <input required id="fullname" name="fullname" type="text" class="form-control"
                                         placeholder="Nhập họ và tên">
                                 </div>
                                 <small id="fullname_error" class="text-danger"></small>
@@ -52,7 +53,7 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Số điện thoại</label>
                                 <div class="input-group">
-                                    <input required id="phone" name="receiver_phone" type="text" class="form-control"
+                                    <input required id="phone" name="phone" type="text" class="form-control"
                                         placeholder="Nhập số điện thoại">
                                 </div>
                                 <small id="phone_error" class="text-danger"></small>
@@ -60,15 +61,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" id="email" name="receiver_email" class="form-control"
-                                placeholder="email@example.com">
-                        </div>
-
-                        <div class="mb-3">
                             <label class="form-label">Địa chỉ giao hàng</label>
                             <div class="input-group">
-                                <input required name="receiver_address" id="address" type="text" class="form-control"
+                                <input required name="address" id="address" type="text" class="form-control"
                                     placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành">
                             </div>
                             <small id="address_error" class="text-danger"></small>
@@ -81,7 +76,7 @@
                             <div class="form-check mb-2">
                                 <input class="form-check-input" type="radio" name="payment" id="bank" value="bank" checked>
                                 <label class="form-check-label" for="bank">
-                                    🏦 Chuyển khoản ngân hàng (VNPay)
+                                    Chuyển khoản ngân hàng (VNPay)
                                 </label>
                             </div>
 
@@ -111,12 +106,17 @@
 
                     <div class="d-flex justify-content-between mb-3">
                         <span>Phí vận chuyển</span>
-                        <strong>Miễn phí</strong>
+                        <strong>30.000đ</strong>
                     </div>
 
                     <div class="d-flex justify-content-between fw-bold fs-5 mb-3">
                         <span>Tổng cộng</span>
                         <span id="total">0đ</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <input id="promotion_code_input" type="text" class="form-control" placeholder="Mã khuyến mãi">
+                        <button id="apply_promo_code" class="btn btn-outline-danger">Dùng</button>
                     </div>
                 </div>
             </div>

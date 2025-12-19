@@ -14,10 +14,12 @@ export class UserAPI extends BaseAPI {
         try {
             const res = await this.getAll();
             const users = res.data || {};
+            console.log(users)
             return {
                 success: true,
                 data: users
             };
+            
         } catch (error) {
             return {
                 success: false,
@@ -73,6 +75,7 @@ export class UserAPI extends BaseAPI {
                 return emailCheck;
             }
             if (emailCheck.data.exists) {
+                // alert("Email đã tồn tại!");
                 return {
                     success: false,
                     errors: [{ field: "email", message: "Email đã tồn tại" }]
@@ -85,6 +88,7 @@ export class UserAPI extends BaseAPI {
                 phone: data.phone || "",
                 password: data.password,
                 role: data.role || "customer",
+                status: data.status || 1,
                 createdAt: new Date().toLocaleString("vi-VN"),
                 updatedAt: ""
             });
@@ -135,6 +139,7 @@ export class UserAPI extends BaseAPI {
                 phone: data.phone || current.phone || "",
                 password: data.password || current.password,
                 role: data.role || current.role,
+                status: data.status || current.status,
                 createdAt: current.createdAt,
                 updatedAt: new Date().toLocaleString("vi-VN")
             };

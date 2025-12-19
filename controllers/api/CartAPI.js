@@ -38,8 +38,14 @@ export class CartAPI extends BaseAPI {
 
     async getCartByUser(user_id) {
         const carts = await this.getAllCart();
-        if(carts == null) return null;
-        const cartArray = Object.entries(carts).map(([cartKey, cart]) => ({ cartKey, ...cart }));
+        if (!carts) return null;
+
+        // Chuyển đổi và gán ID Firebase vào thuộc tính 'id'
+        const cartArray = Object.entries(carts).map(([id, cartData]) => ({
+            id: id,
+            ...cartData
+        }));
+
         return cartArray.find(c => c.user_id === user_id) || null;
     }
 
@@ -55,6 +61,7 @@ export class CartAPI extends BaseAPI {
 
         let cart = await this.getCartByUser(user_id);
 
+        // TRƯỜNG HỢP 1: CHƯA CÓ GIỎ HÀNG -> TẠO MỚI
         if (!cart) {
             const newCart = {
                 user_id,
@@ -62,22 +69,19 @@ export class CartAPI extends BaseAPI {
                     [`item_${Date.now()}`]: item
                 }
             };
-
-            const { isError, errors } = this.cartValidate.checkValidate(newCart);
-            if (isError) throw new Error(JSON.stringify(errors));
-
-            const resp = await this.store(newCart);
-            return resp.data;
+            return (await this.store(newCart)).data;
         }
 
+        // TRƯỜNG HỢP 2: ĐÃ CÓ GIỎ HÀNG -> CẬP NHẬT
         const detailsArray = this.objectToArray(cart.cart_details);
 
+        // Kiểm tra trùng product_id và variant_id (SKU)
         const exist = detailsArray.find(
             d => d.product_id === item.product_id && d.variant_id === item.variant_id
         );
 
         if (exist) {
-            exist.quantity += item.quantity;
+            exist.quantity += item.quantity; // Tăng số lượng nếu đã có
         } else {
             detailsArray.push({
                 id: `item_${Date.now()}`,
@@ -85,16 +89,12 @@ export class CartAPI extends BaseAPI {
             });
         }
 
-        const updatedDetails = this.arrayToObject(detailsArray);
-
         const updatedCart = {
             user_id: cart.user_id,
-            cart_details: updatedDetails
+            cart_details: this.arrayToObject(detailsArray)
         };
 
-        const { isError, errors } = this.cartValidate.checkValidate(updatedCart);
-        if (isError) throw new Error(JSON.stringify(errors));
-
+        // QUAN TRỌNG: cart.id bây giờ đã có giá trị từ hàm getCartByUser đã sửa ở trên
         const resp = await this.update(cart.id, updatedCart);
         return resp.data;
     }

@@ -1,73 +1,80 @@
 import { CartAPI } from "../../api/CartAPI.js";
 import { ProductAPI } from "../../api/ProductAPI.js";
+import { InventoryAPI } from "../../api/InventoryAPI.js";
 
+const inventoryModule = new InventoryAPI();
 const cartModule = new CartAPI();
 const productModule = new ProductAPI();
 // Helper để lấy element theo id
 const $ = (id) => document.getElementById(id);
 
+
+
 async function loadCartForUser() {
     try {
         let userIdBySess = "-OgefUjAMBYXbbt7tUIX";
-        let cartId = "";
-
         if (localStorage.getItem('user')) {
-            console.log(JSON.parse(localStorage.getItem('user')));
             userIdBySess = JSON.parse(localStorage.getItem('user')).id;
         }
 
-        const cart = await cartModule.getCartByUser(userIdBySess);
-        console.log(cart);
-        console.log(cart.cart_detail);
-        const cartContainer = $("cart-items");
+        // TỐI ƯU: Tải song song Giỏ hàng và Toàn bộ kho đồ
+        const [cart, allInventories] = await Promise.all([
+            cartModule.getCartByUser(userIdBySess),
+            inventoryModule.getAllInventory() // Lấy toàn bộ data kho
+        ]);
 
+        const cartContainer = $("cart-items");
         let cartContent = "";
         let subtotal = 0;
-        let total = 0;
+
         if (!cart || !cart.cart_details || Object.keys(cart.cart_details).length === 0) {
             document.querySelector("#btn-checkout").disabled = true;
-            // Giỏ hàng trống nhưng vẫn hiện card
             cartContent = `
                 <div class="card mb-3">
-                    <div class="card-body text-center text-muted">
-                        Không có sản phẩm nào trong giỏ hàng
-                    </div>
-                </div>
-            `;
+                    <div class="card-body text-center text-muted">Không có sản phẩm nào trong giỏ hàng</div>
+                </div>`;
         } else {
             document.querySelector("#btn-checkout").disabled = false;
-            let cartDetail = Object.values(cart.cart_details);
-            console.log(cartDetail);
-            // Giỏ hàng có sản phẩm
-            for (const detailId in cartDetail) {
-                const item = cart.cart_details[detailId];
+
+            // Chuyển allInventories thành mảng nếu Firebase trả về Object
+            const inventoryList = Object.values(allInventories || {});
+
+            for (const [detailId, item] of Object.entries(cart.cart_details)) {
                 if (!item) continue;
 
+                // 1. Lấy thông tin sản phẩm cơ bản (Ảnh, tên gốc)
                 const product = await productModule.getOneProduct(item.product_id);
-                const name = product?.name ?? "";
-                const image = product?.images?.[0] ?? "";
-                const stock = product?.stock ?? 0;
+                const name = item.name || product?.name || "Sản phẩm";
+                const image = product?.images?.[0] || "../../assets/client/img/no-image.png";
 
+                // 2. TÌM TỒN KHO THỰC TẾ TRONG INVENTORY THEO SKU (item.variant_id)
+                const invRecord = inventoryList.find(inv => inv.sku === item.variant_id);
+                
+                // Ưu tiên lấy quantity từ Inventory, nếu không thấy mới dùng stock từ Product
+                const stock = invRecord ? invRecord.quantity : (product?.stock ?? 0);
 
-                subtotal += item.unit_price * item.quantity;
-                total += item.unit_price * item.quantity; // Chưa tính thuế, phí vận chuyển
+                // 3. Tính toán tiền
+                const itemTotal = item.unit_price * item.quantity;
+                subtotal += itemTotal;
+
                 cartContent += `
                     <div class="card mb-3">
                         <div class="card-body d-flex align-items-center gap-3">
-                            <img src="${image}" width="90" height="90" class="rounded">
+                            <img src="${image}" width="90" height="90" class="rounded" style="object-fit: cover;">
                             <div class="flex-grow-1">
                                 <h6 class="fw-semibold mb-1">${name}</h6>
-                                <p class="small mb-1">Tồn kho: <strong>${stock}</strong></p>
+                                <p class="small mb-1 text-muted">SKU: ${item.variant_id}</p>
+                                <p class="small mb-1">Tồn kho: <strong class="${stock <= 0 ? 'text-danger' : 'text-success'}">${stock}</strong></p>
                                 <div class="d-flex align-items-center gap-3">
                                     <strong class="text-danger">${item.unit_price.toLocaleString()} đ</strong>
                                     <div class="input-group input-group-sm" style="width:130px">
                                         <button class="btn btn-outline-secondary btn-minus"
-                                            data-cart="${cart.cartKey}"
+                                            data-cart="${cart.id || cart.cartKey}"
                                             data-detail="${detailId}"
                                             data-qty="${item.quantity}">−</button>
                                         <input class="form-control text-center" value="${item.quantity}" readonly>
                                         <button class="btn btn-outline-secondary btn-plus"
-                                            data-cart="${cart.cartKey}"
+                                            data-cart="${cart.id || cart.cartKey}"
                                             data-detail="${detailId}"
                                             data-qty="${item.quantity}"
                                             data-stock="${stock}">+</button>
@@ -75,7 +82,7 @@ async function loadCartForUser() {
                                 </div>
                             </div>
                             <button class="btn btn-outline-danger btn-remove"
-                                data-cart="${cart.cartKey}"
+                                data-cart="${cart.id || cart.cartKey}"
                                 data-detail="${detailId}">
                                 <i class="fa fa-trash"></i>
                             </button>
@@ -86,12 +93,13 @@ async function loadCartForUser() {
         }
 
         cartContainer.innerHTML = cartContent;
-
         $("subtotal").innerText = subtotal.toLocaleString() + "đ";
-        $("total").innerText = total.toLocaleString() + "đ";
-        // Luôn bind sự kiện, ngay cả khi giỏ rỗng
-        bindCartEvents(cart?.cartKey);
-        bindCheckout(cart?.cartKey);
+        $("total").innerText = subtotal.toLocaleString() + "đ";
+
+        // Sử dụng cartKey hoặc ID thống nhất để bind sự kiện
+        const currentCartKey = cart?.id || cart?.cartKey;
+        bindCartEvents(currentCartKey);
+        bindCheckout(currentCartKey);
 
     } catch (err) {
         console.error("Lỗi load cart:", err);

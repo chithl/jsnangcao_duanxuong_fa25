@@ -99,41 +99,35 @@ router.get("/order/vnpay_return", async (req, res) => {
         const userId = req.query.user_id;
         const promoCodeUsed = req.query.promotion_code ? decodeURIComponent(req.query.promotion_code) : null;
 
-        // 1. Lấy toàn bộ dữ liệu cần thiết
-        const [cart, allProducts, allVariants, resPromos] = await Promise.all([
+        // 1. Lấy toàn bộ dữ liệu cần thiết (Bổ sung thêm lấy inventories)
+        const [cart, allProducts, allVariants, resPromos, resInventories] = await Promise.all([
             getCartByUserId(userId),
             getAllProducts(),
             getAllVariants(),
-            axios.get("https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/promotions.json")
+            axios.get("https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/promotions.json"),
+            axios.get("https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/inventories.json") // <--- THÊM DÒNG NÀY
         ]);
 
         if (!cart || !cart.cart_details) {
             return res.render("payment_error", { message: "Giỏ hàng không tồn tại" });
         }
 
-        // 2. Xử lý trừ lượt dùng mã giảm giá (Dùng KEY từ Firebase)
+        // 2. Xử lý trừ lượt dùng mã giảm giá (Giữ nguyên)
         if (promoCodeUsed && resPromos.data) {
-            // Chuyển Object promotions của Firebase thành mảng kèm Key (id)
-            const allPromos = Object.entries(resPromos.data).map(([key, val]) => ({
-                id: key,
-                ...val
-            }));
-
+            const allPromos = firebaseToTable(resPromos.data);
             const promo = allPromos.find(p => p.code == promoCodeUsed);
-
             if (promo) {
-                // Tăng số lượt đã dùng lên 1 dựa theo ID (Key Firebase)
                 await axios.patch(`https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/promotions/${promo.id}.json`, {
                     used_count: (Number(promo.used_count) || 0) + 1
                 });
             }
         }
 
-        // 3. Tạo dữ liệu Order
+        // 3. Tạo dữ liệu Order (Giữ nguyên)
         const grandTotal = Number(req.query.vnp_Amount) / 100;
         const orderPayload = {
             user_id: userId,
-            status: "pending",
+            status: "paid", // Đổi thành paid vì đã thanh toán online thành công
             payment_method: "online",
             shipping_address: decodeURIComponent(req.query.address),
             total: grandTotal,
@@ -145,29 +139,48 @@ router.get("/order/vnpay_return", async (req, res) => {
         const orderRes = await axios.post("https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/orders.json", orderPayload);
         const newOrderId = orderRes.data.name;
 
-        // 4. Tạo Order_Items
+        // 4. Tạo Order_Items VÀ Cập nhật kho (Inventories)
         const cartItems = Object.values(cart.cart_details);
-        const itemPromises = cartItems.map(item => {
-            const variant = allVariants.find(v => v.id === item.variant_id);
-            const product = allProducts.find(p => p.id === item.product_id);
+        const allInvs = firebaseToTable(resInventories.data); // Chuyển data kho sang mảng
 
+        const processItemsPromises = cartItems.map(async (item) => {
+            const variant = allVariants.find(v => v.sku == item.variant_id);
+            const product = allProducts.find(p => p.id == item.product_id);
+            console.log(variant);
+            const targetSku = variant ? variant.sku : "N/A";
+
+            // --- BẮT ĐẦU LOGIC CẬP NHẬT KHO ---
+            const inventoryRecord = allInvs.find(inv => inv.sku == targetSku);
+            console.log(inventoryRecord);
+            if (inventoryRecord) {
+                const newQuantity = Math.max(0, (Number(inventoryRecord.quantity) || 0) - Number(item.quantity));
+                console.log(newQuantity);
+                // Cập nhật lại số lượng vào đúng Key của Inventory trên Firebase
+                await axios.patch(`https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/inventories/${inventoryRecord.id}.json`, {
+                    quantity: newQuantity,
+                    updated_at: new Date().toISOString()
+                });
+            }
+            // --- KẾT THÚC LOGIC CẬP NHẬT KHO ---
+
+            // Tạo bản ghi Order_Items
             return axios.post("https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/order_items.json", {
                 orderId: newOrderId,
-                sku: variant ? variant.sku : "N/A",
+                sku: targetSku,
                 name: product ? product.name : "Sản phẩm Jotun",
                 price: variant ? variant.price : 0,
                 quantity: item.quantity
             });
         });
 
-        await Promise.all(itemPromises);
+        await Promise.all(processItemsPromises);
 
-        // 5. Xóa giỏ hàng
+        // 5. Xóa giỏ hàng (Giữ nguyên)
         await axios.patch(`https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/carts/${cart.id}.json`, {
             cart_details: []
         });
 
-        // 6. Render trang và truyền biến (ĐÃ BỎ RETURN CHẶN CODE)
+        // 6. Trả về kết quả
         res.render("payment_success", {
             grand_total: grandTotal,
             data: {

@@ -68,6 +68,39 @@ body {
     font-weight: 700;
     margin-bottom: 2px;
 }
+
+.category-panel {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 30px;
+    background: #ffffff;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+    border: 1px solid #f1f3f5;
+}
+.category-panel:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.15);
+}
+.category-list .list-group-item {
+    border: none;
+    border-radius: 14px;
+    margin-bottom: 0.35rem;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    color: #2d3436;
+    background: #f7f8fa;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.category-list .list-group-item.active {
+    background: #2d3436;
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(45, 52, 54, 0.25);
+}
+.category-list .list-group-item:focus-visible,
+.category-list .list-group-item:hover {
+    background: #2d3436;
+    color: #ffffff;
+}
 /* Tùy chỉnh đánh giá hiện đại */
 .review-stats-card {
     border: none;

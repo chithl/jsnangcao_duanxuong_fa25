@@ -30,70 +30,78 @@
   <div w3-include-html="layouts/menu.html"></div>
   <section class="py-5">
     <div class="container">
-      <div class="row g-5">
-        <div class="col-lg-6">
-          <div class="product-card-luxury p-2">
-            <img class="img-fluid rounded-15 w-100" src="" id="product-detail-img"
-              style="min-height: 500px; object-fit: cover; border-radius: 15px;" />
+      <div class="product-hero-card bg-white rounded-4 shadow-sm p-4">
+        <div class="row g-5 align-items-center">
+          <div class="col-lg-6">
+            <div class="product-image-frame position-relative">
+              <img id="product-detail-img" class="img-fluid rounded-4 w-100" src=""
+                style="min-height: 480px; object-fit: cover;" alt="product detail" />
+         
+            </div>
+            <div class="gallery-thumbnails mt-4" id="variant-thumbnails"></div>
           </div>
-        </div>
 
-        <div class="col-lg-6">
-          <div class="ps-lg-4">
-  
-
-            <h1 class="display-5 fw-bold mb-3" id="product-name" style="color: #2d3436;">Đang tải...</h1>
-
-            <div class="d-flex align-items-center mb-4">
-              <div class="price-tag me-3" id="variant-price">0 ₫</div>
-              <span class="badge bg-soft-success text-success p-2 px-3" id="product-status"
-                style="background: #e3fcef;">
-                <i class="fas fa-check-circle me-1"></i> Còn hàng
-              </span>
-            </div>
-
-            <div class="row mb-4">
-              <div class="col-4">
-                <div class="info-label">Hãng</div>
-                <div class="fw-bold" id="product-brand">-</div>
+          <div class="col-lg-6">
+            <div class="product-detail-content">
+              <p class="text-uppercase text-muted small mb-1" id="product-tagline">Sản phẩm cao cấp</p>
+              <h1 class="display-5 fw-bold mb-3" id="product-name">Đang tải...</h1>
+              <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+                <div class="price-tag" id="variant-price">0 ₫</div>
+                <span class="badge bg-soft-success text-success" id="product-status">
+                  <i class="fas fa-check-circle me-1"></i> Còn hàng
+                </span>
+                <span class="text-muted small" id="product-sales">&nbsp;</span>
               </div>
-              <div class="col-4">
-                <div class="info-label">Dòng</div>
-                <div class="fw-bold" id="product-line">-</div>
-              </div>
-              <div class="col-4">
-                <div class="info-label">Bề mặt</div>
-                <div class="fw-bold" id="product-finish">-</div>
-              </div>
-            </div>
-
-            <hr class="my-4 opacity-10">
-
-            <div class="mb-4">
-              <label class="info-label mb-3 d-block">Chọn dung tích sản phẩm</label>
-              <div id="variant-container" class="d-flex flex-wrap gap-3">
-              </div>
-            </div>
-
-            <div id="variant-info" style="display: none;" class="mb-4 animate__animated animate__fadeIn">
-              <div class="p-3 rounded-12 bg-light border border-dashed">
-                <small class="text-muted d-block">Mã định danh SKU</small>
-                <span class="fw-mono text-dark" id="variant-sku"></span>
-              </div>
-            </div>
-
-            <form id="cart-form">
-              <input type="hidden" id="selected-variant-id" value="" />
-              <div class="row g-3">
-                <div class="col-md-12">
-                  <button type="submit" id="btn-add-to-cart"
-                    class="btn btn-luxury-buy btn-primary w-100 btn-lg shadow-sm" disabled>
-                    <i class="fas fa-cart-plus me-2"></i> THÊM VÀO GIỎ HÀNG
-                  </button>
-                </div>
       
+
+              <div class="row mb-4">
+                <div class="col-4">
+                  <div class="info-label">Hãng</div>
+                  <div class="fw-semibold" id="product-brand">-</div>
+                </div>
+                <div class="col-4">
+                  <div class="info-label">Dòng</div>
+                  <div class="fw-semibold" id="product-line">-</div>
+                </div>
+                <div class="col-4">
+                  <div class="info-label">Bề mặt</div>
+                  <div class="fw-semibold" id="product-finish">-</div>
+                </div>
               </div>
-            </form>
+
+              <div class="color-block mb-4" id="color-block">
+                <div class="info-label mb-2">Màu sắc</div>
+                <div id="color-options" class="d-flex flex-wrap gap-2"></div>
+              </div>
+
+              <div class="size-block mb-3">
+              
+                <div id="variant-container" class="d-flex flex-wrap gap-3"></div>
+              </div>
+
+              <div id="variant-info" class="mb-4" style="display: none;">
+                <div class="p-3 rounded-3 bg-light border border-dashed">
+                  <small class="text-muted d-block">Mã định danh SKU</small>
+                  <span class="fw-mono text-dark" id="variant-sku"></span>
+                </div>
+              </div>
+
+              <form id="cart-form" class="mb-3">
+                <input type="hidden" id="selected-variant-id" value="" />
+                <div class="d-grid gap-3">
+                  <button type="submit" id="btn-add-to-cart"
+                    class="btn btn-luxury-buy btn-lg shadow-sm text-white" disabled>
+                    <i class="fas fa-cart-plus me-2"></i> Thêm vào giỏ hàng
+                  </button>
+                 
+                </div>
+              </form>
+              <div class="small text-muted d-flex flex-wrap gap-3 align-items-center">
+                <span><i class="fas fa-shipping-fast me-1"></i>Giao hàng nhanh</span>
+                <span><i class="fas fa-rotate-right me-1"></i>Đổi trả dễ dàng</span>
+                <span><i class="fas fa-map-marker-alt me-1"></i>Miễn phí tận nơi</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

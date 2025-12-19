@@ -16,7 +16,16 @@ const variantPriceEl = document.getElementById("variant-price");
 const variantSkuEl = document.getElementById("variant-sku");
 const variantInfoEl = document.getElementById("variant-info");
 const variantContainer = document.getElementById("variant-container");
+const variantThumbnailsEl = document.getElementById("variant-thumbnails");
 const addToCartBtn = document.getElementById("btn-add-to-cart");
+
+const colorBlockEl = document.getElementById("color-block");
+const colorOptionsEl = document.getElementById("color-options");
+const productDescriptionEl = document.getElementById("product-description");
+const productTaglineEl = document.getElementById("product-tagline");
+const productSalesEl = document.getElementById("product-sales");
+const selectedVariantInput = document.getElementById("selected-variant-id");
+const mainImageEl = document.getElementById("product-detail-img");
 
 const reviewListEl = document.getElementById("comment-list-luxury");
 const reviewFormEl = document.getElementById("luxury-review-form");
@@ -33,6 +42,12 @@ const ratingProgressBars = document.querySelectorAll("[data-rating-bar]");
 const ratingCountEls = document.querySelectorAll("[data-rating-count]");
 
 let currentUser = null;
+const REVIEW_BATCH_SIZE = 5;
+let cachedReviews = [];
+let visibleReviewCount = 0;
+let variantList = [];
+let activeVariantId = "";
+let productBaseImage = "";
 
 // --- KHỞI TẠO ---
 setupReviewListeners();
@@ -50,11 +65,21 @@ setupReviewListeners();
             document.getElementById("product-brand").innerText = product.brand || "-";
             document.getElementById("product-line").innerText = product.line || "-";
             document.getElementById("product-finish").innerText = product.finish || "-";
-            const mainImg = document.getElementById("product-detail-img");
-            if (mainImg && product.images?.length > 0) mainImg.src = product.images[0];
+            const tagline = product.tagline || product.subtitle || product.category || "Sản phẩm cao cấp";
+            if (productTaglineEl) productTaglineEl.innerText = tagline;
+            if (productDescriptionEl) {
+                productDescriptionEl.innerText = product.description || product.summary || product.short_description || "Chưa có mô tả";
+            }
+            productBaseImage = getPrimaryImage(product);
+            if (mainImageEl && productBaseImage) mainImageEl.src = productBaseImage;
+            const soldCount = product.sold || product.sales || product.sold_count || product.totalSold;
+            if (productSalesEl) {
+                productSalesEl.innerText = soldCount ? `Đã bán ${soldCount}` : "";
+            }
         }
 
         renderVariantPickers(variants);
+        renderColorOptions(product, variantList);
         await loadReviews();
         await resolveReviewAuthState();
     } catch (error) {
@@ -65,40 +90,178 @@ setupReviewListeners();
 // --- LOGIC BIẾN THỂ ---
 function renderVariantPickers(variants) {
     if (!variantContainer) return;
-    if (!variants || variants.length === 0) {
+    const normalized = Array.isArray(variants) ? variants.filter(Boolean) : [];
+    if (!normalized.length) {
         variantContainer.innerHTML = "<em class='text-danger'>Sản phẩm hiện hết hàng</em>";
+        variantList = [];
         return;
     }
-    variantContainer.innerHTML = variants.map(v => `
-        <button type="button" class="btn btn-outline-success btn-variant me-2"
-                data-id="${v.id}" data-price="${v.price || 0}" data-sku="${v.sku || ""}">
-            ${v.size_L || "–"}L
+    variantList = normalized.map(variant => ({
+        ...variant,
+        label: buildVariantLabel(variant),
+        imageSrc: getVariantImage(variant)
+    }));
+    variantContainer.innerHTML = variantList.map(variant => `
+        <button type="button" class="btn btn-outline-success btn-variant variant-pill"
+                data-id="${variant.id}"
+                data-price="${variant.price || 0}"
+                data-sku="${variant.sku || ""}"
+                data-image="${escapeHtmlAttr(variant.imageSrc)}">
+            ${escapeHtmlAttr(variant.label)}
         </button>
     `).join("");
 
     const buttons = variantContainer.querySelectorAll(".btn-variant");
     buttons.forEach(btn => {
         btn.onclick = function() {
-            buttons.forEach(b => b.classList.remove("active", "btn-success"));
-            buttons.forEach(b => b.classList.add("btn-outline-success"));
+            buttons.forEach(b => {
+                b.classList.remove("active", "btn-success");
+                b.classList.add("btn-outline-success");
+            });
             this.classList.add("active", "btn-success");
             this.classList.remove("btn-outline-success");
             updateUIWithVariant(this.dataset);
         };
     });
+    renderVariantThumbnails(variantList);
     if (buttons.length > 0) buttons[0].click();
 }
 
 function updateUIWithVariant(data) {
-    if (variantPriceEl) variantPriceEl.innerText = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(Number(data.price));
+    const priceValue = Number(data.price || 0);
+    if (variantPriceEl) variantPriceEl.innerText = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(priceValue);
     if (variantSkuEl) {
         variantSkuEl.innerText = data.sku || "–";
-        variantInfoEl.style.display = "block";
+        if (variantInfoEl) variantInfoEl.style.display = data.sku ? "block" : "none";
     }
+    const variantId = data.id || data.variantId || "";
+    const imageSource = data.image || data.imageSrc || "";
+    if (mainImageEl && imageSource) {
+        mainImageEl.src = imageSource;
+    } else if (mainImageEl && productBaseImage) {
+        mainImageEl.src = productBaseImage;
+    }
+    activeVariantId = variantId;
+    highlightThumbnail(activeVariantId);
+    if (selectedVariantInput) selectedVariantInput.value = variantId;
     if (addToCartBtn) {
         addToCartBtn.disabled = false;
-        addToCartBtn.dataset.variantId = data.id;
+        addToCartBtn.dataset.variantId = variantId;
     }
+}
+
+function renderVariantThumbnails(variants) {
+    if (!variantThumbnailsEl) return;
+    const gallery = variants.map(variant => {
+        if (!variant.imageSrc) return "";
+        const ariaLabel = escapeHtmlAttr(variant.label || variant.sku || "variant");
+        return `
+            <button type="button" class="thumbnail-item" data-variant-id="${variant.id}" aria-label="${ariaLabel}">
+                <img src="${variant.imageSrc}" alt="${ariaLabel}">
+            </button>`;
+    }).filter(Boolean).join("");
+    variantThumbnailsEl.innerHTML = gallery || "<p class='text-muted small mb-0'>Không có hình ảnh phụ</p>";
+    variantThumbnailsEl.querySelectorAll(".thumbnail-item").forEach(btn => {
+        btn.addEventListener("click", () => selectVariantById(btn.dataset.variantId));
+    });
+    highlightThumbnail(activeVariantId);
+}
+
+function highlightThumbnail(id) {
+    if (!variantThumbnailsEl) return;
+    variantThumbnailsEl.querySelectorAll(".thumbnail-item").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.variantId === id);
+    });
+}
+
+function selectVariantById(id) {
+    if (!id || !variantContainer) return;
+    const buttons = Array.from(variantContainer.querySelectorAll(".btn-variant"));
+    const target = buttons.find(btn => btn.dataset.id === id);
+    if (target) target.click();
+}
+
+function buildVariantLabel(variant) {
+    if (!variant) return "Biến thể";
+    const liter = variant.size_L ?? variant.size_l;
+    if (liter) return `${liter}L`;
+    const milli = variant.size_ml ?? variant.sizeMl;
+    if (milli) return `${milli}ml`;
+    if (variant.capacity) return variant.capacity;
+    if (variant.label) return variant.label;
+    if (variant.name) return variant.name;
+    return "Biến thể";
+}
+
+function getVariantImage(variant) {
+    if (!variant) return "";
+    return resolveImageSource(variant);
+}
+
+function getPrimaryImage(record) {
+    return resolveImageSource(record);
+}
+
+function resolveImageSource(record) {
+    if (!record) return "";
+    const single = [
+        "image",
+        "image_url",
+        "imageUrl",
+        "thumbnail",
+        "thumb",
+        "photo",
+        "coverImage",
+        "cover_image",
+        "primaryImage"
+    ];
+    for (const key of single) {
+        const val = record[key];
+        if (typeof val === "string" && val.trim()) return val.trim();
+    }
+    const list = ["images", "media", "photos", "gallery"];
+    for (const key of list) {
+        const collection = record[key];
+        if (!Array.isArray(collection)) continue;
+        const found = collection.find(item => typeof item === "string" && item.trim());
+        if (found) return found.trim();
+    }
+    return "";
+}
+
+function renderColorOptions(product, variants = []) {
+    if (!colorOptionsEl) return;
+    const registry = new Map();
+    const register = value => {
+        if (!value) return;
+        const text = value.toString().trim();
+        if (!text) return;
+        const key = text.toLowerCase();
+        if (!registry.has(key)) registry.set(key, text);
+    };
+    register(product?.color);
+    if (Array.isArray(product?.colors)) product.colors.forEach(register);
+    if (Array.isArray(product?.palette)) product.palette.forEach(register);
+    if (Array.isArray(product?.color_palette)) product.color_palette.forEach(register);
+    variants.forEach(variant => register(variant.color || variant.color_name || variant.variant_color));
+    if (!registry.size) {
+        colorBlockEl?.classList.add("d-none");
+        colorOptionsEl.innerHTML = "";
+        return;
+    }
+    colorBlockEl?.classList.remove("d-none");
+    const chips = Array.from(registry.values()).map(color => {
+        const isHex = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(color);
+        const style = isHex ? `style="background:${color};"` : "";
+        const className = isHex ? "color-chip color-swatch" : "color-chip color-label";
+        const labelText = isHex ? "" : color;
+        return `<span class="${className}" ${style}>${labelText}</span>`;
+    });
+    colorOptionsEl.innerHTML = chips.join("");
+}
+
+function escapeHtmlAttr(value) {
+    return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;");
 }
 
 // --- LOGIC ĐÁNH GIÁ (REVIEW) - GIỮ NGUYÊN GIAO DIỆN GỐC ---
@@ -184,12 +347,19 @@ function fillAverageStars(value) {
 
 function renderCommentList(reviews) {
     if (!reviewListEl) return;
-    if (!reviews.length) {
+    cachedReviews = [...reviews].sort((a, b) => getReviewTimestamp(b) - getReviewTimestamp(a));
+    visibleReviewCount = Math.min(REVIEW_BATCH_SIZE, cachedReviews.length);
+    updateCommentListDisplay();
+}
+
+function updateCommentListDisplay() {
+    if (!reviewListEl) return;
+    if (!cachedReviews.length) {
         reviewListEl.innerHTML = "<p class='text-center text-muted py-5'>Chưa có đánh giá nào.</p>";
         return;
     }
-    const sorted = [...reviews].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    reviewListEl.innerHTML = sorted.map(review => {
+    const slice = cachedReviews.slice(0, visibleReviewCount);
+    reviewListEl.innerHTML = slice.map(review => {
         const name = (review.reviewerName || "Khách hàng");
         const comment = (review.comment || "");
         const initials = (name.match(/\b\w/g) || []).slice(0, 2).join("").toUpperCase() || "KH";
@@ -208,11 +378,33 @@ function renderCommentList(reviews) {
                 <p class="text-secondary ps-5 ms-3 mb-0 lh-lg">${comment}</p>
             </div>`;
     }).join("");
+    if (visibleReviewCount < cachedReviews.length) {
+        const remaining = Math.min(REVIEW_BATCH_SIZE, cachedReviews.length - visibleReviewCount);
+        reviewListEl.innerHTML += `
+            <div class="text-center mt-4">
+                <button id="load-more-comments" class="btn btn-outline-dark px-4" type="button">
+                    Xem thêm ${remaining} bình luận
+                </button>
+            </div>`;
+        const loadMoreBtn = document.getElementById("load-more-comments");
+        if (loadMoreBtn) loadMoreBtn.addEventListener("click", handleLoadMoreComments);
+    }
+}
+
+function handleLoadMoreComments() {
+    visibleReviewCount = Math.min(cachedReviews.length, visibleReviewCount + REVIEW_BATCH_SIZE);
+    updateCommentListDisplay();
 }
 
 function buildStarMarkup(rating) {
     const score = Math.round(Number(rating || 0));
     return Array.from({ length: 5 }, (_, i) => `<i class="fas fa-star ${i < score ? "star-active" : "text-muted"}"></i>`).join(" ");
+}
+
+function getReviewTimestamp(review) {
+    const candidate = review.createdAt ?? review.created_at ?? review.updatedAt ?? review.updated_at;
+    const parsed = Date.parse(String(candidate));
+    return Number.isFinite(parsed) ? parsed : 0;
 }
 
 async function resolveReviewAuthState() {

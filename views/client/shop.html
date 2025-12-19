@@ -79,48 +79,15 @@
     <div class="container py-5">
       <div class="row">
         <div class="col-lg-3">
-          <h1 class="h2 pb-4">Danh Mục</h1>
-          <ul class="list-unstyled templatemo-accordion">
-            <li class="pb-3">
-              <a
-                class="collapsed d-flex justify-content-between h3 text-decoration-none"
-                href="#"
-              >
-                Nội thất
-                <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-              </a>
-              <ul class="collapse show list-unstyled pl-3">
-                <li><a class="text-decoration-none" href="#">Các sản phẩm nội thất</a></li>
-                <li><a class="text-decoration-none" href="#">Cảm hứng bên trong ngôi nhà</a></li>
-              </ul>
-            </li>
-            <li class="pb-3">
-              <a
-                class="collapsed d-flex justify-content-between h3 text-decoration-none"
-                href="#"
-              >
-                Ngoại thất
-                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-              </a>
-              <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                <li><a class="text-decoration-none" href="#">Các sản phẩm sơn ngoại thất</a></li>
-                <li><a class="text-decoration-none" href="#">Cảm hứng ngoài trời</a></li>
-              </ul>
-            </li>
-            <li class="pb-3">
-              <a
-                class="collapsed d-flex justify-content-between h3 text-decoration-none"
-                href="#"
-              >
-                Màu sắc
-                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-              </a>
-              <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                <li><a class="text-decoration-none" href="#">Màu sơn nội thất</a></li>
-                <li><a class="text-decoration-none" href="#">Màu sơn ngoại thất</a></li>
-              </ul>
-            </li>
-          </ul>
+          <div class="category-panel rounded-4 shadow-sm border-0 bg-white h-100">
+            <div class="p-4">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <h1 class="h2 mb-0">Danh Mục</h1>
+                <span class="small text-muted" id="category-current-name">Tất cả danh mục</span>
+              </div>
+              <div id="category-list" class="list-group list-group-flush category-list"></div>
+            </div>
+          </div>
         </div>
         <div class="col-lg-9">
           <div class="row">
@@ -156,31 +123,15 @@
             
             
           </div>
-          <div div="row">
-            <ul class="pagination pagination-lg justify-content-end">
-              <li class="page-item disabled">
-                <a
-                  class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0"
-                  href="#"
-                  tabindex="-1"
-                  >1</a
-                >
-              </li>
-              <li class="page-item">
-                <a
-                  class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-                  href="#"
-                  >2</a
-                >
-              </li>
-              <li class="page-item">
-                <a
-                  class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
-                  href="#"
-                  >3</a
-                >
-              </li>
-            </ul>
+          <div class="row">
+            <div class="col-12">
+              <nav aria-label="Danh sách trang">
+                <ul
+                  id="pagination-list"
+                  class="pagination pagination-lg justify-content-end mb-0"
+                ></ul>
+              </nav>
+            </div>
           </div>
         </div>
       </div>

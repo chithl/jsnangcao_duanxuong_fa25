@@ -98,8 +98,16 @@ if (form) {
 
 			const resp = await colorsAPI.storeColor(payload);
 			if (resp && resp.success) {
-				alert("Thêm màu thành công!");
-				window.location.href = "colors.html";
+				alert("Thêm màu thành công!\n\nTiếp theo: Thêm công thức pha cho màu này.");
+				
+				// Redirect to formula form with color info (mandatory)
+				const params = new URLSearchParams({
+					code: code,
+					name: name,
+					palette_id: palette_id,
+					base: base || ''
+				});
+				window.location.href = `add-color-formulas.html?${params.toString()}`;
 			} else {
 				const msg = resp?.message || "Không thể tạo màu";
 				alert(msg);

@@ -34,10 +34,11 @@ function colorPreview(hex) {
 	`;
 }
 
-function renderRow(color) {
+function renderRow(color, index = 1) {
+	
 	return `
 		<tr>
-			<td class="px-5 py-4 sm:px-6">${color.id || "-"}</td>
+			<td class="px-5 py-4 sm:px-6">${index + 1}</td>
 			<td class="px-5 py-4 sm:px-6">${getPaletteName(color.palette_id)}</td>
 			<td class="px-5 py-4 sm:px-6">${color.code || "-"}</td>
 			<td class="px-5 py-4 sm:px-6">${color.name || "-"}</td>

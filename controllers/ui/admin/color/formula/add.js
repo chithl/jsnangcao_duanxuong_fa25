@@ -41,6 +41,42 @@ async function loadPalettes() {
 
 document.addEventListener("DOMContentLoaded", () => {
 	loadPalettes();
+	
+	// Auto-populate from URL parameters
+	const urlParams = new URLSearchParams(window.location.search);
+	const code = urlParams.get('code');
+	const name = urlParams.get('name');
+	const palette_id = urlParams.get('palette_id');
+	const base = urlParams.get('base');
+	
+	if (code) {
+		// Show info message
+		const infoDiv = document.createElement('div');
+		infoDiv.className = 'mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg dark:bg-blue-900/20 dark:border-blue-800';
+		infoDiv.innerHTML = `
+			<p class="text-sm text-blue-800 dark:text-blue-200">
+				<strong>📌 Tạo công thức cho màu:</strong> ${name || code}
+			</p>
+		`;
+		
+		const formContainer = document.querySelector('#add-color-formula');
+		if (formContainer) {
+			formContainer.parentElement.insertBefore(infoDiv, formContainer);
+		}
+		
+		// Pre-fill form fields
+		setTimeout(() => {
+			const codeInput = document.getElementById('code');
+			const nameInput = document.getElementById('name');
+			const paletteSelect = document.getElementById('palette_id');
+			const baseInput = document.getElementById('base');
+			
+			if (codeInput) codeInput.value = code;
+			if (nameInput && name) nameInput.value = name;
+			if (paletteSelect && palette_id) paletteSelect.value = palette_id;
+			if (baseInput && base) baseInput.value = base;
+		}, 300); // Wait for palettes to load
+	}
 });
 
 if (form) {
@@ -84,8 +120,16 @@ if (form) {
 
 			const resp = await formulasAPI.storeFormula(payload);
 			if (resp && resp.success) {
-				alert("Thêm công thức thành công!");
-				window.location.href = "color-formulas.html";
+				const formulaId = resp.data.id;
+				alert("Thêm công thức thành công!\n\nTiếp theo: Thêm thành phần màu cho công thức này.");
+				
+				// Redirect to formula component form (mandatory)
+				const params = new URLSearchParams({
+					formula_id: formulaId,
+					formula_name: name,
+					formula_code: code
+				});
+				window.location.href = `add-formula-component.html?${params.toString()}`;
 			} else {
 				const msg = resp?.message || resp?.error || "Không thể tạo công thức";
 				alert(msg);

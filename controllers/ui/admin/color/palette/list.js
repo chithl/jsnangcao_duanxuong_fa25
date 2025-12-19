@@ -37,8 +37,8 @@ async function renderPaletteList() {
         }
 
         // Render từng palette
-        result.data.forEach(palette => {
-            createPaletteRow(palette);
+        result.data.forEach((palette, index) => {
+            createPaletteRow(palette, index + 1);
         });
 
         // Gắn event listener cho nút xóa
@@ -52,7 +52,7 @@ async function renderPaletteList() {
 /**
  * Tạo một hàng trong bảng cho color palette
  */
-function createPaletteRow(palette) {
+function createPaletteRow(palette, index) {
     // Xác định trạng thái
     const isActive = palette.is_active === 'TRUE' || palette.is_active === true || palette.is_active === 'true';
     const statusClass = isActive
@@ -63,7 +63,7 @@ function createPaletteRow(palette) {
     const content = document.getElementById('palette-list');
     content.innerHTML += `
     <tr>
-        <td class="px-5 py-4 sm:px-6">${palette.id || 'N/A'}</td>
+        <td class="px-5 py-4 sm:px-6">${index}</td>
         <td class="px-5 py-4 sm:px-6">${palette.name || 'N/A'}</td>
         <td class="px-5 py-4 sm: px-6">${palette.notes || '-'}</td>
         <td class="px-5 py-4 sm:px-6">

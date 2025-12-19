@@ -40,8 +40,8 @@ async function renderColorantList() {
         }
 
         // Render từng colorant
-        cachedColorants.forEach(colorant => {
-            createColorantRow(colorant);
+        cachedColorants.forEach((colorant, index) => {
+            createColorantRow(colorant, index + 1);
         });
 
         // Gắn event listener cho nút xóa
@@ -55,9 +55,8 @@ async function renderColorantList() {
 /**
  * Tạo một hàng trong bảng cho colorant
  */
-function createColorantRow(colorant) {
+function createColorantRow(colorant, index) {
     const content = document.getElementById('colorant-list');
-    
     // Xác định trạng thái
     const statusClass = colorant.is_active == true
         ? 'bg-success-50 text-success-600' 
@@ -67,7 +66,7 @@ function createColorantRow(colorant) {
     
     content.innerHTML += `
         <tr>
-        <td class="px-5 py-4 sm:px-6">${colorant.id || 'N/A'}</td>
+        <td class="px-5 py-4 sm:px-6">${index}</td>
         <td class="px-5 py-4 sm:px-6">${colorant.name || 'N/A'}</td>
         <td class="px-5 py-4 sm:px-6">${colorant.unit || 'ml'}</td>
         <td class="px-5 py-4 sm:px-6">${formatPrice(colorant.price_per_ml)}</td>

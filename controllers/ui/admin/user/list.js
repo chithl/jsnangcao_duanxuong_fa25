@@ -62,8 +62,8 @@ async function loadData() {
                               </a>
 
                               <a href="user-address.html?id=${element.id}"
-                                class="inline-flex items-center justify-center gap-1 rounded-full bg-blue-light-50 px-2.5 py-0.5 text-sm font-medium text-blue-light-500 dark:bg-blue-light-500/15 dark:text-blue-light-500">
-                                Sửa
+                                class="inline-flex items-center justify-center gap-1 rounded-full bg-warning-50 px-2.5 py-0.5 text-sm font-medium text-warning-500 dark:bg-warning-500/15 dark:text-warning-500">
+                                <i class="bi bi-eye"></i>
                               </a>
                             </div>
                           </td>

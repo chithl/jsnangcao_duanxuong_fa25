@@ -55,23 +55,9 @@ export class CartAPI extends BaseAPI {
 
         let cart = await this.getCartByUser(user_id);
 
-        if (!cart) {
-            const newCart = {
-                user_id,
-                cart_details: {
-                    [`item_${Date.now()}`]: item
-                }
-            };
-
-            const { isError, errors } = this.cartValidate.checkValidate(newCart);
-            if (isError) throw new Error(JSON.stringify(errors));
-
-            const resp = await this.store(newCart);
-            return resp.data;
-        }
-
         const detailsArray = this.objectToArray(cart.cart_details);
 
+       
         const exist = detailsArray.find(
             d => d.product_id === item.product_id && d.variant_id === item.variant_id
         );
@@ -83,6 +69,7 @@ export class CartAPI extends BaseAPI {
                 id: `item_${Date.now()}`,
                 ...item
             });
+            console.log(detailsArray);
         }
 
         const updatedDetails = this.arrayToObject(detailsArray);
@@ -95,7 +82,7 @@ export class CartAPI extends BaseAPI {
         const { isError, errors } = this.cartValidate.checkValidate(updatedCart);
         if (isError) throw new Error(JSON.stringify(errors));
 
-        const resp = await this.update(cart.id, updatedCart);
+        const resp = await this.update(cart.cartKey, updatedCart);
         return resp.data;
     }
 

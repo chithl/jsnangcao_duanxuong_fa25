@@ -99,7 +99,7 @@ function buildProductCard(product) {
                     <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                         <ul class="list-unstyled m-0">
                             <li><a class="btn btn-success text-white mt-2" href="shop-single.html?id=${escapeHtmlAttr(product.firebaseID || product.id)}" title="Xem chi tiết"><i class="far fa-eye"></i></a></li>
-                            <li><a class="btn btn-success text-white mt-2" href="#" title="Thêm vào giỏ"><i class="fas fa-cart-plus"></i></a></li>
+                            <li><a class="btn btn-success text-white mt-2" href="shop-single.html?id=${escapeHtmlAttr(product.firebaseID || product.id)}" title="Thêm vào giỏ"><i class="fas fa-cart-plus"></i></a></li>
                         </ul>
                     </div>
                 </div>

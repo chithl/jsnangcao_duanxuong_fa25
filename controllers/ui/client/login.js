@@ -17,10 +17,10 @@ const validationRules = {
     },
     password: {
         required: true,
-        minLength: 6,
+        // minLength: 6,
         errors: {
             required: "Mật khẩu không được để trống",
-            minLength: "Mật khẩu phải có ít nhất 6 ký tự"
+            // minLength: "Mật khẩu phải có ít nhất 6 ký tự"
         }
     },
 };
@@ -44,9 +44,10 @@ function validateForm() {
     // Password
     if (!password) {
         errors.password = validationRules.password.errors.required;
-    } else if (password.length < validationRules.password.minLength) {
-        errors.password = validationRules.password.errors.minLength;
-    }
+    } 
+    // else if (password.length < validationRules.password.minLength) {
+    //     errors.password = validationRules.password.errors.minLength;
+    // }
 
     return errors;
 }

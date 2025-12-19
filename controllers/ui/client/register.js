@@ -1,5 +1,5 @@
 import { AuthAPI } from "../../api/AuthAPI.js";
-
+import { CartAPI } from "../../api/CartAPI.js";
 const auth = new AuthAPI();
 const form = document.querySelector(".register-form");
 /**
@@ -127,6 +127,14 @@ form.addEventListener("submit", async (e) => {
     };
 
     const result = await auth.register(data);
+
+    console.log(result);
+    // Create cart
+    let objToCart = {
+        "user_id": result.data.id,
+    }
+    let cartAPI = new CartAPI();
+    let cartRes = cartAPI.createNewCart(objToCart);
 
     alert("Đăng ký thành công");
     window.location.href = "login.html";

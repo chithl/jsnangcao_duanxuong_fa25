@@ -12,7 +12,7 @@ body {
 .product-card-luxury {
     border: none;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     background: #fff;
     overflow: hidden;
 }
@@ -35,7 +35,7 @@ body {
     background: var(--jotun-blue);
     border-color: var(--jotun-blue);
     color: #fff;
-    box-shadow: 0 4px 15px rgba(0,74,153,0.3);
+    box-shadow: 0 4px 15px rgba(0, 74, 153, 0.3);
 }
 
 .price-tag {
@@ -58,7 +58,7 @@ body {
 
 .btn-luxury-buy:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,74,153,0.3);
+    box-shadow: 0 8px 25px rgba(0, 74, 153, 0.3);
 }
 
 .info-label {
@@ -76,10 +76,12 @@ body {
     box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
     border: 1px solid #f1f3f5;
 }
+
 .category-panel:hover {
     transform: translateY(-4px);
     box-shadow: 0 30px 60px rgba(15, 23, 42, 0.15);
 }
+
 .category-list .list-group-item {
     border: none;
     border-radius: 14px;
@@ -91,16 +93,19 @@ body {
     transition: all 0.3s ease;
     cursor: pointer;
 }
+
 .category-list .list-group-item.active {
     background: #2d3436;
     color: #ffffff;
     box-shadow: 0 10px 25px rgba(45, 52, 54, 0.25);
 }
+
 .category-list .list-group-item:focus-visible,
 .category-list .list-group-item:hover {
     background: #2d3436;
     color: #ffffff;
 }
+
 /* Tùy chỉnh đánh giá hiện đại */
 .review-stats-card {
     border: none;
@@ -169,7 +174,10 @@ body {
     background: #004a99;
     color: #fff;
 }
-.rounded-20 { border-radius: 20px !important; }
+
+.rounded-20 {
+    border-radius: 20px !important;
+}
 
 .avatar-luxury {
     width: 48px;
@@ -182,7 +190,7 @@ body {
     border-radius: 14px;
     font-weight: 700;
     font-size: 1.1rem;
-    box-shadow: 0 4px 10px rgba(0,74,153,0.15);
+    box-shadow: 0 4px 10px rgba(0, 74, 153, 0.15);
 }
 
 .comment-item-luxury {
@@ -203,8 +211,9 @@ body {
 
 #comment-form .form-control:focus {
     background: #fff;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
+
 .register-page {
     background: #f4f4f4;
     min-height: 100vh;
@@ -259,7 +268,8 @@ body {
 }
 
 .register-form input:focus {
-    border-color: #2f8f46; /* xanh Jotun */
+    border-color: #2f8f46;
+    /* xanh Jotun */
     outline: none;
     box-shadow: 0 0 0 2px rgba(47, 143, 70, 0.15);
 }
@@ -308,7 +318,8 @@ body {
         padding: 30px 20px;
     }
 }
-         /* ===== LOGIN PAGE ===== */
+
+/* ===== LOGIN PAGE ===== */
 .login-page {
     background: #f4f4f4;
     min-height: 100vh;
@@ -421,7 +432,7 @@ body {
     background: #ffffff;
     border-radius: 24px;
     padding: 40px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.03);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.03);
 }
 
 .rating-summary-box {
@@ -430,8 +441,13 @@ body {
     border: 1px solid #eee;
 }
 
-.star-active { color: #ffc107; }
-.star-inactive { color: #e9ecef; }
+.star-active {
+    color: #ffc107;
+}
+
+.star-inactive {
+    color: #e9ecef;
+}
 
 .progress-luxury {
     height: 6px;
@@ -461,33 +477,26 @@ body {
     font-weight: bold;
 }
 
-    
-      .error-container {
-        padding: 100px 0;
-        min-height: 70vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .error-code {
-        font-size: 150px;
-        font-weight: 900;
-        color: #cfd3d6; /* Màu xám nhạt */
-        line-height: 1;
-      }
-      .error-message {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #212934; /* Màu text tối của theme */
-      }
-      .btn-jotun {
-        background-color: #59ab6e !important; /* Màu xanh success của theme */
-        border-color: #59ab6e !important;
-        color: white;
-        padding: 10px 30px;
-        font-weight: 500;
-      }
-      .btn-jotun:hover {
-        background-color: #488e58 !important;
-        color: white;
-      }
+.result-box {
+    background-color: #F5F7FA;
+    /* trung tính */
+    border-left: 5px solid #CBD5E1;
+    padding: 18px 20px;
+    border-radius: 8px;
+    color: #1F2937;
+    margin-bottom: 16px;
+}
+
+.result-box strong {
+    color: #111827;
+}
+
+.result-box .muted {
+    color: #4B5563;
+}
+
+.result-box .highlight {
+    color: #DC2626;
+    font-weight: 500;
+    font-size: 1.1em;
+}

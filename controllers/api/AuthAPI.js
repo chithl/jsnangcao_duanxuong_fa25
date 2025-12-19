@@ -1,5 +1,6 @@
 import { BaseAPI } from "./BaseAPI.js";
 import { RegisterValidate } from "./validate/RegisterValidate.js";
+import { CartAPI } from "./CartAPI.js";
 
 export class AuthAPI extends BaseAPI {
     constructor() {

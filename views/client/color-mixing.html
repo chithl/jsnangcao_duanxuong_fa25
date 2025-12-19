@@ -26,94 +26,167 @@
 
     <!-- Content -->
     <section class="container py-5">
-        <h2 class="fw-bold mb-4">Công cụ pha màu sơn</h2>
-
-        <!-- Gallery Công Thức Pha Sẵn Có -->
-        <div class="mb-5">
-            <h5 class="fw-bold mb-3">Công thức pha sẵn có</h5>
-            <div class="row g-3 mb-4">
-                <div class="col-md-3">
-                    <input type="text" class="form-control" id="formula-search" placeholder="Tìm kiếm màu, code...">
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select" id="formula-palette-filter">
-                        <option value="">Tất cả bảng màu</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select" id="formula-base-filter">
-                        <option value="">Tất cả base</option>
-                    </select>
-                </div>
-            </div>
-
-            <div id="formulas-gallery" class="row g-3">
-                <!-- Công thức sẽ được load ở đây -->
-            </div>
-        </div>
-
-        <hr class="my-5">
+        <h2 class="fw-bold mb-4">Công cụ tính sơn</h2>
 
         <div class="row g-4">
-
-            <!-- LEFT -->
-            <div class="col-lg-6">
+            <!-- LEFT - Form Chọn Màu & Diện tích -->
+            <div class="col-lg-5">
                 <div class="bg-white p-4 rounded shadow-sm">
+                    <h5 class="fw-bold mb-4">Chọn màu & Tính lượng sơn</h5>
 
-                    <h5 class="fw-bold mb-3">Tùy chỉnh & Tính toán</h5>
-
-                    <!-- Hiển thị màu đã chọn từ công thức -->
-                    <div id="selected-formula-info" class="alert alert-info d-none mb-3">
-                        <p class="mb-1"><strong>Công thức:</strong> <span id="selected-formula-name">-</span></p>
-                        <p class="mb-0"><strong>Mã:</strong> <span id="selected-formula-code">-</span> | 
-                               <strong>Base:</strong> <span id="selected-formula-base">-</span></p>
-                    </div>
-
-                    <!-- QUICK CALC -->
+                    <!-- Kích thước bề mặt -->
                     <div class="mb-3">
-                        <label class="form-label">Dung tích pha (L)</label>
-                        <input type="number" class="form-control" id="volume-input" placeholder="VD: 5" min="0.1" step="0.1" value="1">
+                        <label class="form-label fw-semibold">Kích thước phòng/tường (m)</label>
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <input type="number" class="form-control" id="room-length" placeholder="Dài" min="0" step="0.1">
+                            </div>
+                            <div class="col-4">
+                                <input type="number" class="form-control" id="room-width" placeholder="Rộng" min="0" step="0.1">
+                            </div>
+                            <div class="col-4">
+                                <input type="number" class="form-control" id="room-height" placeholder="Cao" min="0" step="0.1">
+                            </div>
+                        </div>
+                        <small class="text-muted">Diện tích tường = 2 x (Dài + Rộng) x Cao</small>
                     </div>
 
-                    <button class="btn btn-danger w-100" id="btn-calculate" onclick="calculateMix()">
-                        Tính pha màu
-                    </button>
+                    <!-- Cửa sổ / cửa ra vào -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Tổng diện tích cửa sổ / cửa (m²)</label>
+                        <input type="number" class="form-control" id="opening-area" placeholder="VD: 2" min="0" step="0.1">
+                        <small class="text-muted">Sẽ trừ khỏi diện tích sơn</small>
+                    </div>
 
+                    <!-- Chọn Công Thức Pha -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Chọn Công Thức Pha</label>
+                        <select class="form-select" id="color-select">
+                            <option value="">-- Chọn công thức --</option>
+                        </select>
+                    </div>
+
+                    <!-- Preview màu -->
+                    <div id="color-preview-box" class="d-none mb-4">
+                        <div class="mb-3">
+                            <p class="form-label fw-semibold mb-2">Xem trước</p>
+                            <div class="border rounded" style="height:80px; width:100%;" id="color-preview-rect"></div>
+                        </div>
+                        <p class="text-muted small" id="color-hex-code">Hex: -</p>
+                    </div>
+
+                    <!-- Loại sơn & độ phủ -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Dòng sản phẩm</label>
+                            <select class="form-select" id="product-line">
+                                <option value="">Chọn dòng sơn</option>
+                                <option value="jotaplast" data-coverage="12">Jotaplast (12 m²/L/lớp)</option>
+                                <option value="majestic" data-coverage="14">Majestic (14 m²/L/lớp)</option>
+                                <option value="jotun-exterior" data-coverage="10">Ngoại thất (10 m²/L/lớp)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Khu vực</label>
+                            <select class="form-select" id="area-type">
+                                <option value="interior">Nội thất</option>
+                                <option value="exterior">Ngoại thất</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Độ phủ (m²/L/lớp)</label>
+                            <input type="number" class="form-control" id="coverage-per-liter" placeholder="VD: 12" min="0.1" step="0.1" value="12">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Số lớp</label>
+                            <select class="form-select" id="coats-select">
+                                <option value="1">1 lớp</option>
+                                <option value="2" selected>2 lớp</option>
+                                <option value="3">3 lớp</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold">Hao hụt (%)</label>
+                            <input type="number" class="form-control" id="wastage-input" placeholder="VD: 8" min="0" step="0.5" value="8">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-danger w-100" id="btn-calculate">
+                        Tính lượng sơn
+                    </button>
                 </div>
             </div>
 
-            <!-- RIGHT -->
-            <div class="col-lg-6">
+            <!-- RIGHT - Display Công Thức & Kết Quả -->
+            <div class="col-lg-7">
                 <div class="bg-white p-4 rounded shadow-sm">
+                    <h5 class="fw-bold mb-4">Thành phần & Kết quả</h5>
 
-                    <h5 class="fw-bold mb-3">Kết quả mô phỏng</h5>
+                    <!-- Thông tin công thức -->
+                    <div id="formula-info-box" class="result-box d-none mb-4">
+                        <h6 class="fw-bold mb-2">Công thức: <span id="formula-name">-</span></h6>
+                        <p class="mb-1"><strong>Code:</strong> <span id="formula-code">-</span></p>
+                        <p class="mb-1"><strong>Base:</strong> <span id="formula-base">-</span></p>
+                        <p class="mb-0"><strong>Sai số:</strong> <span id="formula-tolerance">-</span></p>
+                    </div>
 
+                    <!-- Bảng Thành phần -->
+                    <div id="components-table-box" class="d-none mb-4">
+                        <h6 class="fw-bold mb-3">Thành phần công thức</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Chất màu</th>
+                                        <th class="text-end">ml/L</th>
+                                        <th class="text-end">% trong công thức</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="components-tbody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Review màu -->
+                    <div id="reviews-box" class="d-none mb-4">
+                        <h6 class="fw-bold mb-3">💬 Đánh giá về màu</h6>
+                        <div id="reviews-content"></div>
+                    </div>
+
+                    <!-- Kết quả tính toán -->
                     <div id="result-container" class="d-none">
-                        <div class="border rounded mb-3 p-3" style="height:120px;" id="color-preview"></div>
+                        <!-- Thông tin tính toán -->
+                        <div id="result-info"></div>
 
-                        <h6 class="fw-bold">Tỉ lệ pha (cho <span id="result-volume">0</span>L)</h6>
-                        <table class="table table-sm table-hover">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Thành phần</th>
-                                    <th class="text-end">Lượng (ml)</th>
-                                    <th class="text-end">Chi phí</th>
-                                </tr>
-                            </thead>
-                            <tbody id="mix-table">
-                            </tbody>
-                        </table>
+                        <!-- Bảng chi tiết pha -->
+                        <h6 class="fw-bold mb-3 mt-4">Chi tiết pha sơn</h6>
+                        <div class="table-responsive mb-3">
+                            <table class="table table-sm table-striped">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Thành phần</th>
+                                        <th class="text-end">ml/L</th>
+                                        <th class="text-end">Lượng (ml)</th>
+                                        <th class="text-end">Chi phí (est.)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mix-table">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="mix-summary" class="result-box"></div>
 
-                        <div class="alert alert-info" id="mix-summary"></div>
                     </div>
 
                     <div id="empty-state" class="text-center text-muted py-5">
-                        <p>Chọn công thức từ bên trái để bắt đầu</p>
+                        <p>Chọn màu và nhập diện tích để bắt đầu tính toán</p>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </section>
     <!-- End Content -->
@@ -132,8 +205,6 @@
     <script src="../../assets/client/js/custom.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="module" src="../../controllers/ui/client/color-mixing.js"></script>
-    <script type="module" src="../../assets/client/js/menu.js"></script>
-
     <!-- End Script -->
 </body>
 

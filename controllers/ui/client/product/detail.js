@@ -2,11 +2,13 @@ import { ProductAPI } from "../../../api/ProductAPI.js";
 import { VariantAPI } from "../../../api/VariantAPI.js";
 import { ReviewAPI } from "../../../api/ReviewAPI.js";
 import { AuthAPI } from "../../../api/AuthAPI.js";
+import { InventoryAPI } from "../../../api/InventoryAPI.js";
 
 const productModule = new ProductAPI();
 const variantModule = new VariantAPI();
 const reviewModule = new ReviewAPI();
 const authModule = new AuthAPI();
+const inventoryModule = new InventoryAPI();
 
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
@@ -16,8 +18,13 @@ const variantPriceEl = document.getElementById("variant-price");
 const variantSkuEl = document.getElementById("variant-sku");
 const variantInfoEl = document.getElementById("variant-info");
 const variantContainer = document.getElementById("variant-container");
-const variantThumbnailsEl = document.getElementById("variant-thumbnails");
 const addToCartBtn = document.getElementById("btn-add-to-cart");
+
+const quantityDecreaseBtn = document.getElementById("quantity-decrease");
+const quantityIncreaseBtn = document.getElementById("quantity-increase");
+const quantityInputEl = document.getElementById("product-quantity");
+const quantityHiddenEl = document.getElementById("selected-variant-quantity");
+const stockHintEl = document.getElementById("variant-stock-hint");
 
 const colorBlockEl = document.getElementById("color-block");
 const colorOptionsEl = document.getElementById("color-options");
@@ -40,17 +47,25 @@ const ratingStarsEl = document.getElementById("rating-stars");
 const ratingAverageNoteEl = document.getElementById("rating-average-note");
 const ratingProgressBars = document.querySelectorAll("[data-rating-bar]");
 const ratingCountEls = document.querySelectorAll("[data-rating-count]");
+const numberFormatter = new Intl.NumberFormat("vi-VN");
 
 let currentUser = null;
 const REVIEW_BATCH_SIZE = 5;
 let cachedReviews = [];
 let visibleReviewCount = 0;
 let variantList = [];
-let activeVariantId = "";
 let productBaseImage = "";
+let selectedQuantity = 1;
+const MIN_QUANTITY = 1;
+const MAX_QUANTITY = 99;
+let inventoryLoaded = false;
+let inventoryError = false;
+const inventoryBySku = new Map();
+const inventoryByVariantId = new Map();
 
 // --- KHỞI TẠO ---
 setupReviewListeners();
+initQuantityControls();
 
 (async () => {
     if (!productId) return;
@@ -76,8 +91,12 @@ setupReviewListeners();
             if (productSalesEl) {
                 productSalesEl.innerText = soldCount ? `Đã bán ${soldCount}` : "";
             }
+        }else {
+            window.location.href = "../../views/client/404.html";
+            return;
         }
 
+        await loadInventory();
         renderVariantPickers(variants);
         renderColorOptions(product, variantList);
         await loadReviews();
@@ -98,15 +117,13 @@ function renderVariantPickers(variants) {
     }
     variantList = normalized.map(variant => ({
         ...variant,
-        label: buildVariantLabel(variant),
-        imageSrc: getVariantImage(variant)
+        label: buildVariantLabel(variant)
     }));
     variantContainer.innerHTML = variantList.map(variant => `
         <button type="button" class="btn btn-outline-success btn-variant variant-pill"
                 data-id="${variant.id}"
                 data-price="${variant.price || 0}"
-                data-sku="${variant.sku || ""}"
-                data-image="${escapeHtmlAttr(variant.imageSrc)}">
+                data-sku="${variant.sku || ""}">
             ${escapeHtmlAttr(variant.label)}
         </button>
     `).join("");
@@ -123,7 +140,6 @@ function renderVariantPickers(variants) {
             updateUIWithVariant(this.dataset);
         };
     });
-    renderVariantThumbnails(variantList);
     if (buttons.length > 0) buttons[0].click();
 }
 
@@ -135,50 +151,164 @@ function updateUIWithVariant(data) {
         if (variantInfoEl) variantInfoEl.style.display = data.sku ? "block" : "none";
     }
     const variantId = data.id || data.variantId || "";
-    const imageSource = data.image || data.imageSrc || "";
-    if (mainImageEl && imageSource) {
-        mainImageEl.src = imageSource;
-    } else if (mainImageEl && productBaseImage) {
-        mainImageEl.src = productBaseImage;
-    }
-    activeVariantId = variantId;
-    highlightThumbnail(activeVariantId);
     if (selectedVariantInput) selectedVariantInput.value = variantId;
     if (addToCartBtn) {
         addToCartBtn.disabled = false;
         addToCartBtn.dataset.variantId = variantId;
     }
+    const variantRecord = variantList.find(v => String(v.id) === String(variantId));
+    updateInventoryHint(variantRecord);
 }
 
-function renderVariantThumbnails(variants) {
-    if (!variantThumbnailsEl) return;
-    const gallery = variants.map(variant => {
-        if (!variant.imageSrc) return "";
-        const ariaLabel = escapeHtmlAttr(variant.label || variant.sku || "variant");
-        return `
-            <button type="button" class="thumbnail-item" data-variant-id="${variant.id}" aria-label="${ariaLabel}">
-                <img src="${variant.imageSrc}" alt="${ariaLabel}">
-            </button>`;
-    }).filter(Boolean).join("");
-    variantThumbnailsEl.innerHTML = gallery || "<p class='text-muted small mb-0'>Không có hình ảnh phụ</p>";
-    variantThumbnailsEl.querySelectorAll(".thumbnail-item").forEach(btn => {
-        btn.addEventListener("click", () => selectVariantById(btn.dataset.variantId));
+async function loadInventory() {
+    inventoryLoaded = false;
+    inventoryError = false;
+    inventoryBySku.clear();
+    inventoryByVariantId.clear();
+    try {
+        const payload = await inventoryModule.getAllInventory();
+        const records = normalizeInventoryPayload(payload);
+        buildInventoryMaps(records);
+    } catch (error) {
+        console.error("Không tải được dữ liệu kho:", error);
+        inventoryError = true;
+    } finally {
+        inventoryLoaded = true;
+    }
+}
+
+function normalizeInventoryPayload(payload) {
+    if (!payload) return [];
+    if (Array.isArray(payload)) {
+        return payload.filter(Boolean);
+    }
+    if (typeof payload === "object") {
+        return Object.values(payload).filter(Boolean);
+    }
+    return [];
+}
+
+function buildInventoryMaps(records) {
+    records.forEach(record => {
+        const skuKey = getInventorySkuKey(record);
+        if (skuKey) inventoryBySku.set(skuKey, record);
+        const variantKey = getInventoryVariantKey(record);
+        if (variantKey) inventoryByVariantId.set(variantKey, record);
     });
-    highlightThumbnail(activeVariantId);
 }
 
-function highlightThumbnail(id) {
-    if (!variantThumbnailsEl) return;
-    variantThumbnailsEl.querySelectorAll(".thumbnail-item").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.variantId === id);
-    });
+function getInventorySkuKey(record) {
+    const candidate = record?.sku ?? record?.SKU ?? record?.variant_sku ?? record?.variantSKU ?? record?.product_sku ?? record?.code;
+    return normalizeKey(candidate);
 }
 
-function selectVariantById(id) {
-    if (!id || !variantContainer) return;
-    const buttons = Array.from(variantContainer.querySelectorAll(".btn-variant"));
-    const target = buttons.find(btn => btn.dataset.id === id);
-    if (target) target.click();
+function getInventoryVariantKey(record) {
+    const candidate = record?.variant_id ?? record?.variantId ?? record?.variant ?? record?.product_variant_id ?? record?.id;
+    return candidate ? String(candidate).trim() : "";
+}
+
+function normalizeKey(value) {
+    if (value === undefined || value === null) return "";
+    const text = typeof value === "string" ? value : String(value);
+    const trimmed = text.trim();
+    return trimmed ? trimmed.toLowerCase() : "";
+}
+
+function findInventoryRecord(variant) {
+    if (!variant) return null;
+    const variantKey = variant.id ?? variant.variantId ?? variant.variant_id ?? variant.id;
+    const resolvedVariantKey = variantKey ? String(variantKey).trim() : "";
+    if (resolvedVariantKey && inventoryByVariantId.has(resolvedVariantKey)) {
+        return inventoryByVariantId.get(resolvedVariantKey);
+    }
+    const skuKey = normalizeKey(variant.sku ?? variant.SKU ?? variant.code ?? variant.variant_sku ?? variant.variantSKU);
+    if (skuKey && inventoryBySku.has(skuKey)) {
+        return inventoryBySku.get(skuKey);
+    }
+    return null;
+}
+
+function resolveInventoryQuantity(record) {
+    if (!record) return null;
+    const candidate = record.quantity ?? record.qty ?? record.stock ?? record.available ?? record.amount ?? record.on_hand ?? record.onStock ?? record.on_stock ?? record.total ?? record.available_quantity;
+    const numeric = Number(candidate);
+    return Number.isFinite(numeric) ? numeric : null;
+}
+
+function updateInventoryHint(variant) {
+    if (!stockHintEl) return;
+    const record = findInventoryRecord(variant);
+    if (record) {
+        const quantity = resolveInventoryQuantity(record);
+        if (quantity !== null) {
+            if (quantity <= 0) {
+                stockHintEl.innerText = "Hết hàng";
+                stockHintEl.className = "fw-semibold text-danger small";
+                return;
+            }
+            stockHintEl.innerText = `${numberFormatter.format(quantity)} sản phẩm`;
+            stockHintEl.className = "fw-semibold text-success small";
+            return;
+        }
+    }
+    if (!inventoryLoaded && !inventoryError) {
+        stockHintEl.innerText = "Đang xác thực kho…";
+        stockHintEl.className = "fw-semibold text-muted small";
+        return;
+    }
+    if (inventoryError) {
+        stockHintEl.innerText = "Không lấy được dữ liệu kho";
+        stockHintEl.className = "fw-semibold text-muted small";
+        return;
+    }
+    stockHintEl.innerText = "Tồn kho chưa cập nhật";
+    stockHintEl.className = "fw-semibold text-muted small";
+}
+
+function initQuantityControls() {
+    if (!quantityInputEl) return;
+    quantityDecreaseBtn?.addEventListener("click", () => changeQuantity(-1));
+    quantityIncreaseBtn?.addEventListener("click", () => changeQuantity(1));
+    const syncInput = event => handleQuantityInputChange(event);
+    quantityInputEl.addEventListener("input", syncInput);
+    quantityInputEl.addEventListener("change", syncInput);
+    synchronizeQuantity();
+}
+
+function changeQuantity(delta) {
+    setQuantity(selectedQuantity + delta);
+}
+
+function setQuantity(value) {
+    const normalized = Number.isFinite(value) ? Math.round(value) : selectedQuantity;
+    let next = Math.max(MIN_QUANTITY, Math.min(MAX_QUANTITY, normalized));
+    if (next === selectedQuantity) {
+        synchronizeQuantity();
+        return;
+    }
+    selectedQuantity = next;
+    synchronizeQuantity();
+}
+
+function handleQuantityInputChange(event) {
+    const value = Number(event?.target?.value);
+    if (!Number.isFinite(value)) {
+        synchronizeQuantity();
+        return;
+    }
+    setQuantity(value);
+}
+
+function synchronizeQuantity() {
+    if (quantityInputEl) quantityInputEl.value = String(selectedQuantity);
+    if (quantityHiddenEl) quantityHiddenEl.value = String(selectedQuantity);
+    if (addToCartBtn) addToCartBtn.dataset.quantity = String(selectedQuantity);
+    updateQuantityButtonState();
+}
+
+function updateQuantityButtonState() {
+    if (quantityDecreaseBtn) quantityDecreaseBtn.disabled = selectedQuantity <= MIN_QUANTITY;
+    if (quantityIncreaseBtn) quantityIncreaseBtn.disabled = selectedQuantity >= MAX_QUANTITY;
 }
 
 function buildVariantLabel(variant) {
@@ -191,11 +321,6 @@ function buildVariantLabel(variant) {
     if (variant.label) return variant.label;
     if (variant.name) return variant.name;
     return "Biến thể";
-}
-
-function getVariantImage(variant) {
-    if (!variant) return "";
-    return resolveImageSource(variant);
 }
 
 function getPrimaryImage(record) {

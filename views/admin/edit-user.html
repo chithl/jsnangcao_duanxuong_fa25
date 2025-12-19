@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chỉnh sửa Phòng | Sơn Jotun</title>
+    <link rel="icon" href="favicon.ico">
+    <link href="../../assets/admin/styles/style.css" rel="stylesheet">
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+</head>
+
+<body
+    x-data="{ page: 'editRoom', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+    x-init="darkMode = JSON.parse(localStorage.getItem('darkMode')); $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+    :class="{'dark bg-gray-900': darkMode === true}">
+
+    <div x-show="loaded"
+        x-init="window.addEventListener('DOMContentLoaded', () => {setTimeout(() => loaded = false, 500)})"
+        class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
+        <div class="h-16 w-16 animate-spin rounded-full border-4 border-solid border-brand-500 border-t-transparent">
+        </div>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        <div w3-include-html="layouts/sidebar.html"></div>
+
+        <div class="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-900">
+            <div w3-include-html="layouts/header.html"></div>
+
+            <main>
+                <form id="edit-user">
+                    <div class="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
+                        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+                            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90">Hồ sơ cá nhân</h2>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+                            <div class="md:col-span-2 space-y-6">
+                                <div
+                                    class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                                    <div
+                                        class="px-5 py-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                                        <h3 class="text-base font-medium text-gray-800 dark:text-white/90">Thông tin chi
+                                            tiết</h3>
+                                    </div>
+
+                                    <div class="p-6 space-y-6">
+                                        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                            <input type="hidden" id="updatedAt">
+                                            <input type="hidden" id="role">
+                                            <div>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400">Họ và tên: </p>
+                                                <input class="mt-1 font-medium text-gray-800 dark:text-white"
+                                                    id="name" />
+                                            </div>
+                                            <div>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400">Email: </p>
+                                                <input class="mt-1 font-medium text-gray-800 dark:text-white"
+                                                    id="email" />
+                                            </div>
+                                            <div>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400">Số điện thoại: </p>
+                                                <input class="mt-1 font-medium text-gray-800 dark:text-white"
+                                                    id="phone" />
+                                            </div>
+                                            <div>
+                                                <p class="text-sm text-gray-500 dark:text-gray-400">Ngày tham gia: </p>
+                                                <input class="mt-1 font-medium text-gray-800 dark:text-white"
+                                                    id="createdAt" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-6">
+                                <div
+                                    class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] p-6 text-center">
+                                    <div
+                                        class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-brand-50 text-2xl font-bold text-brand-500 dark:bg-brand-500/10">
+                                        NV
+                                    </div>
+                                    <h4 class="text-lg font-semibold text-gray-800 dark:text-white" id="name"></h4>
+                                    <p class="text-sm text-gray-500" id="user-role"></p>
+
+                                    <div class="space-y-4 border-t border-gray-100 pt-6 dark:border-gray-800">
+                                        <div class="flex flex-col gap-2">
+                                            <label class="text-left text-sm font-medium text-gray-500">Trạng thái tài
+                                                khoản</label>
+                                            <select id="status"
+                                                class="h-10 rounded-lg border border-gray-200 bg-transparent px-4 text-sm outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 dark:border-gray-700 dark:text-white">
+                                                <option value="">-- Chọn trạng thái --</option>
+                                                <option value="1">Hoạt động</option>
+                                                <option value="0">Vô hiệu hóa</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" id="btnUpdate"
+                                    class="w-full rounded-lg bg-brand-500 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-brand-600 shadow-sm shadow-brand-200 dark:shadow-none">
+                                    Cập nhật trạng thái
+                                </button>
+                            </div>
+                        </div>
+                </form>
+        </div>
+        </main>
+    </div>
+    </div>
+    <script>w3.includeHTML();</script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script type="module" src="../../controllers/ui/admin/user/edit.js"></script>
+    <script defer src="../../assets/admin/scripts/bundle.js"></script>
+</body>
+
+</html>

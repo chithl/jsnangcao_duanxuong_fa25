@@ -73,6 +73,7 @@ export class AuthAPI extends BaseAPI {
                 phone: data.phone || "",
                 password: data.password,
                 role: "customer",
+                status: 1,
                 createdAt: new Date().toLocaleString("vi-VN"),
                 updatedAt: ""
             });
@@ -164,7 +165,8 @@ export class AuthAPI extends BaseAPI {
                         name: user.name,
                         email: user.email,
                         phone: user.phone,
-                        role: user.role
+                        role: user.role,
+                        status: user.status
                     }
                 }
             };

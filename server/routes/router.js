@@ -111,41 +111,44 @@ router.get("/order/vnpay_return", async (req, res) => {
             return res.render("payment_error", { message: "Giỏ hàng không tồn tại" });
         }
 
-        // 2. Xử lý trừ lượt dùng mã giảm giá (Dùng ID/Key của Promo)
+        // 2. Xử lý trừ lượt dùng mã giảm giá (Dùng KEY từ Firebase)
         if (promoCodeUsed && resPromos.data) {
-            const allPromos = firebaseToTable(resPromos.data);
-            const promo = allPromos.find(p => p.code === promoCodeUsed);
+            // Chuyển Object promotions của Firebase thành mảng kèm Key (id)
+            const allPromos = Object.entries(resPromos.data).map(([key, val]) => ({
+                id: key,
+                ...val
+            }));
+
+            const promo = allPromos.find(p => p.code == promoCodeUsed);
+
             if (promo) {
+                // Tăng số lượt đã dùng lên 1 dựa theo ID (Key Firebase)
                 await axios.patch(`https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/promotions/${promo.id}.json`, {
                     used_count: (Number(promo.used_count) || 0) + 1
                 });
             }
         }
 
-        // 3. Tạo dữ liệu Order (Lấy số tiền từ VNPAY cho chắc chắn)
-        const totalAmount = Number(req.query.vnp_Amount) / 100;
+        // 3. Tạo dữ liệu Order
+        const grandTotal = Number(req.query.vnp_Amount) / 100;
         const orderPayload = {
             user_id: userId,
             status: "pending",
             payment_method: "online",
             shipping_address: decodeURIComponent(req.query.address),
-            total: totalAmount,
+            total: grandTotal,
             promoCode: promoCodeUsed || "",
             create_at: new Date().toISOString(),
             paid_at: new Date().toISOString()
         };
 
         const orderRes = await axios.post("https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/orders.json", orderPayload);
-        const newOrderId = orderRes.data.name; // Firebase POST trả về key trong field 'name'
+        const newOrderId = orderRes.data.name;
 
         // 4. Tạo Order_Items
-        // Chuyển cart_details từ Object thành Array để map
         const cartItems = Object.values(cart.cart_details);
-
         const itemPromises = cartItems.map(item => {
-            // Tìm variant theo key (id) mà bạn đã lưu trong cart
             const variant = allVariants.find(v => v.id === item.variant_id);
-            // Tìm product theo key (id)
             const product = allProducts.find(p => p.id === item.product_id);
 
             return axios.post("https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/order_items.json", {
@@ -159,24 +162,18 @@ router.get("/order/vnpay_return", async (req, res) => {
 
         await Promise.all(itemPromises);
 
-        // 5. Xóa giỏ hàng (Xóa cart_details bằng ID của cart)
+        // 5. Xóa giỏ hàng
         await axios.patch(`https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/carts/${cart.id}.json`, {
             cart_details: []
         });
-        const grandTotal = Number(req.query.vnp_Amount) / 100;
 
-        console.log(grandTotal);
-        return;
-        // Render trang và truyền biến grand_total qua
+        // 6. Render trang và truyền biến (ĐÃ BỎ RETURN CHẶN CODE)
         res.render("payment_success", {
-            // Truyền trực tiếp grand_total để dễ gọi ở EJS
             grand_total: grandTotal,
-
-            // Hoặc truyền qua object data như bạn đã làm
             data: {
                 ...orderPayload,
                 order_code: "ORD-" + newOrderId.substring(1, 8).toUpperCase(),
-                grand_total: grandTotal // Đảm bảo trong data cũng có trường này
+                grand_total: grandTotal
             },
             orderId: newOrderId
         });

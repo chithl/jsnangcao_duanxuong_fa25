@@ -37,14 +37,23 @@ async function loadData() {
             return;
         }
 
+        const statusMap = {
+            0: "Đang xử lý",
+            1: "Đang giao",
+            2: "Đã giao",
+            3: "Đã hủy"
+        };
+
         let html = "";
         data.forEach(o => {
+            const statusKey = typeof o.status === "string" ? Number(o.status) : o.status;
+            const statusLabel = statusMap[statusKey] || "";
             html += `
                 <tr>
                     <td>#${o.id}</td>
                     <td>${new Date(o.create_at).toLocaleString("vi-VN")}</td>
                     <td>${Number(o.total).toLocaleString("vi-VN")} đ</td>
-                    <td>${o.status}</td>
+                    <td>${statusLabel}</td>
                     <td><a href="detail-order.html?id=${o.id}"
                                 class="inline-flex items-center justify-center gap-1 rounded-full bg-blue-light-50 px-2.5 py-0.5 text-sm font-medium text-blue-light-500 dark:bg-blue-light-500/15 dark:text-blue-light-500">
                                 Chi tiết

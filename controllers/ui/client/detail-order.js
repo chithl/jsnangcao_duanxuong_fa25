@@ -33,7 +33,14 @@ async function loadOrderDetail() {
                 ? new Date(order.create_at).toLocaleString("vi-VN")
                 : "";
 
-        document.getElementById("status").innerText = order.status || "";
+        const statusMap = {
+            0: "Đang xử lý",
+            1: "Đang giao",
+            2: "Đã giao",
+            3: "Đã hủy"
+        };
+        const statusKey = typeof order.status === "string" ? Number(order.status) : order.status;
+        document.getElementById("status").innerText = statusMap[statusKey] || "";
         document.getElementById("payment").innerText = order.payment_method || "";
         document.getElementById("address").innerText = order.shipping_address || "";
         document.getElementById("total").innerText =

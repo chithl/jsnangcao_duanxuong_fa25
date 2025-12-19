@@ -133,7 +133,7 @@ router.get("/order/vnpay_return", async (req, res) => {
         const grandTotal = Number(req.query.vnp_Amount) / 100;
         const orderPayload = {
             user_id: userId,
-            status: "pending",
+            status: "0",
             payment_method: "online",
             shipping_address: decodeURIComponent(req.query.address),
             total: grandTotal,

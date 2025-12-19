@@ -100,7 +100,7 @@ export class AuthAPI extends BaseAPI {
 
             // Firebase returns { name: "-Nx..." } when success
             if (response?.data?.error) {
-            console.log("O day sai API");
+                console.log("O day sai API");
 
                 return {
                     success: false,
@@ -111,7 +111,7 @@ export class AuthAPI extends BaseAPI {
             const newId = response?.data?.name;
             if (!newId) {
                 console.error("REGISTER STORE RESPONSE", response);
-                
+
                 return {
                     success: false,
                     errors: [{ message: "Không tạo được user (response rỗng)" }]
@@ -129,12 +129,12 @@ export class AuthAPI extends BaseAPI {
             };
 
         } catch (error) {
-    console.error("REGISTER ERROR:", error);
+            console.error("REGISTER ERROR:", error);
 
-    return {
-        success: false,
-        errors: [{ message: error.message || "Server error" }]
-    };
+            return {
+                success: false,
+                errors: [{ message: error.message || "Server error" }]
+            };
         }
     }
 
@@ -234,7 +234,13 @@ export class AuthAPI extends BaseAPI {
                 };
 
                 const createRes = await this.store(newUser);
-
+                if (createRes?.data) {
+                    let objToCart = {
+                        "user_id": createRes.data.name,
+                    }
+                    let cartAPI = new CartAPI();
+                    let cartRes = cartAPI.createNewCart(objToCart);
+                }
                 if (createRes?.data?.error) {
                     return {
                         success: false,

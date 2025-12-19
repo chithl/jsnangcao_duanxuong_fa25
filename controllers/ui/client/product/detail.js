@@ -19,6 +19,8 @@ const variantSkuEl = document.getElementById("variant-sku");
 const variantInfoEl = document.getElementById("variant-info");
 const variantContainer = document.getElementById("variant-container");
 const addToCartBtn = document.getElementById("btn-add-to-cart");
+const ADD_TO_CART_DEFAULT_HTML = addToCartBtn ? addToCartBtn.innerHTML : "<i class=\"fas fa-cart-plus me-2\"></i> Thêm vào giỏ hàng";
+const ADD_TO_CART_SOLD_OUT_HTML = "<span class='fw-bold'>Hết hàng</span>";
 
 const quantityDecreaseBtn = document.getElementById("quantity-decrease");
 const quantityIncreaseBtn = document.getElementById("quantity-increase");
@@ -153,7 +155,7 @@ function updateUIWithVariant(data) {
     const variantId = data.id || data.variantId || "";
     if (selectedVariantInput) selectedVariantInput.value = variantId;
     if (addToCartBtn) {
-        addToCartBtn.disabled = false;
+        setAddToCartAvailability(true);
         addToCartBtn.dataset.variantId = variantId;
     }
     const variantRecord = variantList.find(v => String(v.id) === String(variantId));
@@ -244,25 +246,36 @@ function updateInventoryHint(variant) {
             if (quantity <= 0) {
                 stockHintEl.innerText = "Hết hàng";
                 stockHintEl.className = "fw-semibold text-danger small";
+                setAddToCartAvailability(false);
                 return;
             }
             stockHintEl.innerText = `${numberFormatter.format(quantity)} sản phẩm`;
             stockHintEl.className = "fw-semibold text-success small";
+            setAddToCartAvailability(true);
             return;
         }
     }
     if (!inventoryLoaded && !inventoryError) {
         stockHintEl.innerText = "Đang xác thực kho…";
         stockHintEl.className = "fw-semibold text-muted small";
+        setAddToCartAvailability(false);
         return;
     }
     if (inventoryError) {
         stockHintEl.innerText = "Không lấy được dữ liệu kho";
         stockHintEl.className = "fw-semibold text-muted small";
+        setAddToCartAvailability(false);
         return;
     }
     stockHintEl.innerText = "Tồn kho chưa cập nhật";
     stockHintEl.className = "fw-semibold text-muted small";
+    setAddToCartAvailability(false);
+}
+
+function setAddToCartAvailability(isAvailable) {
+    if (!addToCartBtn) return;
+    addToCartBtn.disabled = !isAvailable;
+    addToCartBtn.innerHTML = isAvailable ? ADD_TO_CART_DEFAULT_HTML : ADD_TO_CART_SOLD_OUT_HTML;
 }
 
 function initQuantityControls() {

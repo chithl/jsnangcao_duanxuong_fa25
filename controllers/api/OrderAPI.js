@@ -1,5 +1,5 @@
 import { BaseAPI } from "./BaseAPI.js";
-import { OrderValidate } from "../validate/OrderValidate.js";
+import { OrderValidate } from "./validate/OrderValidate.js";
 
 /**
  * OrderAPI
@@ -74,6 +74,37 @@ export class OrderAPI extends BaseAPI {
 
         return this.update(id, data);
     }
+/**
+ * Lấy danh sách đơn hàng theo userId
+ */
+async getByUserId(userId) {
+    try {
+        const res = await this.getAll();
+        const orders = res.data || {};
+
+        const result = {};
+
+        Object.entries(orders).forEach(([id, order]) => {
+            // 👇 SỬA Ở ĐÂY
+            if (order.user_id === userId) {
+                result[id] = order;
+            }
+        });
+
+        return {
+            success: true,
+            data: result
+        };
+    } catch (error) {
+        return {
+            success: false,
+            errors: [{ message: "Không lấy được đơn hàng" }]
+        };
+    }
+}
+
+
+
 
     /**
      * Cập nhật trạng thái đơn hàng

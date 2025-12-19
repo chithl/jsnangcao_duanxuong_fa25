@@ -40,9 +40,10 @@
                     </div>
                     <nav class="account-nav">
                         <ul>
-                            <li><a href="account.html" class="active"><span class="icon-placeholder-small"></span> Thông tin cá
+                            <li><a href="account.html"><span class="icon-placeholder-small"></span> Thông tin cá
                                     nhân</a></li>
-                            <li><a href="order.html"><span class="icon-placeholder-small"></span> Đơn hàng của tôi</a></li>
+                            <li><a href="order.html" class="active"><span class="icon-placeholder-small"></span> Đơn
+                                    hàng của tôi</a></li>
                             <li><a href="#" class="logout-link"><span class="icon-placeholder-small"></span> Đăng
                                     xuất</a></li>
                         </ul>
@@ -50,31 +51,24 @@
                 </aside>
 
                 <section class="account-main">
-                    <h2>Thông Tin Cá Nhân</h2>
-                    <form class="profile-form">
-                        <div class="form-group">
-                            <label for="first_name">Tên người dùng</label>
-                            <input type="text" id="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" value="nguyenvana@example.com" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Số điện thoại</label>
-                            <input type="tel" id="phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Mật khẩu</label>
-                            <input type="password" id="password">
-                        </div>
+                    <h2>Đơn hàng của tôi</h2>
 
-                        <button type="submit" class="btn-primary-accent">Cập nhật thông tin</button>
-                    </form>
-
-                    <div class="info-note">
-                        <p>* Để thay đổi email hoặc mật khẩu, vui lòng vào mục tương ứng ở menu bên trái.</p>
-                    </div>
+                    <table class="table table-bordered mt-3">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list">
+                        </tbody>
+                    </table>
+                    <p id="empty-order" class="text-muted mt-3 d-none">
+                        Bạn chưa có đơn hàng nào.
+                    </p>
                 </section>
             </div>
         </div>
@@ -95,9 +89,7 @@
     <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
     <script src="../../assets/client/js/templatemo.js"></script>
     <script src="../../assets/client/js/custom.js"></script>
-    <script type="module" src="../../assets/client/js/menu.js"></script>
-
-    <script type="module" src="../../controllers/ui/client/account.js"></script>
+    <script type="module" src="../../controllers/ui/client/account-order.js"></script>
 </body>
 
 </html>

@@ -126,7 +126,7 @@ export class UserAPI extends BaseAPI {
             // Lấy dữ liệu hiện tại để merge và giữ lại các trường không được gửi lên
             const currentRes = await this.getOne(id);
             const current = currentRes?.data;
-            if (!current) {
+            if (!current) { 
                 return {
                     success: false,
                     errors: [{ message: "User không tồn tại" }]

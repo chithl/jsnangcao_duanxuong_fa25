@@ -1,5 +1,5 @@
 import { BaseAPI } from "./BaseAPI.js";
-import { OrderItemValidate } from "../validate/OrderItemValidate.js";
+import { OrderItemValidate } from "./validate/OrderItemValidate.js";
 
 /**
  * OrderItemAPI
@@ -35,6 +35,25 @@ export class OrderItemAPI extends BaseAPI {
         }
         return this.getOne(id);
     }
+
+   async getByOrderId(orderId) {
+    if (!orderId) {
+        return { success: false, data: [], message: "Missing orderId" };
+    }
+
+    try {
+        // Sử dụng REST API endpoint của Firebase
+        const url = `https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/order_items.json?orderBy="orderId"&equalTo="${orderId}"`;
+
+        const res = await axios.get(url);
+        return { success: true, data: res.data };
+    } catch (error) {
+        console.error("Lỗi getByOrderId:", error);
+        return { success: false, data: [], message: error.message };
+    }
+}
+
+
 
     /**
      * Thêm sản phẩm vào đơn hàng

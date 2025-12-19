@@ -1,23 +1,23 @@
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-    const menu = document.getElementById("user-menu");
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
+  const menu = document.getElementById("user-menu");
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
 
-    if (!token || !user) {
-      menu.innerHTML = `
+  if (!token || !user) {
+    menu.innerHTML = `
                                 <li><a href="register.html" class="dropdown-item">Đăng ký</a></li>
             <li><a href="login.html" class="dropdown-item">Đăng nhập</a></li>
                 `;
-      return;
-    }
+    return;
+  }
 
-    // Đã đăng nhập
-    menu.innerHTML = `
+  // Đã đăng nhập
+  menu.innerHTML = `
                     <li>
-                        <span class="dropdown-item-text">
+                        <a href="account.html" style="text-decoration: none;" class="dropdown-item-text">
                             <strong>${user.name}</strong>
-                        </span>
+                        </a>
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
@@ -27,9 +27,9 @@
                     </li>
                 `;
 
-    document.getElementById("logout-btn").addEventListener("click", () => {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      window.location.href = "login.html";
-    });
+  document.getElementById("logout-btn").addEventListener("click", () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
   });
+});

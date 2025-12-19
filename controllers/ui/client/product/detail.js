@@ -3,7 +3,10 @@ import { VariantAPI } from "../../../api/VariantAPI.js";
 import { ReviewAPI } from "../../../api/ReviewAPI.js";
 import { AuthAPI } from "../../../api/AuthAPI.js";
 import { InventoryAPI } from "../../../api/InventoryAPI.js";
-
+// Khởi tạo Class API
+import { CartAPI } from "../../../api/CartAPI.js";
+const cartModule = new CartAPI();
+var skuGlobal = "";
 const productModule = new ProductAPI();
 const variantModule = new VariantAPI();
 const reviewModule = new ReviewAPI();
@@ -91,7 +94,7 @@ initQuantityControls();
             if (productSalesEl) {
                 productSalesEl.innerText = soldCount ? `Đã bán ${soldCount}` : "";
             }
-        }else {
+        } else {
             window.location.href = "../../views/client/404.html";
             return;
         }
@@ -130,7 +133,7 @@ function renderVariantPickers(variants) {
 
     const buttons = variantContainer.querySelectorAll(".btn-variant");
     buttons.forEach(btn => {
-        btn.onclick = function() {
+        btn.onclick = function () {
             buttons.forEach(b => {
                 b.classList.remove("active", "btn-success");
                 b.classList.add("btn-outline-success");
@@ -150,8 +153,10 @@ function updateUIWithVariant(data) {
         variantSkuEl.innerText = data.sku || "–";
         if (variantInfoEl) variantInfoEl.style.display = data.sku ? "block" : "none";
     }
+    skuGlobal = data.sku;
+    const variantSku = data.sku;
     const variantId = data.id || data.variantId || "";
-    if (selectedVariantInput) selectedVariantInput.value = variantId;
+    if (selectedVariantInput) selectedVariantInput.value = variantSku;
     if (addToCartBtn) {
         addToCartBtn.disabled = false;
         addToCartBtn.dataset.variantId = variantId;
@@ -426,7 +431,7 @@ async function loadReviews() {
     if (!productId) return;
     try {
         const payload = await reviewModule.getAllReview();
-        const rawReviews = !payload ? [] : (Array.isArray(payload) ? payload : Object.entries(payload).map(([k,v]) => ({id: k, ...v})));
+        const rawReviews = !payload ? [] : (Array.isArray(payload) ? payload : Object.entries(payload).map(([k, v]) => ({ id: k, ...v })));
         const reviews = rawReviews.filter(item => String(item.productId || item.product_id) === String(productId));
         const visibleReviews = reviews.filter(item => item.status === undefined || Number(item.status) === 1);
         renderRatingSummary(visibleReviews);
@@ -580,3 +585,48 @@ async function handleReviewSubmit(e) {
         updateReviewButtonState();
     }
 }
+
+// GIỎ HÀNG
+addToCartBtn.addEventListener("click", async() => {
+    let quantity = selectedQuantity;
+    const currentVariantId = document.getElementById("selected-variant-id").value;
+    let productIdToAdd = productId;
+
+    if (currentVariantId == null || currentVariantId == "") {
+        alert("Vui lòng chọn biến thể");
+        return;
+    }
+
+    // 2. Tìm biến thể đó trong danh sách variantList đã lưu từ trước
+    const selectedVariant = variantList.find(v => String(v.id) === String(currentVariantId));
+
+    // 3. Lấy giá
+    const unit_price = selectedVariant ? selectedVariant.price : 0;
+    let userId = null;
+
+    if (localStorage.getItem("user")) {
+        let objUser = JSON.parse(localStorage.getItem("user"));
+        userId = objUser.id;
+    }
+
+    if (userId == null) {
+        window.location.href = "http://127.0.0.1:5500/views/login.html";
+    } else {
+        // Add to cart
+        const itemData = {
+            product_id: productId,
+            variant_id: skuGlobal,
+            quantity: selectedQuantity,
+            unit_price: Number(variantPriceEl.innerText.replace(/[^0-9]/g, "")),
+            name: document.getElementById("product-name").innerText
+        };
+
+        // 4. Gọi CartAPI
+        try {
+            await cartModule.addItemToCart(userId, itemData);
+            alert("Thành công!");
+        } catch (error) {
+            console.error(error);
+        }
+    }
+})

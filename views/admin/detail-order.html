@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Chi tiết Đơn hàng | Sơn Jotun</title>
+    <link rel="icon" href="favicon.ico">
+    <link href="../../assets/admin/styles/style.css" rel="stylesheet">
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+</head>
+
+<body
+    x-data="{ page: 'orders', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+    x-init="
+         darkMode = JSON.parse(localStorage.getItem('darkMode'));
+         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+    :class="{'dark bg-gray-900': darkMode === true}">
+    <div x-show="loaded"
+        x-init="window.addEventListener('DOMContentLoaded', () => {setTimeout(() => loaded = false, 500)})"
+        class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
+        <div class="h-16 w-16 animate-spin rounded-full border-4 border-solid border-brand-500 border-t-transparent">
+        </div>
+    </div>
+
+    <div class="flex h-screen overflow-hidden">
+        <div w3-include-html="layouts/sidebar.html"></div>
+
+        <div class="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
+            <div @click="sidebarToggle = false" :class="sidebarToggle ? 'block lg:hidden' : 'hidden'"
+                class="fixed w-full h-screen z-9 bg-gray-900/50"></div>
+            <div w3-include-html="layouts/header.html"></div>
+            <main>
+                <div class="mx-auto max-w-(--breakpoint-2xl) p-4 md:p-6">
+                    <div x-data="{ pageName: `Chi tiết Đơn hàng`}">
+                        <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+                            <h2 class="text-xl font-semibold text-gray-800 dark:text-white/90" x-text="pageName"></h2>
+
+                            <nav>
+                                <ol class="flex items-center gap-1.5">
+                                    <li>
+                                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
+                                            href="index.html">
+                                            Trang chủ
+                                            <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16"
+                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke=""
+                                                    stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
+                                            href="orders.html">
+                                            Quản lý Đơn hàng
+                                            <svg class="stroke-current" width="17" height="16" viewBox="0 0 17 16"
+                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke=""
+                                                    stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li class="text-sm text-gray-800 dark:text-white/90" x-text="pageName"></li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="space-y-5 sm:space-y-6">
+                        <!-- Thông tin đơn hàng -->
+                        <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                            <div class="px-5 py-4 sm:px-6 sm:py-5 border-b border-gray-100 dark:border-gray-800">
+                                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
+                                    Thông tin đơn hàng
+                                </h3>
+                            </div>
+                            <div class="p-5 sm:p-6">
+                                <div id="order-info" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <!-- Sẽ load bằng JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Danh sách sản phẩm -->
+                        <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                            <div class="px-5 py-4 sm:px-6 sm:py-5 border-b border-gray-100 dark:border-gray-800">
+                                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
+                                    Sản phẩm trong đơn hàng
+                                </h3>
+                            </div>
+                            <div class="p-5 sm:p-6">
+                                <div class="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                                    <div class="max-w-full overflow-x-auto">
+                                        <table class="min-w-full">
+                                            <thead>
+                                                <tr class="border-b border-gray-100 dark:border-gray-800">
+                                                    <th class="px-5 py-3 sm:px-6 text-left">
+                                                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                                            Tên sản phẩm
+                                                        </p>
+                                                    </th>
+                                                    <th class="px-5 py-3 sm:px-6 text-left">
+                                                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                                            SKU
+                                                        </p>
+                                                    </th>
+                                                    <th class="px-5 py-3 sm:px-6 text-left">
+                                                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                                            Đơn giá
+                                                        </p>
+                                                    </th>
+                                                    <th class="px-5 py-3 sm:px-6 text-left">
+                                                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                                            Số lượng
+                                                        </p>
+                                                    </th>
+                                                    <th class="px-5 py-3 sm:px-6 text-left">
+                                                        <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                                            Thành tiền
+                                                        </p>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="order-items-list" class="divide-y divide-gray-100 dark:divide-gray-800">
+                                                <!-- Sẽ load bằng JS -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cập nhật trạng thái -->
+                        <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+                            <div class="px-5 py-4 sm:px-6 sm:py-5 border-b border-gray-100 dark:border-gray-800">
+                                <h3 class="text-base font-medium text-gray-800 dark:text-white/90">
+                                    Cập nhật trạng thái đơn hàng
+                                </h3>
+                            </div>
+                            <div class="p-5 sm:p-6">
+                                <form id="update-status-form" class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                            Trạng thái
+                                        </label>
+                                        <select id="order-status" 
+                                            class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm focus:border-brand-500 focus:ring-brand-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+                                            <option value="0">Đang xử lí</option>
+                                            <option value="1">Đang giao</option>
+                                            <option value="2">Đã giao</option>
+                                            <option value="3">Đã hủy</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex gap-3">
+                                        <button type="submit"
+                                            class="inline-flex items-center justify-center rounded-lg bg-brand-500 px-6 py-3 text-center text-sm font-medium text-white transition duration-300 hover:bg-brand-600">
+                                            Cập nhật trạng thái
+                                        </button>
+                                        <a href="orders.html"
+                                            class="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-6 py-3 text-center text-sm font-medium text-gray-700 transition duration-300 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
+                                            Quay lại
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script>
+        w3.includeHTML();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script defer src="../../assets/admin/scripts/bundle.js"></script>
+    <script type="module" src="../../controllers/ui/admin/order/detail.js"></script>
+</body>
+
+</html>

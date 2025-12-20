@@ -10,8 +10,8 @@ const cartModule = new CartAPI();
 const productModule = new ProductAPI();
 
 const $ = (id) => document.getElementById(id);
-
-let total = 0;
+ let shipping = 30000;
+let total = 0 + shipping;
 
 async function loadCartForUser() {
     let userIdBySess = "-OgefUjAMBYXbbt7tUIX";

@@ -60,15 +60,70 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Địa chỉ giao hàng</label>
-                            <div class="input-group">
-                                <input required name="address" id="address" type="text" class="form-control"
-                                    placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành">
+                        <!-- SELECT ĐỊA CHỈ ĐÃ LƯU -->
+                        <div class="mb-3" id="address_select_container" style="display: none;">
+                            <label class="form-label">Chọn địa chỉ giao hàng</label>
+                            <div class="d-flex gap-2">
+                                <select name="address" id="address" class="form-select flex-grow-1">
+                                    <option value="">-- Chọn địa chỉ --</option>
+                                </select>
+                                <button type="button" class="btn btn-outline-secondary" id="add_new_address_btn">
+                                    + Thêm mới
+                                </button>
                             </div>
-                            <small id="address_error" class="text-danger"></small>
+                            <small id="address_select_error" class="text-danger"></small>
                         </div>
 
+                        <!-- INPUT NHẬP ĐỊA CHỈ MỚI -->
+                        <div id="address_input_container">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Số nhà, đường</label>
+                                    <input type="text" id="address_line1" class="form-control"
+                                        placeholder="VD: 123 Lê Lợi">
+                                    <small id="address_line1_error" class="text-danger"></small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Phường/Xã</label>
+                                    <input type="text" id="address_ward" class="form-control"
+                                        placeholder="VD: Phường 1">
+                                    <small id="address_ward_error" class="text-danger"></small>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Quận/Huyện, Tỉnh/Thành</label>
+                                    <input type="text" id="address_city" class="form-control"
+                                        placeholder="VD: Quận 1, TP. Hồ Chí Minh">
+                                    <small id="address_city_error" class="text-danger"></small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Ghi chú (tùy chọn)</label>
+                                    <input type="text" id="address_note" class="form-control"
+                                        placeholder="VD: Gần công viên Tao Đàn">
+                                    <small id="address_note_error" class="text-danger"></small>
+                                </div>
+                            </div>
+
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="address_is_default">
+                                <label class="form-check-label" for="address_is_default">
+                                    Đặt làm địa chỉ mặc định
+                                </label>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-outline-secondary flex-grow-1" id="cancel_new_address_btn">
+                                    Hủy
+                                </button>
+                                <button type="button" class="btn btn-primary flex-grow-1" id="save_new_address_btn">
+                                    Lưu địa chỉ
+                                </button>
+                            </div>
+                            <small id="address_error" class="text-danger d-block mt-2"></small>
+                        </div>
+                        
                         <!-- PHƯƠNG THỨC THANH TOÁN -->
                         <div class="bg-white rounded shadow-sm p-4 mb-4">
                             <h5 class="fw-bold mb-3">Phương thức thanh toán</h5>

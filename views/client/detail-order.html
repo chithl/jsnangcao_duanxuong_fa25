@@ -67,25 +67,38 @@
         </div>
 
         <!-- Danh sách sản phẩm -->
-        <h4 class="text-xl font-semibold mb-3">
-            Sản phẩm trong đơn
-        </h4>
+        <div class="flex items-center justify-between mb-3">
+            <div>
+                <p class="text-sm text-gray-500">Danh sách sản phẩm</p>
+                <h4 class="text-xl font-semibold">Sản phẩm trong đơn</h4>
+            </div>
+            <span id="items-count" class="text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
+                0 sản phẩm
+            </span>
+        </div>
 
         <div class="bg-white rounded-xl shadow overflow-hidden">
-            <table class="w-full text-sm">
-                <thead class="bg-gray-50 text-gray-600">
-                    <tr>
-                        <th class="px-4 py-3 text-left">Tên</th>
-                        <th class="px-4 py-3 text-left">SKU</th>
-                        <th class="px-4 py-3 text-right">Giá</th>
-                        <th class="px-4 py-3 text-center">Số lượng</th>
-                        <th class="px-4 py-3 text-right">Tạm tính</th>
-                    </tr>
-                </thead>
+            <div class="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-sky-50 to-white">
+                <span class="text-sm font-medium text-gray-700">Chi tiết mặt hàng</span>
+                <span class="text-xs text-gray-500">Giá đã bao gồm VAT</span>
+            </div>
 
-                <tbody id="order-items" class="divide-y">
-                </tbody>
-            </table>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <thead class="bg-gray-50 text-gray-600">
+                        <tr>
+                            <th class="px-6 py-3 text-left">Tên</th>
+                            <th class="px-6 py-3 text-left">SKU</th>
+                            <th class="px-6 py-3 text-right">Giá</th>
+                            <th class="px-6 py-3 text-center">Số lượng</th>
+                            <th class="px-6 py-3 text-right">Tạm tính</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="order-items" class="divide-y divide-gray-100 bg-white">
+                    </tbody>
+                </table>
+            </div>
 
             <p id="empty-items" class="hidden text-center text-gray-500 py-6">
                 Không có sản phẩm trong đơn

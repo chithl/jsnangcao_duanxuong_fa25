@@ -146,16 +146,17 @@ router.get("/order/vnpay_return", async (req, res) => {
         const newOrderId = orderRes.data.name;
 
         // 4. Tạo Order_Items
-        const cartItems = Object.values(cart.cart_details);
+        const cartItems = Object.values(cart.cart_details || {});
         const itemPromises = cartItems.map(item => {
-            const variant = allVariants.find(v => v.id === item.variant_id);
+            // Cart is storing variant_id as SKU, so search by id or sku
+            const variant = allVariants.find(v => v.id === item.variant_id || v.sku === item.variant_id);
             const product = allProducts.find(p => p.id === item.product_id);
 
             return axios.post("https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/order_items.json", {
                 orderId: newOrderId,
-                sku: variant ? variant.sku : "N/A",
+                sku: item.variant_id || variant?.sku || "N/A",
                 name: product ? product.name : "Sản phẩm Jotun",
-                price: variant ? variant.price : 0,
+                price: item.unit_price ?? variant?.price ?? 0,
                 quantity: item.quantity
             });
         });

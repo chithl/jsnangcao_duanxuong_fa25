@@ -58,25 +58,36 @@ async function loadOrderItems() {
     try {
         const res = await axios.get('https://dax-jsnangcao-fa25-default-rtdb.firebaseio.com/order_items.json');
         const allItems = res.data || {};
-        const items = Object.values(allItems).filter(i => i.orderId === "-OgqEPiPXHL03m499MJE");
+        const items = Object.values(allItems).filter(i => i.orderId === orderId);
 
         const list = document.getElementById("order-items");
         const empty = document.getElementById("empty-items");
+        const countBadge = document.getElementById("items-count");
 
         if (items.length === 0) {
             empty.classList.remove("hidden");
+            countBadge.innerText = "0 sản phẩm";
             return;
         }
 
+        empty.classList.add("hidden");
+        countBadge.innerText = `${items.length} sản phẩm`;
         let html = "";
         items.forEach(i => {
             html += `
                 <tr>
-                    <td>${i.name}</td>
-                    <td>${i.sku || "N/A"}</td>
-                    <td class="text-right">${Number(i.price).toLocaleString("vi-VN")} đ</td>
-                    <td class="text-center">${i.quantity}</td>
-                    <td class="text-right">${Number(i.price * i.quantity).toLocaleString("vi-VN")} đ</td>
+                    <td class="px-6 py-4 align-middle">
+                        <div class="font-semibold text-gray-900">${i.name}</div>
+                        <div class="text-xs text-gray-500">${i.description || ""}</div>
+                    </td>
+                    <td class="px-6 py-4 align-middle">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700">${i.sku || "N/A"}</span>
+                    </td>
+                    <td class="px-6 py-4 align-middle text-right text-gray-900 font-semibold">${Number(i.price).toLocaleString("vi-VN")} đ</td>
+                    <td class="px-6 py-4 align-middle text-center">
+                        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 text-gray-800 font-semibold">${i.quantity}</span>
+                    </td>
+                    <td class="px-6 py-4 align-middle text-right text-red-600 font-bold">${Number(i.price * i.quantity).toLocaleString("vi-VN")} đ</td>
                 </tr>
             `;
         });

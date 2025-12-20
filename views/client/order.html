@@ -1,87 +1,98 @@
 <!DOCTYPE html>
 <html lang="vi">
-
-<head>
+  <head>
     <title>Tính sơn | Jotun Vietnam</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <link rel="apple-touch-icon" href="../assets/client/img/apple-icon.png" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../assets/client/img/favicon.ico" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="../../assets/client/img/favicon.ico"
+    />
 
     <link rel="stylesheet" href="../../assets/client/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../../assets/client/css/templatemo.css" />
     <link rel="stylesheet" href="../../assets/client/css/custom.css" />
 
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap"
+    />
     <link rel="stylesheet" href="../../assets/client/css/fontawesome.min.css" />
     <script src="https://www.w3schools.com/lib/w3.js"></script>
-    <link rel="stylesheet" href="../../assets/client/css/account.css">
-</head>
+    <link rel="stylesheet" href="../../assets/client/css/account.css" />
+  </head>
 
-<body>
-
+  <body>
     <!-- Menu -->
     <div w3-include-html="layouts/menu.html"></div>
-
 
     <!-- Bắt đầu body -->
 
     <main class="account-page-wrapper">
-        <div class="container account-page">
-            <h1 class="page-title">Quản Lý Tài Khoản</h1>
-            <div class="account-content">
-
-                <aside class="account-sidebar">
-                    <div class="user-info">
-                        <div class="avatar-placeholder">TN</div>
-                        <p id="user-name"></p>
-                    </div>
-                    <nav class="account-nav">
-                        <ul>
-                            <li><a href="account.html"><span class="icon-placeholder-small"></span> Thông tin cá
-                                    nhân</a></li>
-                            <li><a href="order.html" class="active"><span class="icon-placeholder-small"></span> Đơn
-                                    hàng của tôi</a></li>
-                            <li><a href="#" class="logout-link"><span class="icon-placeholder-small"></span> Đăng
-                                    xuất</a></li>
-                        </ul>
-                    </nav>
-                </aside>
-
-                <section class="account-main">
-                    <h2>Đơn hàng của tôi</h2>
-
-                    <table class="table table-bordered mt-3">
-                        <thead>
-                            <tr>
-                                <th>Mã đơn</th>
-                                <th>Ngày đặt</th>
-                                <th>Tổng tiền</th>
-                                <th>Trạng thái</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody id="list">
-                        </tbody>
-                    </table>
-                    <p id="empty-order" class="text-muted mt-3 d-none">
-                        Bạn chưa có đơn hàng nào.
-                    </p>
-                </section>
+      <div class="container account-page">
+        <h1 class="page-title">Quản Lý Tài Khoản</h1>
+        <div class="account-content">
+          <aside class="account-sidebar">
+            <div class="user-info">
+              <div class="avatar-placeholder">TN</div>
+              <p id="user-name"></p>
             </div>
+            <nav class="account-nav">
+              <ul>
+                <li>
+                  <a href="account.html"
+                    ><span class="icon-placeholder-small"></span> Thông tin cá
+                    nhân</a
+                  >
+                </li>
+                <li>
+                  <a href="order.html" class="active"
+                    ><span class="icon-placeholder-small"></span> Đơn hàng của
+                    tôi</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="logout-link"
+                    ><span class="icon-placeholder-small"></span> Đăng xuất</a
+                  >
+                </li>
+              </ul>
+            </nav>
+          </aside>
+
+          <section class="account-main">
+            <h2>Đơn hàng của tôi</h2>
+
+            <table class="table table-bordered mt-3">
+              <thead>
+                <tr>
+                  <th>Mã đơn</th>
+                  <th>Ngày đặt</th>
+                  <th>Tổng tiền</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="list"></tbody>
+            </table>
+            <p id="empty-order" class="text-muted mt-3 d-none">
+              Bạn chưa có đơn hàng nào.
+            </p>
+          </section>
         </div>
+      </div>
     </main>
 
     <!-- Kết thúc body -->
-
 
     <!-- Footer -->
     <div w3-include-html="layouts/footer.html"></div>
 
     <script>
-        w3.includeHTML();
+      w3.includeHTML();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../../assets/client/js/jquery-1.11.0.min.js"></script>
@@ -89,7 +100,10 @@
     <script src="../../assets/client/js/bootstrap.bundle.min.js"></script>
     <script src="../../assets/client/js/templatemo.js"></script>
     <script src="../../assets/client/js/custom.js"></script>
-    <script type="module" src="../../controllers/ui/client/account-order.js"></script>
-</body>
-
+    <script
+      type="module"
+      src="../../controllers/ui/client/account-order.js"
+    ></script>
+    <script type="module" src="../../assets/client/js/menu.js"></script>
+  </body>
 </html>
